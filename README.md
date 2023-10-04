@@ -1,6 +1,6 @@
 ## Khởi tạo
 
-Sau khi clone source về, gõ lệnh:
+Sau khi clone source về (hoặc pull code mới nhất về), gõ lệnh:
 
 ```bash
 npm install
