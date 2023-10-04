@@ -7,8 +7,13 @@ import { Box, TextField, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
+  const handleLoginClick = () => {
+    router.push('/login');
+  }
   return (
     <>
       <Box
@@ -135,11 +140,13 @@ const Header = () => {
                 fontSize: "2.5rem",
               }}
             ></ShoppingBagOutlinedIcon>
-            <PersonOutlineOutlinedIcon
-              sx={{
-                fontSize: "2.5rem",
-              }}
-            ></PersonOutlineOutlinedIcon>
+            <Link href='/login'>
+              <PersonOutlineOutlinedIcon
+                sx={{
+                  fontSize: "2.5rem",
+                }}
+              ></PersonOutlineOutlinedIcon>
+            </Link>
           </Box>
         </Box>
       </Box>
