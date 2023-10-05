@@ -1,6 +1,7 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
 import LoadingBox from "@/components/generals/LoadingBox";
+import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import USER_MESSAGES from "@/configs/config.users.messages";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -44,7 +45,10 @@ function Login() {
     password: Yup.string()
       .required(USER_MESSAGES.PASSWORD_MISSING)
       .trim(USER_MESSAGES.PASSWORD_INVALID)
-      .min(8, USER_MESSAGES.PASSWORD_MIN_LENGTH)
+      .min(
+        USER_ATTRIBUTES.PASSWORD_MIN_LENGTH,
+        USER_MESSAGES.PASSWORD_MIN_LENGTH
+      )
       .matches(/^\S*$/, USER_MESSAGES.PASSWORD_INVALID)
       .strict(true),
   });
@@ -100,17 +104,17 @@ function Login() {
             className="login-left-panel-body"
             onSubmit={handleSubmit(onSubmitLogin)}
           >
-            <FormControl
-              sx={{
-                margin: "1.4rem 0",
-                backgroundColor: "#EAEAEA",
-              }}
-              variant="outlined"
-            >
-              <Controller
-                name="email"
-                control={control}
-                render={({ field: { ref, ...field } }) => (
+            <Controller
+              name="email"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormControl
+                  sx={{
+                    margin: "1.4rem 0",
+                    backgroundColor: "#EAEAEA",
+                  }}
+                  variant="outlined"
+                >
                   <OutlinedInput
                     error={errors.email ? true : false}
                     placeholder="Example@gmail.com"
@@ -128,25 +132,25 @@ function Login() {
                     inputRef={ref}
                     {...field}
                   />
-                )}
-                defaultValue=""
-              />
-              <ErrorMessage>
-                {errors.email ? errors.email.message : ""}
-              </ErrorMessage>
-            </FormControl>
+                </FormControl>
+              )}
+              defaultValue=""
+            />
+            <ErrorMessage>
+              {errors.email ? errors.email.message : ""}
+            </ErrorMessage>
 
-            <FormControl
-              sx={{
-                margin: "1.4rem 0",
-                backgroundColor: "#EAEAEA",
-              }}
-              variant="outlined"
-            >
-              <Controller
-                name="password"
-                control={control}
-                render={({ field: { ref, ...field } }) => (
+            <Controller
+              name="password"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormControl
+                  sx={{
+                    margin: "1.4rem 0",
+                    backgroundColor: "#EAEAEA",
+                  }}
+                  variant="outlined"
+                >
                   <OutlinedInput
                     error={errors.password ? true : false}
                     placeholder="Password"
@@ -175,13 +179,14 @@ function Login() {
                     inputRef={ref}
                     {...field}
                   />
-                )}
-                defaultValue=""
-              />
-              <ErrorMessage>
-                {errors.password ? errors.password.message : ""}
-              </ErrorMessage>
-            </FormControl>
+                </FormControl>
+              )}
+              defaultValue=""
+            />
+            <ErrorMessage>
+              {errors.password ? errors.password.message : ""}
+            </ErrorMessage>
+
             <a
               style={{
                 borderBottom: "0.1rem solid #000",
