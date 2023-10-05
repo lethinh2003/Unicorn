@@ -1,5 +1,6 @@
 "use client";
-import { Container, TextField, Button } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Controller, useForm } from "react-hook-form";
 import LoadingBox from "@/components/generals/LoadingBox";
@@ -9,9 +10,26 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  InputLabel,
+  Button,
+  Container
+} from "@mui/material/";
+
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const minLength = 8;
+  const router = useRouter();
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .required(USER_MESSAGES.EMAIL_MISSING)
@@ -32,7 +50,7 @@ function RegisterPage() {
       .trim()
       .strict(true),
   });
-    const formOptions = { resolver: yupResolver(validationSchema) };
+  const formOptions = { resolver: yupResolver(validationSchema) };
   const {
     control,
     handleSubmit,
@@ -51,7 +69,7 @@ function RegisterPage() {
           name: data.name,
         }
       );
-      
+
       toast.success(result.data.message);
       reset();
     } catch (err) {
@@ -66,15 +84,44 @@ function RegisterPage() {
     }
   };
 
+  const handleLoginNav = () => {
+    router.push('/login');
+  }
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+
   return (
-    <div className="register-container">
-      <Container>
-        <LoadingBox isLoading={isLoading} />
-        <div className="register-left-panel"></div>
+    <Container>
+      <LoadingBox isLoading={isLoading} />
+      <div className="register-container">
+        <div className="register-left-panel">
+          <span>Hello, Friend!</span>
+          <p>Enter your personal details and start journey with us</p>
+          <Button
+            onClick={handleLoginNav}
+            sx={{
+              width: "55%",
+              padding: " 2rem 12rem",
+              borderRadius: "2.5rem",
+              backgroundColor: "transparent",
+              fontWeight: "300",
+              border: "0.1rem #fff solid",
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+            }}
+            className="Login-nav-button"
+          >
+            Login
+          </Button>
+        </div>
         <div className="register-right-panel">
           <div className="register-right-panel-header">
             <span className="register-title">Create Account</span>
-            <GoogleIcon />
+            <Link href="/">
+              <GoogleIcon />
+            </Link>
             <span className="register-solution">
               or use your email for registration:
             </span>
@@ -85,41 +132,99 @@ function RegisterPage() {
                 name="name"
                 control={control}
                 defaultValue=""
-                
                 render={({ field }) => (
-                  <TextField
-                    label="Họ tên"
-                    {...field}
-                    error={!!errors.name} // Hiển thị lỗi nếu có
-                    helperText={errors.name?.message}
-                  />
+                  <FormControl
+                    sx={{
+                      width: "100%",
+                      margin: "1.4rem 0",
+                      backgroundColor: "#EAEAEA",
+                    }}>
+                    <InputLabel htmlFor="Name" >Name</InputLabel>
+                    <OutlinedInput
+                      label="Name"
+                      {...field}
+                      error={!!errors.name}
+                      id="Name"
+                      helperText={errors.name?.message}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <PersonOutlineOutlinedIcon
+                            sx={{
+                              fontSize: "3rem",
+                            }}
+                          />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
                 )}
               />
+
               <Controller
                 name="email"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <TextField
-                    label="Email"
-                    {...field}
-                    error={!!errors.email} // Hiển thị lỗi nếu có
-                    helperText={errors.email?.message}
-                  />
+                  <FormControl
+                    sx={{
+                      width: "100%",
+                      margin: "1.4rem 0",
+                      backgroundColor: "#EAEAEA",
+                    }}>
+                    <InputLabel htmlFor="Email" >Email</InputLabel>
+                    <OutlinedInput
+                      label="Email"
+                      id="Email"
+                      {...field}
+                      error={!!errors.email} // Hiển thị lỗi nếu có
+                      helperText={errors.email?.message}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <EmailOutlinedIcon
+                            sx={{
+                              fontSize: "3rem",
+                            }}
+                          />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
                 )}
               />
+
               <Controller
                 name="password"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <TextField
-                    label="Mật khẩu"
-                    type="password"
-                    {...field}
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                  />
+                  <FormControl
+                    sx={{
+                      width: "100%",
+                      margin: "1.4rem 0",
+                      backgroundColor: "#EAEAEA",
+                    }}
+                  >
+                    <InputLabel htmlFor="Password" >Password</InputLabel>
+                    <OutlinedInput
+                      label="Password"
+                      id="Password"
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
                 )}
               />
               <Controller
@@ -127,21 +232,51 @@ function RegisterPage() {
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <TextField
-                    label="Xác nhận lại mật khẩu"
-                    type="password"
-                    {...field}
-                    error={!!errors.confirmPassword}
-                    helperText={errors.confirmPassword?.message}
-                  />
+                  <FormControl
+                    sx={{
+                      width: "100%",
+                      margin: "1.4rem 0",
+                      backgroundColor: "#EAEAEA",
+                    }}>
+                    <InputLabel htmlFor="ConfirmPassword" >Confirm Password</InputLabel>
+                    <OutlinedInput
+                      label="ConfirmPassword"
+                      id="ConfirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...field}
+                      error={!!errors.confirmPassword}
+                      helperText={errors.confirmPassword?.message}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowConfirmPassword}
+                            edge="end"
+                          >
+                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
                 )}
               />
-              <Button type="submit">Register</Button>
+              <Button type="submit"
+                sx={{
+                  position: "relative",
+                  transform: "translateX(50)",
+                  width: "55%",
+                  padding: "1.4rem 4rem",
+                  borderRadius: "2.5rem",
+                  boxShadow: "0.1rem 0.1rem 0.1rem 0 #333",
+                  marginTop: "1rem"
+                }}
+              >Register</Button>
             </form>
           </div>
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 }
 

@@ -13,7 +13,7 @@ a {
   text-decoration: none;
 }
 
-.login-container {
+.login-container, .register-container {
   display: flex;
   height: 80rem;
   background-color: #f5f5f5;
@@ -21,7 +21,7 @@ a {
   box-shadow: 1px 0 2px #000;
 }
 
-.login-left-panel {
+.login-left-panel, .register-right-panel {
   width: 67rem;
   display: flex;
   flex-direction: column;
@@ -29,24 +29,24 @@ a {
   padding: 6rem 12rem;
 }
 
-.login-left-panel-header {
+.login-left-panel-header, .register-right-panel-header {
   display: flex;
   flex-direction: column;
   margin: 8rem 0 0 0;
 }
 
-.login-left-panel-header .login-title {
+.login-left-panel-header .login-title, .register-right-panel-header .register-title  {
   color: #38AC8F;
   font-size: 5rem;
   font-weight: bold;
 }
 
-.login-left-panel-body {
+.login-left-panel-body, .register-right-panel-body  {
   display: flex;
   flex-direction: column;
 }
 
-.login-right-panel {
+.login-right-panel,.register-left-panel {
   width: 52rem;
   background-image: url('../figmaa/loginBackground.jpg');
   padding: 29rem 6.5rem 23rem 6.5rem;
@@ -56,23 +56,20 @@ a {
   border-bottom-right-radius: 1rem;
 }
 
-.login-right-panel span {
+.login-right-panel span, .register-left-panel span {
   font-size: 5.5rem;
   font-weight: bolder;
   margin-bottom: 7rem;
 }
 
-.login-right-panel p {
+.login-right-panel p, .register-left-panel p {
   font-size: 2rem;
   font-weight: lighter;
   margin-bottom: 6rem;
 }
 
-.login-solution {
+.login-solution, .register-solution {
   color: '#9F9595';
   margin: 1.2rem 0 3rem 0;
-}
-
-.login-button {
-  box-shadow: 0.1rem 0.1rem 0.1rem 0 #333;
+  text-align: center;
 }
