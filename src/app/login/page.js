@@ -81,6 +81,9 @@ function Login() {
       toast.error(err?.message);
     }
   };
+  const handleRegisterNav = () => {
+    router.push('/register');
+  }
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -113,7 +116,7 @@ function Login() {
                 render={({ field: { ref, ...field } }) => (
                   <OutlinedInput
                     error={errors.email ? true : false}
-                    placeholder="Example@gmail.com"
+                    placeholder="Email"
                     startAdornment={
                       <InputAdornment position="start">
                         <EmailOutlinedIcon
@@ -217,6 +220,7 @@ function Login() {
           <span>Hello, Friend!</span>
           <p>Enter your personal details and start journey with us</p>
           <Button
+            onClick={handleRegisterNav}
             sx={{
               width: "55%",
               padding: " 2rem 12rem",
