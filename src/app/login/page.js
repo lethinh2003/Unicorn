@@ -194,7 +194,11 @@ function Login() {
                 left: "50%",
               }}
             >
-              Forgot your password?
+              <Link href='/ForgotPass'>
+                
+                Forgot your password?
+                
+              </Link>
             </a>
             <Button
               type="submit"
