@@ -1,19 +1,20 @@
 "use client";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import GoogleIcon from "@mui/icons-material/Google";
-import { Controller, useForm } from "react-hook-form";
-import LoadingBox from "@/components/generals/LoadingBox";
-import USER_MESSAGES from "@/configs/config.users.messages";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import ErrorMessage from "@/components/generals/ErrorMessage";
+import USER_MESSAGES from "@/configs/config.users.messages";
+import LoadingBox from "@/components/generals/LoadingBox";
+import Visibility from "@mui/icons-material/Visibility";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import GoogleIcon from "@mui/icons-material/Google";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import Link from "next/link";
+import * as Yup from "yup";
+import axios from "axios";
 import {
   FormControl,
   IconButton,
@@ -23,6 +24,7 @@ import {
   Button,
   Container
 } from "@mui/material/";
+import { signOut } from "next-auth/react";
 
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -159,6 +161,9 @@ function RegisterPage() {
                   </FormControl>
                 )}
               />
+              <ErrorMessage>
+                {errors.name ? errors.name.message : ""}
+              </ErrorMessage>
 
               <Controller
                 name="email"
@@ -191,6 +196,9 @@ function RegisterPage() {
                   </FormControl>
                 )}
               />
+              <ErrorMessage>
+                {errors.email ? errors.email.message : ""}
+              </ErrorMessage>
 
               <Controller
                 name="password"
@@ -227,6 +235,9 @@ function RegisterPage() {
                   </FormControl>
                 )}
               />
+              <ErrorMessage>
+                {errors.password ? errors.password.message : ""}
+              </ErrorMessage>
               <Controller
                 name="confirmPassword"
                 control={control}
@@ -261,7 +272,11 @@ function RegisterPage() {
                   </FormControl>
                 )}
               />
+              <ErrorMessage>
+                {errors.confirmPassword ? errors.confirmPassword.message : ""}
+              </ErrorMessage>
               <Button type="submit"
+                // onClick={handleSubmit(onSubmitRegister)}
                 sx={{
                   position: "relative",
                   transform: "translateX(50)",
