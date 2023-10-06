@@ -13,13 +13,23 @@ a {
   text-decoration: none;
 }
 
-.login-container {
+.login-container, .forgot-password-container {
   display: flex;
   height: 80rem;
   background-color: #f5f5f5;
+  border-radius: 1rem;
+  box-shadow: 1px 0 2px #000;
 }
 
-.login-left-panel {
+.forgot-password-container {
+  width: 80rem;
+  justify-content: center;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.login-left-panel, .forgot-password-panel {
   width: 67rem;
   display: flex;
   flex-direction: column;
@@ -27,19 +37,19 @@ a {
   padding: 6rem 12rem;
 }
 
-.login-left-panel-header {
+.login-left-panel-header, .forgot-password-panel-header {
   display: flex;
   flex-direction: column;
   margin: 8rem 0 0 0;
 }
 
-.login-left-panel-header .login-title {
+.login-left-panel-header .login-title, .forgot-password-panel-header .forgot-password-title {
   color: #38AC8F;
   font-size: 5rem;
   font-weight: bold;
 }
 
-.login-left-panel-body {
+.login-left-panel-body, .forgot-password-panel-body {
   display: flex;
   flex-direction: column;
 }
@@ -64,21 +74,10 @@ a {
   margin-bottom: 6rem;
 }
 
-.login-solution {
+.login-solution, .forgot-password-solution {
   color: '#9F9595';
   margin: 1.2rem 0 3rem 0;
 }
 
-.login-button {}
 
-.forgotpass-container
-{
-  display: flex;
-  height: 82.7rem;
-  background-color: #f5f5f5;
-}
 
-.Signup-solution {
-  color: '#9F9595';
-  margin: 1.2rem 0 3rem 0;
-}
