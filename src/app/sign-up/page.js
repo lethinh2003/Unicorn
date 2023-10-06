@@ -4,6 +4,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorMessage from "@/components/generals/ErrorMessage";
 import USER_MESSAGES from "@/configs/config.users.messages";
+import USER_ATTRIBUTES from '@/configs/config.users.attributes';
 import LoadingBox from "@/components/generals/LoadingBox";
 import Visibility from "@mui/icons-material/Visibility";
 import { Controller, useForm } from "react-hook-form";
@@ -22,15 +23,13 @@ import {
   OutlinedInput,
   InputLabel,
   Button,
-  Container
+  Container,
 } from "@mui/material/";
-import { signOut } from "next-auth/react";
 
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const minLength = 8;
   const router = useRouter();
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -41,7 +40,7 @@ function RegisterPage() {
       .strict(true),
     password: Yup.string()
       .required(USER_MESSAGES.PASSWORD_MISSING)
-      .min(minLength, USER_MESSAGES.PASSWORD_MIN_LENGTH)
+      .min(USER_ATTRIBUTES.PASSWORD_MIN_LENGTH, USER_MESSAGES.PASSWORD_MIN_LENGTH)
       .matches(/^\S*$/, USER_MESSAGES.PASSWORD_INVALID)
       .trim()
       .strict(true),
@@ -75,11 +74,10 @@ function RegisterPage() {
       toast.success(result.data.message);
       reset();
     } catch (err) {
-      if (err && err.response) {
-        toast.error(
-          `Có lỗi xảy ra khi đổi mật khẩu. Message: ${err.response.data.message}`
-        );
-      }
+      console.log(err)
+      // if (err && err.response) {
+      //   toast.error(`Message: ${err.response.data.message}`);
+      // }
       console.log(err);
     } finally {
       setIsLoading(false);
@@ -147,7 +145,6 @@ function RegisterPage() {
                       {...field}
                       error={!!errors.name}
                       id="Name"
-                      helperText={errors.name?.message}
                       endAdornment={
                         <InputAdornment position="end">
                           <PersonOutlineOutlinedIcon
@@ -182,7 +179,6 @@ function RegisterPage() {
                       id="Email"
                       {...field}
                       error={!!errors.email} // Hiển thị lỗi nếu có
-                      helperText={errors.email?.message}
                       endAdornment={
                         <InputAdornment position="end">
                           <EmailOutlinedIcon
@@ -219,7 +215,6 @@ function RegisterPage() {
                       type={showPassword ? "text" : "password"}
                       {...field}
                       error={!!errors.password}
-                      helperText={errors.password?.message}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -256,7 +251,6 @@ function RegisterPage() {
                       type={showConfirmPassword ? "text" : "password"}
                       {...field}
                       error={!!errors.confirmPassword}
-                      helperText={errors.confirmPassword?.message}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
