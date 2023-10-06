@@ -199,11 +199,11 @@ function Login() {
                 left: "50%",
               }}
             >
-              <Link href='/forgot-pasword'>
+              <a href='/forgot-pasword'>
                 
                 Forgot your password?
                 
-              </Link>
+              </a>
             </a>
             <Button
               type="submit"
