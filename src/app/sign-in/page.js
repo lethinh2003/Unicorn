@@ -187,7 +187,7 @@ function Login() {
               {errors.password ? errors.password.message : ""}
             </ErrorMessage>
 
-            <a
+            <link
               style={{
                 borderBottom: "0.1rem solid #000",
                 margin: "3rem 0",
@@ -199,12 +199,12 @@ function Login() {
                 left: "50%",
               }}
             >
-              <a href='/forgot-pasword'>
+              <link href='/forgot-pasword'>
                 
                 Forgot your password?
                 
-              </a>
-            </a>
+              </link>
+            </link>
             <Button
               type="submit"
               onClick={handleSubmit(onSubmitLogin)}

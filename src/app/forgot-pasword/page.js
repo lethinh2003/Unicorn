@@ -190,7 +190,7 @@ function ForgotPassword() {
                             >
                             Continue
                         </Button>
-                        <a
+                        <link
                             style={{
                                 borderBottom: "0.1rem solid #000",
                                 margin: "3rem 0",
@@ -204,7 +204,7 @@ function ForgotPassword() {
                             }}
                         >
                             Do not have account? Sign up
-                        </a>
+                        </link>
                     </form>
                 </div>
                
