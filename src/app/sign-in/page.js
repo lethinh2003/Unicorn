@@ -87,6 +87,7 @@ function Login() {
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const linkForgotPassword="/forgot-password";
 
   return (
     <Container>
@@ -187,7 +188,8 @@ function Login() {
               {errors.password ? errors.password.message : ""}
             </ErrorMessage>
 
-            <link
+            <Link href={"/forget-password"}
+              
               style={{
                 borderBottom: "0.1rem solid #000",
                 margin: "3rem 0",
@@ -199,12 +201,8 @@ function Login() {
                 left: "50%",
               }}
             >
-              <link href='/forgot-pasword'>
-                
                 Forgot your password?
-                
-              </link>
-            </link>
+            </Link>
             <Button
               type="submit"
               onClick={handleSubmit(onSubmitLogin)}
