@@ -84,7 +84,7 @@ function ForgotPassword() {
         }
     };
     const handleRegisterNav = () => {
-        router.push('/register');
+        router.push('/sign-up');
     }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -157,17 +157,6 @@ function ForgotPassword() {
                                         error={errors.password ? true : false}
                                         label="OTP"
                                         id="forgot-password-otp"
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
                                         inputRef={ref}
                                         {...field}
                                     />
@@ -176,7 +165,7 @@ function ForgotPassword() {
                             defaultValue=""
                         />
                         <ErrorMessage>
-                            {errors.password ? errors.password.message : ""}
+                            {/* {errors. ? errors.password.message : ""} */}
                         </ErrorMessage>
                         
                         <Button
@@ -190,7 +179,7 @@ function ForgotPassword() {
                             >
                             Continue
                         </Button>
-                        <Link
+                        <Link href={"/"}
                             style={{
                                 borderBottom: "0.1rem solid #000",
                                 margin: "3rem 0",
