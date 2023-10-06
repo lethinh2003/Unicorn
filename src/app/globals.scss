@@ -86,3 +86,172 @@ a {
   margin: 1.2rem 0 3rem 0;
   text-align: center;
 }
+//////////////////////Profile Page///////////////////////////////
+
+.profile-infomation-container {
+  display: flex;
+  justify-content: space-between;
+}
+.profile-page-header h1 {
+  text-transform: uppercase;
+  padding: 2rem 0 1.5rem 0;
+}
+.profile-page-header h3 {
+  padding-bottom: 3rem;
+}
+
+.user-nav {
+  width: 39rem;
+  height: 81rem;
+  background-color: #eee;
+}
+
+.user-avt-logout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.user-avt {
+  width: 9.5rem;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin: 3.75rem 0 1rem 0;
+  box-shadow: 1px 1px 2px #6c6c6c;
+}
+
+.user-name {
+  font-size: 2rem;
+}
+
+.logout-button {
+  width: 20rem !important;
+  height: 3.1rem !important;
+  color: #fff !important;
+  background-color: #fcaf17 !important;
+  font-size: 1.3rem !important;
+  margin: 1.5rem 0 5rem 0 !important;
+  border-radius: 2rem !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+}
+
+.nav-toggle-content {
+  width: 100%;
+  display: flex;
+  padding: 0.5rem 0 0.5rem 2rem;
+  align-items: center;
+  justify-content: start;
+}
+.toggle-button-text {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: none !important;
+}
+
+.nav-toggle-content p {
+  margin: 0 0 0 2rem;
+}
+
+.selected-button {
+  background-color: #c0ded7;
+  color: white;
+}
+.user-desc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #a1a1a1;
+  padding: 1rem;
+}
+
+.edit-infomation-button {
+  background-color: #38ac8f;
+  border-radius: 1rem !important;
+  text-transform: none !important;
+}
+
+.user-desc-text {
+  color: #38ac8f;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.edit-infomation-button:hover {
+  background-color: #53cfb0;
+}
+.user-desc-container {
+  width: 82rem;
+  height: 81rem;
+  margin-left: 1.25rem;
+  background-color: #eee;
+}
+.user-desc-body {
+  text-align: start;
+  padding: 3.2rem;
+}
+.address-item {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+.infomation {
+  display: flex;
+}
+.user-title {
+  display: flex;
+  flex-direction: column;
+}
+.user-title .user-title-item {
+  padding: 2rem 0;
+  color: #747474;
+  font-size: 1.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.user-desc-value {
+  margin-left: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+.user-desc-value .user-desc-value-item {
+  padding: 2rem 0;
+  color: #000;
+  font-size: 1.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.address-operation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: end !important;
+  margin-left: 5rem;
+}
+.address-operation .edit-address-button {
+  width: 2rem !important;
+  height: 2rem !important;
+  font-size: 0.7rem !important;
+  border-radius: 0.5rem;
+  border: 1px solid #38ac8f;
+  color: #38ac8f;
+  background-color: transparent !important;
+}
+.address-operation .delete-address-button {
+  width: 2rem !important;
+  height: 2rem !important;
+  font-size: 0.7rem !important;
+  border-radius: 0.5rem;
+  background-color: transparent !important;
+  border: 1px solid #ed3030;
+  color: #ed3030;
+}
