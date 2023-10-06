@@ -21,28 +21,21 @@ function ForgotPass() {
             title="Email"
             label="Email"
             style={{
-              marginBottom:"2.7rem",
+              margin:"1.4rem 0",
+              backgroundColor: "#EAEAEA",
             }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button variant="outlined" color="primary" margin="0">
-                    SEND OTP
-                  </Button>
-                </InputAdornment>
-              ),
-            }}
+            >
             
-            >   
-                
             </TextField>
 
             <TextField 
-            title="OPT"
-            label="OPT"
-            style={{
-              marginBottom:"6.6rem",
-            }}/>
+              title="OPT"
+              label="OPT"
+              style={{
+                marginBottom:"6.6rem",
+                backgroundColor: "#EAEAEA",
+              }}
+            />
 
             <Button
               type="submit"
@@ -67,7 +60,7 @@ function ForgotPass() {
                 transform: "translateX(-50%)",
                 left: "50%",
               }}
-            >
+              >
               <Link href='/'>
                 
               Do not have account? Sign up 

@@ -199,7 +199,7 @@ function Login() {
                 left: "50%",
               }}
             >
-              <Link href='/ForgotPass'>
+              <Link href='/forgot-pasword'>
                 
                 Forgot your password?
                 
