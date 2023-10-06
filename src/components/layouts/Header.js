@@ -12,8 +12,8 @@ import { useRouter } from "next/navigation";
 const Header = () => {
   const router = useRouter();
   const handleLoginClick = () => {
-    router.push('/login');
-  }
+    router.push("/login");
+  };
   return (
     <>
       <Box
@@ -140,7 +140,7 @@ const Header = () => {
                 fontSize: "2.5rem",
               }}
             ></ShoppingBagOutlinedIcon>
-            <Link href='/login'>
+            <Link href="/sign-in">
               <PersonOutlineOutlinedIcon
                 sx={{
                   fontSize: "2.5rem",

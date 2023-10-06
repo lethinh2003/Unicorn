@@ -1,8 +1,9 @@
-"use client";
+'use client'
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorMessage from "@/components/generals/ErrorMessage";
 import USER_MESSAGES from "@/configs/config.users.messages";
+import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import LoadingBox from "@/components/generals/LoadingBox";
 import Visibility from "@mui/icons-material/Visibility";
 import { Controller, useForm } from "react-hook-form";
@@ -35,22 +36,25 @@ function Login() {
         console.log(session); // Check user is authenticated?
     }, [session]);
 
-    // form validation rules
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .required(USER_MESSAGES.EMAIL_MISSING)
-            .trim(USER_MESSAGES.EMAIL_INVALID)
-            .email(USER_MESSAGES.EMAIL_INVALID)
-            .matches(/^\S*$/, USER_MESSAGES.EMAIL_INVALID)
-            .strict(true),
-        password: Yup.string()
-            .required(USER_MESSAGES.PASSWORD_MISSING)
-            .trim(USER_MESSAGES.PASSWORD_INVALID)
-            .min(8, USER_MESSAGES.PASSWORD_MIN_LENGTH)
-            .matches(/^\S*$/, USER_MESSAGES.PASSWORD_INVALID)
-            .strict(true),
-    });
-    const formOptions = { resolver: yupResolver(validationSchema) };
+  // form validation rules
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required(USER_MESSAGES.EMAIL_MISSING)
+      .trim(USER_MESSAGES.EMAIL_INVALID)
+      .email(USER_MESSAGES.EMAIL_INVALID)
+      .matches(/^\S*$/, USER_MESSAGES.EMAIL_INVALID)
+      .strict(true),
+    password: Yup.string()
+      .required(USER_MESSAGES.PASSWORD_MISSING)
+      .trim(USER_MESSAGES.PASSWORD_INVALID)
+      .min(
+        USER_ATTRIBUTES.PASSWORD_MIN_LENGTH,
+        USER_MESSAGES.PASSWORD_MIN_LENGTH
+      )
+      .matches(/^\S*$/, USER_MESSAGES.PASSWORD_INVALID)
+      .strict(true),
+  });
+  const formOptions = { resolver: yupResolver(validationSchema) };
 
     const {
         control,
@@ -84,7 +88,7 @@ function Login() {
         }
     };
     const handleRegisterNav = () => {
-        router.push('/register');
+        router.push('/sign-up');
     }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
