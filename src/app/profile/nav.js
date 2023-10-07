@@ -28,7 +28,7 @@ const IconArray = [
   },
   {
     label: "Mã giảm giá",
-    path: "/profile/tickets",
+    path: "/profile/vouchers",
     icon: <ConfirmationNumberOutlinedIcon />,
     value: "user-ticket",
   },

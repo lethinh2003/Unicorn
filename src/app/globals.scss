@@ -175,7 +175,8 @@ a {
   background-color: #c0ded7;
   color: white;
 }
-.user-desc-header {
+.user-desc-header,
+.user-voucher-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -189,7 +190,13 @@ a {
   text-transform: none !important;
 }
 
-.user-desc-text {
+.user-desc-text,
+.user-voucher-text,
+.voucher-percent,
+.voucher-detail,
+.voucher-id,
+.voucher-expired,
+.voucher-btn-use {
   color: #38ac8f;
   font-size: 2.5rem;
   font-style: normal;
@@ -200,13 +207,15 @@ a {
 .edit-infomation-button:hover {
   background-color: #53cfb0;
 }
-.user-desc-container {
+.user-desc-container,
+.user-voucher-container {
   width: 74.7rem;
   height: 70rem;
   margin-left: 1.25rem;
   background-color: #eee;
 }
-.user-desc-body {
+.user-desc-body,
+.user-voucher-body {
   display: flex;
   text-align: start;
   padding: 3.2rem;
@@ -272,4 +281,84 @@ a {
   text-align: center;
   align-items: start;
   padding: 4rem 0;
+}
+
+.voucher-body{
+  width: 71rem;
+  height: 17rem;
+  flex-shrink: 0;
+  border: 0.1rem;
+  position: relative;
+  border: 1px solid #ACA3A3;
+  background: #F6F3F3;
+  margin: 1.35rem 0;
+}
+
+.voucher_image{
+  width: 22.3508rem;
+  height: 17rem;
+  flex-shrink: 0;
+  border: 0.1rem;
+  position: absolute;
+  background: #38AC8F;
+}
+
+.voucher-infomation
+{
+  width: 46.0738rem;
+  height: 14rem;
+  flex-shrink: 0;
+  position: absolute;
+  top: 1.01rem;
+  bottom: 2rem;
+  left: 23.6rem;
+  right: 1.35rem;
+}
+
+.voucher-percent{
+  color: #000;
+  position: absolute;
+  top: 1.01rem;
+  left: 1.27rem;
+}
+
+.voucher-detail{
+  color: #000;
+  font-size: 2rem;
+  position: absolute;
+  top: 5.85rem;
+  left: 1.27rem;
+}
+
+.voucher-id
+{
+  color: #ACA5A5;
+  font-size: 1.8rem;
+  position: absolute;
+  top: 1.41rem;
+  right: 2rem;
+  font-weight: 400;
+
+}
+
+.voucher-expired{
+  color: #F46969;
+  font-size: 1.8rem;
+  position: absolute;
+  bottom: 0rem;
+  left: 1.27rem;
+}
+
+.voucher-btn-use{
+  width: 11.6474rem;
+  height: 2.9333rem;
+  flex-shrink: 0;
+  position: absolute;
+  right: 1.94rem;
+  bottom: 0rem;
+
+  color: #FFF;
+  font-size: 1.6rem;
+  border: 1px solid #ACA3A3;
+  background: #38AC8F;
 }
