@@ -1,22 +1,17 @@
 "use client";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorMessage from "@/components/generals/ErrorMessage";
 import USER_MESSAGES from "@/configs/config.users.messages";
 import LoadingBox from "@/components/generals/LoadingBox";
-import Visibility from "@mui/icons-material/Visibility";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { signIn, useSession } from "next-auth/react";
-import GoogleIcon from "@mui/icons-material/Google";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import axios from "axios";
 import * as Yup from "yup";
 import {
     FormControl,
-    IconButton,
     InputAdornment,
     OutlinedInput,
     InputLabel,
@@ -25,15 +20,11 @@ import {
 } from "@mui/material/";
 
 function ForgotPassword() {
-    const { data: session, status } = useSession(); // Next Auth
+    const [isLoading, setIsLoading] = useState(false);
+    const [emailValue, setEmailValue] = useState("");
+    const [isEmailValid, setIsEmailValid] = useState("");
 
     const router = useRouter();
-
-    const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    useEffect(() => {
-        console.log(session); // Check user is authenticated?
-    }, [session]);
 
     // form validation rules
     const validationSchema = Yup.object().shape({
@@ -42,52 +33,80 @@ function ForgotPassword() {
             .trim(USER_MESSAGES.EMAIL_INVALID)
             .email(USER_MESSAGES.EMAIL_INVALID)
             .matches(/^\S*$/, USER_MESSAGES.EMAIL_INVALID)
-            .strict(true),
-        password: Yup.string()
-            .required(USER_MESSAGES.PASSWORD_MISSING)
-            .trim(USER_MESSAGES.PASSWORD_INVALID)
-            .min(8, USER_MESSAGES.PASSWORD_MIN_LENGTH)
-            .matches(/^\S*$/, USER_MESSAGES.PASSWORD_INVALID)
-            .strict(true),
+            .strict(true)
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     const {
         control,
         handleSubmit,
-        formState: { errors },
-        register,
         reset,
+        formState: { errors },
     } = useForm(formOptions);
 
-    const onSubmitLogin = async (data) => {
+    const handleSendOTP = async (data) => {
+
+        console.log("handleSendOTP ~ data:", data)
         try {
-            if (status === "authenticated") {
-                throw new Error(USER_MESSAGES.USER_AUTHENTICATED);
-            }
-            setIsLoading(true);
-            const { email, password } = data;
-            const loginAccount = await signIn("login", {
-                email,
-                password,
-                redirect: false,
-            });
-            setIsLoading(false);
-            if (loginAccount?.status !== 200) {
-                throw new Error(loginAccount?.error);
-            }
-            router.push("/");
-        } catch (err) {
-            setIsLoading(false);
-            console.log(err);
-            toast.error(err?.message);
+            await validationSchema.validate({ email: data }, { abortEarly: false });
+            setIsEmailValid(true);
+        } catch (validationError) {
+            setIsEmailValid(validationError.errors[0]);
+            return;
         }
-    };
+
+        setIsLoading(true);
+        try {
+            const result = await axios.post(
+                `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users/send-reset-password-otp`, {
+                email: data
+            });
+            toast.success(result.data.message);
+            reset();
+        } catch (err) {
+            if (err && err.response) {
+                toast.error(`Message: ${err.response.data.message}`);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    const onSubmit = async (data) => {
+        console.log("handleSendOTP ~ data:", data.otp)
+        try {
+            await validationSchema.validate({ email: data.email, otp: data.otp }, { abortEarly: false });
+            setIsEmailValid(true);
+        } catch (validationError) {
+            setIsEmailValid(validationError.errors[0]);
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const result = await axios.post(
+                `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users/reset-password`, {
+                email: data.email,
+                otp: data.otp
+            });
+
+            console.log("onSubmit ~ result:", result)
+
+            
+            toast.success(result.data.message);
+            reset();
+        } catch (err) {
+            if (err && err.response) {
+                toast.error(`Message: ${err.response.data.message}`);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    
     const handleRegisterNav = () => {
         router.push('/sign-up');
     }
-
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     return (
         <Container>
@@ -100,37 +119,43 @@ function ForgotPassword() {
                     </div>
                     <form
                         className="forgot-password-panel-body"
-                        onSubmit={handleSubmit(onSubmitLogin)}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
-
                         <Controller
                             name="email"
                             control={control}
                             render={({ field: { ref, ...field } }) => (
+
                                 <FormControl sx={{
                                     margin: "1.4rem 0",
                                     backgroundColor: "#EAEAEA",
-                                }}>
-                                    <InputLabel htmlFor="Email" >Email</InputLabel>
+                                }}
+                                    onChange={(e) =>
+                                        setEmailValue(e.target.value)}
+                                    value={emailValue}>
+                                    <InputLabel htmlFor="Email">Email</InputLabel>
                                     <OutlinedInput
-                                      sx={{padding: "0"}}
+                                        sx={{ padding: "0" }}
                                         error={errors.email ? true : false}
                                         label="Email"
                                         endAdornment={
-                                          <InputAdornment 
-                                          position="end">
-                                              <Button
-                                              sx={{
-                                                padding: "1.2rem"
-                                              }}
-                                                  aria-label="toggle password visibility"
-                                                  // onClick={handleClickShowPassword}
-                                                  edge="end"
-                                              >
-                                                  Send OTP
-                                              </Button>
-                                          </InputAdornment>
-                                      }
+                                            <InputAdornment
+                                                position="end">
+                                                <Button
+                                                    sx={{
+                                                        padding: "1.2rem"
+                                                    }}
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => {
+                                                        handleSubmit()
+                                                        handleSendOTP(emailValue)
+                                                    }}
+                                                    edge="end"
+                                                >
+                                                    Send OTP
+                                                </Button>
+                                            </InputAdornment>
+                                        }
                                         id="Email"
                                         type="text"
                                         inputRef={ref}
@@ -141,22 +166,25 @@ function ForgotPassword() {
                             defaultValue=""
                         />
                         <ErrorMessage>
-                            {errors.email ? errors.email.message : ""}
+                            {isEmailValid || (errors.email ? errors.email.message : "")}
                         </ErrorMessage>
 
                         <Controller
-                            name="forgot-password-otp"
+                            name="otp"
                             control={control}
                             render={({ field: { ref, ...field } }) => (
                                 <FormControl sx={{
                                     margin: "1.4rem 0",
                                     backgroundColor: "#EAEAEA",
-                                }}>
-                                    <InputLabel htmlFor="forgot-password-otp">OTP</InputLabel>
+                                }}
+                                // value={otpValue}
+                                // onChange={(e) => setOtpValue(e.target.value)}
+                                >
+                                    <InputLabel htmlFor="otp">OTP</InputLabel>
                                     <OutlinedInput
                                         error={errors.password ? true : false}
                                         label="OTP"
-                                        id="forgot-password-otp"
+                                        id="otp"
                                         inputRef={ref}
                                         {...field}
                                     />
@@ -167,18 +195,19 @@ function ForgotPassword() {
                         <ErrorMessage>
                             {/* {errors. ? errors.password.message : ""} */}
                         </ErrorMessage>
-                        
+
                         <Button
                             type="submit"
-                            onClick={handleSubmit(onSubmitLogin)}
+                            onClick={handleSubmit(onSubmit)}
                             sx={{
-                              marginTop: "1.2rem",
+                                marginTop: "1.2rem",
                                 padding: "1.4rem 4rem",
                                 boxShadow: "0.1rem 0.1rem 0.1rem 0 #333"
                             }}
-                            >
+                        >
                             Continue
                         </Button>
+
                         <Link href={"/"}
                             style={{
                                 borderBottom: "0.1rem solid #000",
@@ -196,7 +225,7 @@ function ForgotPassword() {
                         </Link>
                     </form>
                 </div>
-               
+
             </div>
         </Container>
     );
