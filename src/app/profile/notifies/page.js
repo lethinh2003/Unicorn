@@ -45,7 +45,7 @@ export default function Notifies() {
             <Link underline="hover" color="inherit" href="/profile">
               Hồ sơ
             </Link>
-            <Typography color="text.primary">Mã giảm giá</Typography>
+            <Typography color="text.primary">Thông báo</Typography>
           </Breadcrumbs>
         </div>
         <div className="profile-page-header">
