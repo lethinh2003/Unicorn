@@ -13,9 +13,37 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Infomation from "./infomation";
 
+const ToggleButtons = [
+  {
+    path: "/profile",
+    label: "Tài khoản của tôi",
+    value: "user-infomation",
+  },
+  {
+    path: "/profile/address",
+    label: "Địa chỉ",
+    value: "user-location",
+  },
+  {
+    path: "/profile/tickets",
+    label: "Mã giảm giá",
+    value: "user-ticket",
+  },
+  {
+    path: "/profile/history",
+    label: "Lịch sử đơn hàng",
+    value: "user-history",
+  },
+  {
+    path: "/profile/notifications",
+    label: "Thông báo",
+    value: "user-notification",
+  },
+];
+
 export default function ProfileNav() {
   const [view, setView] = useState("list");
-  const path = usePathname();
+  const pathName = usePathname();
 
   return (
     <>
@@ -40,97 +68,38 @@ export default function ProfileNav() {
                 exclusive
                 sx={{ width: "100%" }}
               >
-                <Link href="/profile" className="toggle-link-nav">
-                  <ToggleButton
-                    value="user-infomation"
-                    aria-label="list"
-                    sx={{
-                      backgroundColor:
-                        path === "/profile"
-                          ? "#C0DED7 !important"
-                          : "transparent",
-                      borderLeft: "none",
-                      borderRight: "none",
-                      width: "100%",
-                    }}
-                  >
-                    <div className="nav-toggle-content">
-                      <AccountCircleOutlinedIcon />
-                      <p className="toggle-button-text">Tài khoản của tôi</p>
-                    </div>
-                  </ToggleButton>
-                </Link>
-                <Link href="/profile/address" className="toggle-link-nav">
-                  <ToggleButton
-                    value="user-location"
-                    aria-label="module"
-                    sx={{
-                      backgroundColor:
-                        path === "/profile/address"
-                          ? "#C0DED7 !important"
-                          : "transparent",
-                      borderLeft: "none",
-                      borderRight: "none",
-                      width: "100%",
-                    }}
-                  >
-                    <div className="nav-toggle-content">
-                      <PersonPinCircleOutlinedIcon />
-                      <p className="toggle-button-text">Địa chỉ</p>
-                    </div>
-                  </ToggleButton>
-                </Link>
-                <ToggleButton
-                  value="user-ticket"
-                  aria-label="module"
-                  sx={{
-                    backgroundColor:
-                      path === "/profile/tickets"
-                        ? "#C0DED7 !important"
-                        : "transparent",
-                    borderLeft: "none",
-                    borderRight: "none",
-                  }}
-                >
-                  <div className="nav-toggle-content">
-                    <ConfirmationNumberOutlinedIcon />
-                    <p className="toggle-button-text">Mã giảm giá</p>
-                  </div>
-                </ToggleButton>
-                <ToggleButton
-                  value="user-history"
-                  aria-label="quilt"
-                  sx={{
-                    backgroundColor:
-                      path === "/profile/history"
-                        ? "#C0DED7 !important"
-                        : "transparent",
-                    borderLeft: "none",
-                    borderRight: "none",
-                  }}
-                >
-                  <div className="nav-toggle-content">
-                    <HistoryOutlinedIcon />
-                    <p className="toggle-button-text">Lịch sử đơn hàng</p>
-                  </div>
-                </ToggleButton>
-                <ToggleButton
-                  value="user-notification"
-                  aria-label="quilt"
-                  sx={{
-                    backgroundColor:
-                      path === "/profile/notifications"
-                        ? "#C0DED7 !important"
-                        : "transparent",
-                    borderLeft: "none",
-                    borderRight: "none",
-                  }}
-                >
-                  <div className="nav-toggle-content">
-                    <NotificationsActiveOutlinedIcon />
-                    <p className="toggle-button-text">Thông báo</p>
-                  </div>
-                </ToggleButton>
+                {ToggleButtons.map((toggle, index) => (
+                  <Link href={toggle.path} key={index}>
+                    <ToggleButton
+                      value={toggle.value}
+                      aria-label="list"
+                      sx={{
+                        backgroundColor:
+                          pathName === toggle.path
+                            ? "#C0DED7 !important"
+                            : "transparent",
+                        borderLeft: "none",
+                        borderRight: "none",
+                        width: "100%",
+                      }}
+                    >
+                      <div className="nav-toggle-content">
+                        {toggle.path === "/profile" ? (
+                          <AccountCircleOutlinedIcon />
+                        ) : toggle.path === "/profile/address" ? (
+                          <PersonPinCircleOutlinedIcon />
+                        ) : toggle.path === "/profile/tickets" ? (
+                          <ConfirmationNumberOutlinedIcon />
+                        ) : toggle.path === "/profile/history" ? (
+                          <HistoryOutlinedIcon />
+                        ) : toggle.path === "/profile/notifications" ? (
+                          <NotificationsActiveOutlinedIcon />
+                        ) : null}
+                        <p className="toggle-button-text">{toggle.label}</p>
+                      </div>
+                    </ToggleButton>
+                  </Link>
+                ))}
               </ToggleButtonGroup>
             </div>
           </div>
