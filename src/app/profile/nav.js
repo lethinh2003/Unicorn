@@ -10,41 +10,17 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useState, useEffect } from "react";
-import Address from "./address";
+import { usePathname } from "next/navigation";
 import Infomation from "./infomation";
 
 export default function ProfileNav() {
   const [view, setView] = useState("list");
-  const [selectedButton, setSelectedButton] = useState("");
-  const [userInforView, setUserInForView] = useState(false);
-  const [userAddessView, setUserAddessView] = useState(false);
-  const handleChange = (event, nextView) => {
-    if (nextView !== selectedButton) {
-      setView(nextView);
-      setSelectedButton(nextView);
-    }
-  };
-
-  useEffect(() => {
-    switch (selectedButton) {
-      case "user-infomation":
-        setUserInForView(true);
-        setUserAddessView(false);
-        break;
-      case "user-location":
-        setUserAddessView(true);
-        setUserInForView(false);
-        break;
-      default:
-        break;
-    }
-  }, [selectedButton]);
-  console.log(selectedButton);
+  const path = usePathname();
 
   return (
     <>
       <div className="container">
-        <div className="profile-infomation-container">
+        <div className="user-nav-container">
           <div className="user-nav">
             <div className="user-avt-logout">
               <Image
@@ -62,7 +38,6 @@ export default function ProfileNav() {
                 orientation="vertical"
                 value={view}
                 exclusive
-                onChange={handleChange}
                 sx={{ width: "100%" }}
               >
                 <Link href="/profile" className="toggle-link-nav">
@@ -71,7 +46,7 @@ export default function ProfileNav() {
                     aria-label="list"
                     sx={{
                       backgroundColor:
-                        selectedButton === "user-infomation"
+                        path === "/profile"
                           ? "#C0DED7 !important"
                           : "transparent",
                       borderLeft: "none",
@@ -91,7 +66,7 @@ export default function ProfileNav() {
                     aria-label="module"
                     sx={{
                       backgroundColor:
-                        selectedButton === "user-location"
+                        path === "/profile/address"
                           ? "#C0DED7 !important"
                           : "transparent",
                       borderLeft: "none",
@@ -110,7 +85,7 @@ export default function ProfileNav() {
                   aria-label="module"
                   sx={{
                     backgroundColor:
-                      selectedButton === "user-ticket"
+                      path === "/profile/tickets"
                         ? "#C0DED7 !important"
                         : "transparent",
                     borderLeft: "none",
@@ -127,7 +102,7 @@ export default function ProfileNav() {
                   aria-label="quilt"
                   sx={{
                     backgroundColor:
-                      selectedButton === "user-history"
+                      path === "/profile/history"
                         ? "#C0DED7 !important"
                         : "transparent",
                     borderLeft: "none",
@@ -144,7 +119,7 @@ export default function ProfileNav() {
                   aria-label="quilt"
                   sx={{
                     backgroundColor:
-                      selectedButton === "user-notification"
+                      path === "/profile/notifications"
                         ? "#C0DED7 !important"
                         : "transparent",
                     borderLeft: "none",
