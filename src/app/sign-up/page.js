@@ -74,11 +74,9 @@ function RegisterPage() {
       toast.success(result.data.message);
       reset();
     } catch (err) {
-      console.log(err)
-      // if (err && err.response) {
-      //   toast.error(`Message: ${err.response.data.message}`);
-      // }
-      console.log(err);
+      if (err && err.response) {
+        toast.error(`Message: ${err.response.data.message}`);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -270,7 +268,7 @@ function RegisterPage() {
                 {errors.confirmPassword ? errors.confirmPassword.message : ""}
               </ErrorMessage>
               <Button type="submit"
-                // onClick={handleSubmit(onSubmitRegister)}
+                onClick={handleSubmit(onSubmit)}
                 sx={{
                   position: "relative",
                   transform: "translateX(50)",
