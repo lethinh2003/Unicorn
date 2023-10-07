@@ -40,7 +40,7 @@ const IconArray = [
   },
   {
     label: "Thông báo",
-    path: "/profile/notifications",
+    path: "/profile/notifies",
     icon: <NotificationsActiveOutlinedIcon />,
     value: "user-notification",
   },

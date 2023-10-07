@@ -53,7 +53,6 @@ export default function Voucher() {
         </div>
         <div className="profile-page-header">
           <h1>Thông tin tài khoản</h1>
-          <h4>Mã giảm giá</h4>
         </div>
       </div>
       <div className="user-voucher-container">

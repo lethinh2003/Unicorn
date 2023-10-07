@@ -176,7 +176,8 @@ a {
   color: white;
 }
 .user-desc-header,
-.user-voucher-header {
+.user-voucher-header,
+.user-notifies-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -196,7 +197,10 @@ a {
 .voucher-detail,
 .voucher-id,
 .voucher-expired,
-.voucher-btn-use {
+.voucher-btn-use,
+.user-notifies-text,
+.notifies-title,
+.notifies-detail {
   color: #38ac8f;
   font-size: 2.5rem;
   font-style: normal;
@@ -215,12 +219,14 @@ a {
   background-color: #eee;
 }
 .user-desc-body,
-.user-voucher-body {
+.user-voucher-body,
+.user-notifies-body{
   display: flex;
   text-align: start;
   padding: 3.2rem;
 }
-.address-item {
+.address-item,
+.notifies-item {
   display: flex;
   border-bottom: 1px solid #ccc;
 }
@@ -361,4 +367,62 @@ a {
   font-size: 1.6rem;
   border: 1px solid #ACA3A3;
   background: #38AC8F;
+}
+
+.user-notifies-container{
+  width: 82rem;
+height: 81.4rem;
+flex-shrink: 0;
+background: #EEE;
+margin-left: 1.25rem;
+}
+
+.notifies-body{
+  width: 73.6rem;
+  height: 17rem;
+  flex-shrink: 0;
+  border-bottom: 1px solid #ACA3A3;
+  background: #F6F3F3;
+  position: relative;
+  border: 0.1rem;
+}
+
+.notifies_image{
+  width: 13rem;
+  height: 12.7962rem;
+  flex-shrink: 0;
+  position: absolute;
+  top: 2.1rem;
+  bottom: 2.1rem;
+  left: 2.2rem;
+  background:  lightgray 50% / cover no-repeat;
+}
+
+.notifies-infomation{
+  position: absolute;
+  width: 49.4rem;
+  height: 12.2rem;
+  flex-shrink: 0;
+  top: 2.1rem;
+  left: 17.6rem;
+  right: 6.6rem;
+  bottom: 2.7rem;
+}
+
+.notifies-title{
+  color: #000;
+  font-size: 2.5rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  
+}
+
+.notifies-detail{
+  color: #7A7272;
+  font-size: 2rem;
+  font-weight: 400;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
