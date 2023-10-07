@@ -24,8 +24,6 @@ function ForgotPassword() {
     const [emailValue, setEmailValue] = useState("");
     const [isEmailValid, setIsEmailValid] = useState("");
 
-    const router = useRouter();
-
     // form validation rules
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -46,7 +44,6 @@ function ForgotPassword() {
 
     const handleSendOTP = async (data) => {
 
-        console.log("handleSendOTP ~ data:", data)
         try {
             await validationSchema.validate({ email: data }, { abortEarly: false });
             setIsEmailValid(true);
@@ -62,7 +59,6 @@ function ForgotPassword() {
                 email: data
             });
             toast.success(result.data.message);
-            reset();
         } catch (err) {
             if (err && err.response) {
                 toast.error(`Message: ${err.response.data.message}`);
@@ -72,7 +68,6 @@ function ForgotPassword() {
         }
     }
     const onSubmit = async (data) => {
-        console.log("handleSendOTP ~ data:", data.otp)
         try {
             await validationSchema.validate({ email: data.email, otp: data.otp }, { abortEarly: false });
             setIsEmailValid(true);
@@ -89,9 +84,6 @@ function ForgotPassword() {
                 otp: data.otp
             });
 
-            console.log("onSubmit ~ result:", result)
-
-            
             toast.success(result.data.message);
             reset();
         } catch (err) {
@@ -101,11 +93,6 @@ function ForgotPassword() {
         } finally {
             setIsLoading(false);
         }
-    }
-
-    
-    const handleRegisterNav = () => {
-        router.push('/sign-up');
     }
 
     return (
@@ -193,7 +180,7 @@ function ForgotPassword() {
                             defaultValue=""
                         />
                         <ErrorMessage>
-                            {/* {errors. ? errors.password.message : ""} */}
+                            {errors.otp ? errors.otp.message : ""}
                         </ErrorMessage>
 
                         <Button
@@ -208,7 +195,7 @@ function ForgotPassword() {
                             Continue
                         </Button>
 
-                        <Link href={"/"}
+                        <Link href={"/sign-up"}
                             style={{
                                 borderBottom: "0.1rem solid #000",
                                 margin: "3rem 0",
