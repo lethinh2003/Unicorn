@@ -6,14 +6,15 @@ import USER_MESSAGES from "@/configs/config.users.messages";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Container } from "@mui/material";
 import {
+  Button,
+  Container,
   FormControl,
   IconButton,
   InputAdornment,
+  InputLabel,
   OutlinedInput,
 } from "@mui/material/";
 import { signIn, useSession } from "next-auth/react";
@@ -23,6 +24,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+
 function Login() {
   const { data: session, status } = useSession(); // Next Auth
 
@@ -85,6 +87,9 @@ function Login() {
       toast.error(err?.message);
     }
   };
+  const handleRegisterNav = () => {
+    router.push("/sign-up");
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -113,13 +118,13 @@ function Login() {
                     margin: "1.4rem 0",
                     backgroundColor: "#EAEAEA",
                   }}
-                  variant="outlined"
                 >
+                  <InputLabel htmlFor="Email">Email</InputLabel>
                   <OutlinedInput
                     error={errors.email ? true : false}
-                    placeholder="Example@gmail.com"
-                    startAdornment={
-                      <InputAdornment position="start">
+                    label="Email"
+                    endAdornment={
+                      <InputAdornment position="end">
                         <EmailOutlinedIcon
                           sx={{
                             fontSize: "3rem",
@@ -187,8 +192,8 @@ function Login() {
               {errors.password ? errors.password.message : ""}
             </ErrorMessage>
 
-            <Link href={"/forgot-password"}
-              
+            <Link
+              href={"/forgot-password"}
               style={{
                 borderBottom: "0.1rem solid #000",
                 margin: "3rem 0",
@@ -200,7 +205,7 @@ function Login() {
                 left: "50%",
               }}
             >
-                Forgot your password?
+              Forgot your password?
             </Link>
             <Button
               type="submit"
