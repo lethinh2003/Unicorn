@@ -14,6 +14,7 @@ a {
 }
 
 .login-container,
+.forgot-password-container,
 .register-container {
   display: flex;
   height: 80rem;
@@ -22,7 +23,18 @@ a {
   box-shadow: 1px 0 2px #000;
 }
 
+.forgot-password-container {
+  width: 80rem;
+  justify-content: center;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1rem;
+  box-shadow: 1px 0 2px #000;
+}
+
 .login-left-panel,
+.forgot-password-panel,
 .register-right-panel {
   width: 67rem;
   display: flex;
@@ -36,6 +48,7 @@ a {
 }
 
 .login-left-panel-header,
+.forgot-password-panel-header,
 .register-right-panel-header {
   display: flex;
   flex-direction: column;
@@ -43,6 +56,7 @@ a {
 }
 
 .login-left-panel-header .login-title,
+.forgot-password-panel-header .forgot-password-title,
 .register-right-panel-header .register-title {
   color: #38ac8f;
   font-size: 5rem;
@@ -50,6 +64,7 @@ a {
 }
 
 .login-left-panel-body,
+.forgot-password-panel-body,
 .register-right-panel-body {
   display: flex;
   flex-direction: column;
@@ -81,6 +96,7 @@ a {
 }
 
 .login-solution,
+.forgot-password-solution,
 .register-solution {
   color: "#9F9595";
   margin: 1.2rem 0 3rem 0;
