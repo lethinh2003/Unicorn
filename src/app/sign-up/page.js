@@ -1,30 +1,30 @@
 "use client";
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorMessage from "@/components/generals/ErrorMessage";
-import USER_MESSAGES from "@/configs/config.users.messages";
-import USER_ATTRIBUTES from '@/configs/config.users.attributes';
 import LoadingBox from "@/components/generals/LoadingBox";
-import Visibility from "@mui/icons-material/Visibility";
-import { Controller, useForm } from "react-hook-form";
+import USER_ATTRIBUTES from "@/configs/config.users.attributes";
+import USER_MESSAGES from "@/configs/config.users.messages";
 import { yupResolver } from "@hookform/resolvers/yup";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import Link from "next/link";
-import * as Yup from "yup";
-import axios from "axios";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
+  Button,
+  Container,
   FormControl,
   IconButton,
   InputAdornment,
-  OutlinedInput,
   InputLabel,
-  Button,
-  Container,
+  OutlinedInput,
 } from "@mui/material/";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +40,10 @@ function RegisterPage() {
       .strict(true),
     password: Yup.string()
       .required(USER_MESSAGES.PASSWORD_MISSING)
-      .min(USER_ATTRIBUTES.PASSWORD_MIN_LENGTH, USER_MESSAGES.PASSWORD_MIN_LENGTH)
+      .min(
+        USER_ATTRIBUTES.PASSWORD_MIN_LENGTH,
+        USER_MESSAGES.PASSWORD_MIN_LENGTH
+      )
       .matches(/^\S*$/, USER_MESSAGES.PASSWORD_INVALID)
       .trim()
       .strict(true),
@@ -83,11 +86,12 @@ function RegisterPage() {
   };
 
   const handleLoginNav = () => {
-    router.push('/login');
-  }
+    router.push("/sign-in");
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
 
   return (
     <Container>
@@ -130,16 +134,18 @@ function RegisterPage() {
                 name="name"
                 control={control}
                 defaultValue=""
-                render={({ field }) => (
+                render={({ field: { ref, ...field } }) => (
                   <FormControl
                     sx={{
                       width: "100%",
                       margin: "1.4rem 0",
                       backgroundColor: "#EAEAEA",
-                    }}>
-                    <InputLabel htmlFor="Name" >Name</InputLabel>
+                    }}
+                  >
+                    <InputLabel htmlFor="Name">Name</InputLabel>
                     <OutlinedInput
                       label="Name"
+                      inputRef={ref}
                       {...field}
                       error={!!errors.name}
                       id="Name"
@@ -164,17 +170,19 @@ function RegisterPage() {
                 name="email"
                 control={control}
                 defaultValue=""
-                render={({ field }) => (
+                render={({ field: { ref, ...field } }) => (
                   <FormControl
                     sx={{
                       width: "100%",
                       margin: "1.4rem 0",
                       backgroundColor: "#EAEAEA",
-                    }}>
-                    <InputLabel htmlFor="Email" >Email</InputLabel>
+                    }}
+                  >
+                    <InputLabel htmlFor="Email">Email</InputLabel>
                     <OutlinedInput
                       label="Email"
                       id="Email"
+                      inputRef={ref}
                       {...field}
                       error={!!errors.email} // Hiển thị lỗi nếu có
                       endAdornment={
@@ -198,7 +206,7 @@ function RegisterPage() {
                 name="password"
                 control={control}
                 defaultValue=""
-                render={({ field }) => (
+                render={({ field: { ref, ...field } }) => (
                   <FormControl
                     sx={{
                       width: "100%",
@@ -206,11 +214,12 @@ function RegisterPage() {
                       backgroundColor: "#EAEAEA",
                     }}
                   >
-                    <InputLabel htmlFor="Password" >Password</InputLabel>
+                    <InputLabel htmlFor="Password">Password</InputLabel>
                     <OutlinedInput
                       label="Password"
                       id="Password"
                       type={showPassword ? "text" : "password"}
+                      inputRef={ref}
                       {...field}
                       error={!!errors.password}
                       endAdornment={
@@ -235,18 +244,22 @@ function RegisterPage() {
                 name="confirmPassword"
                 control={control}
                 defaultValue=""
-                render={({ field }) => (
+                render={({ field: { ref, ...field } }) => (
                   <FormControl
                     sx={{
                       width: "100%",
                       margin: "1.4rem 0",
                       backgroundColor: "#EAEAEA",
-                    }}>
-                    <InputLabel htmlFor="ConfirmPassword" >Confirm Password</InputLabel>
+                    }}
+                  >
+                    <InputLabel htmlFor="ConfirmPassword">
+                      Confirm Password
+                    </InputLabel>
                     <OutlinedInput
                       label="ConfirmPassword"
                       id="ConfirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
+                      inputRef={ref}
                       {...field}
                       error={!!errors.confirmPassword}
                       endAdornment={
@@ -256,7 +269,11 @@ function RegisterPage() {
                             onClick={handleClickShowConfirmPassword}
                             edge="end"
                           >
-                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       }
@@ -267,7 +284,8 @@ function RegisterPage() {
               <ErrorMessage>
                 {errors.confirmPassword ? errors.confirmPassword.message : ""}
               </ErrorMessage>
-              <Button type="submit"
+              <Button
+                type="submit"
                 onClick={handleSubmit(onSubmit)}
                 sx={{
                   position: "relative",
@@ -276,9 +294,11 @@ function RegisterPage() {
                   padding: "1.4rem 4rem",
                   borderRadius: "2.5rem",
                   boxShadow: "0.1rem 0.1rem 0.1rem 0 #333",
-                  marginTop: "1rem"
+                  marginTop: "1rem",
                 }}
-              >Register</Button>
+              >
+                Register
+              </Button>
             </form>
           </div>
         </div>
