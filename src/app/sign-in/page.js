@@ -229,6 +229,7 @@ function Login() {
           <span>Hello, Friend!</span>
           <p>Enter your personal details and start journey with us</p>
           <Button
+            onClick={handleRegisterNav}
             sx={{
               width: "55%",
               padding: " 2rem 12rem",
