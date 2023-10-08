@@ -1,17 +1,16 @@
 "use client";
-import { Breadcrumbs, Container, Typography, Button } from "@mui/material";
-import Link from "next/link";
-import Image from "next/image";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
+import { Button } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Infomation from "./infomation";
+import { useState } from "react";
 
 const IconArray = [
   {
@@ -34,9 +33,9 @@ const IconArray = [
   },
   {
     label: "Lịch sử đơn hàng",
-    path: "/profile/history",
+    path: "/profile/orders",
     icon: <HistoryOutlinedIcon />,
-    value: "user-history",
+    value: "user-orders",
   },
   {
     label: "Thông báo",
