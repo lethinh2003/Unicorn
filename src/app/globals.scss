@@ -304,6 +304,7 @@ a {
   background: #F6F3F3;
   margin: 1.35rem 0;
   flex-direction: row;
+
   display: flex;
   
 }
@@ -319,8 +320,7 @@ a {
 
 .voucher-infomation
 {
-  flex-grow: 1;
-  flex-shrink: 0;
+  flex: 1;
   margin-left: 1.35rem;
   margin-top: 1.01rem;
   margin-bottom: 2.06rem;
@@ -329,7 +329,8 @@ a {
   flex-direction:column;
   justify-content: space-between; 
   align-items: flex-start; 
-  gap: 1.3rem;
+  // gap: 1.3rem;
+
 }
 
 .voucher-line{
@@ -349,6 +350,7 @@ a {
 .voucher-detail{
   color: #000;
   font-size: 2rem;
+  display:flex;
   flex-wrap: wrap;
   justify-content: start;  
 }

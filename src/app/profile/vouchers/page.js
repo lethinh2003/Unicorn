@@ -65,7 +65,7 @@ export default function Voucher() {
               <div key={index} className="voucher-item">
                   
                 <div className="voucher_image">
-                  <img src=".discount_coupon.png" alt="discountIcon" />
+                  <img src="discount_coupon.png" alt="discountIcon" />
                 </div>
 
                 <div className="voucher-infomation">
