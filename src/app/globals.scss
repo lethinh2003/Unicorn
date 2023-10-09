@@ -303,16 +303,18 @@ a {
   border: 1px solid #ACA3A3;
   background: #F6F3F3;
   margin: 1.35rem 0;
-  display: flexbox;
   flex-direction: row;
+  display: flex;
   
 }
 
 .voucher_image{
-  width: 22.3508rem;
+  width: 13rem;
+  min-height: 12.7962rem;
   flex-shrink: 0;
-  border: 0.1rem;
+  background-color: #6c6c6c;
   background: #38AC8F;
+  display: flex;
 }
 
 .voucher-infomation
@@ -397,8 +399,7 @@ margin-left: 1.25rem;
   min-height: 12.7962rem;
   flex-shrink: 0;
   display: flex;
-  background:  rgb(57, 23, 23) 50%;
-  background:  no-repeat;
+  background-color: #6c6c6c;
 }
 
 .notifies-infomation{
