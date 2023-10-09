@@ -289,140 +289,134 @@ a {
   padding: 4rem 0;
 }
 
-.voucher-body{
+.user-voucher-container{
+  width: 82rem;
+  height: auto;
+  margin-right: 4.3rem;
+}
+
+.voucher-item{
   width: 71rem;
-  height: 17rem;
   flex-shrink: 0;
   border: 0.1rem;
   position: relative;
   border: 1px solid #ACA3A3;
   background: #F6F3F3;
   margin: 1.35rem 0;
+  display: flexbox;
+  flex-direction: row;
+  
 }
 
 .voucher_image{
   width: 22.3508rem;
-  height: 17rem;
   flex-shrink: 0;
   border: 0.1rem;
-  position: absolute;
   background: #38AC8F;
 }
 
 .voucher-infomation
 {
-  width: 46.0738rem;
-  height: 14rem;
+  flex-grow: 1;
   flex-shrink: 0;
-  position: absolute;
-  top: 1.01rem;
-  bottom: 2rem;
-  left: 23.6rem;
-  right: 1.35rem;
+  margin-left: 1.35rem;
+  margin-top: 1.01rem;
+  margin-bottom: 2.06rem;
+  margin-right: 2.07rem;
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between; 
+  align-items: flex-start; 
+  gap: 1.3rem;
+}
+
+.voucher-line{
+  display: flex;
+  justify-content: space-between; /* Đặt khoảng cách giữa voucher-percent và voucher-id */
+  width: 100%;
+  align-items: center;
 }
 
 .voucher-percent{
   color: #000;
-  position: absolute;
-  top: 1.01rem;
-  left: 1.27rem;
+  justify-content: flex-start ;
+  align-self: flex-start;
+  display: flex;
 }
 
 .voucher-detail{
   color: #000;
   font-size: 2rem;
-  position: absolute;
-  top: 5.85rem;
-  left: 1.27rem;
+  flex-wrap: wrap;
+  justify-content: start;  
 }
 
 .voucher-id
 {
+  display: flex;
   color: #ACA5A5;
   font-size: 1.8rem;
-  position: absolute;
-  top: 1.41rem;
-  right: 2rem;
   font-weight: 400;
+  
 
 }
 
 .voucher-expired{
   color: #F46969;
   font-size: 1.8rem;
-  position: absolute;
-  bottom: 0rem;
-  left: 1.27rem;
 }
 
 .voucher-btn-use{
   width: 11.6474rem;
   height: 2.9333rem;
   flex-shrink: 0;
-  position: absolute;
-  right: 1.94rem;
-  bottom: 0rem;
-
   color: #FFF;
   font-size: 1.6rem;
   border: 1px solid #ACA3A3;
   background: #38AC8F;
+  
 }
 
 .user-notifies-container{
   width: 82rem;
-height: 81.4rem;
 flex-shrink: 0;
 background: #EEE;
 margin-left: 1.25rem;
 }
 
-.notifies-body{
-  width: 73.6rem;
-  height: 17rem;
-  flex-shrink: 0;
+.notifies-item{
+  flex-direction: row;
   border-bottom: 1px solid #ACA3A3;
   background: #F6F3F3;
-  position: relative;
-  border: 0.1rem;
+  padding: 2.1rem;
+
 }
 
 .notifies_image{
   width: 13rem;
-  height: 12.7962rem;
+  min-height: 12.7962rem;
   flex-shrink: 0;
-  position: absolute;
-  top: 2.1rem;
-  bottom: 2.1rem;
-  left: 2.2rem;
-  background:  lightgray 50% / cover no-repeat;
+  display: flex;
+  background:  rgb(57, 23, 23) 50%;
+  background:  no-repeat;
 }
 
 .notifies-infomation{
-  position: absolute;
-  width: 49.4rem;
-  height: 12.2rem;
-  flex-shrink: 0;
-  top: 2.1rem;
-  left: 17.6rem;
-  right: 6.6rem;
-  bottom: 2.7rem;
+  display: flex;
+  flex-direction:column;
+  align-items: flex-start; 
+  gap: 2.7rem;
 }
 
 .notifies-title{
   color: #000;
   font-size: 2.5rem;
-  position: absolute;
-  left: 0;
-  top: 0;
-  
 }
 
 .notifies-detail{
   color: #7A7272;
   font-size: 2rem;
   font-weight: 400;
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  display: flex;
+
 }

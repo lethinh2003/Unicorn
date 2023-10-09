@@ -63,20 +63,21 @@ export default function Voucher() {
           <Stack>
           {voucher.map((voucher, index) => (
               <div key={index} className="voucher-item">
-                <div className="voucher-body">
                   
-                    <div className="voucher_image">
-                      {/* <img src=".discount_coupon.png" alt="discountIcon" /> */}
-                    </div>
+                <div className="voucher_image">
+                  {/* <img src=".discount_coupon.png" alt="discountIcon" /> */}
+                </div>
 
-                    <div className="voucher-infomation">
-                      <div className="voucher-percent">Giảm {voucher.percent}%</div>
-                      <div className="voucher-id">Mã: {voucher.voucherID}</div>
-                      <div className="voucher-detail">{voucher.detail_voucher}</div>
-                      <div className="voucher-expired">Hết hạn sau: {voucher.expired}</div>
-                      <button className="voucher-btn-use">Dùng ngay</button>
-                    </div>
-                  
+                <div className="voucher-infomation">
+                  <div className="voucher-line">
+                    <div className="voucher-percent">Giảm {voucher.percent}%</div>
+                    <div className="voucher-id">Mã: {voucher.voucherID}</div>
+                  </div>
+                  <div className="voucher-detail">{voucher.detail_voucher}</div>
+                  <div className="voucher-line">
+                    <div className="voucher-expired">Hết hạn sau: {voucher.expired}</div>
+                    <button className="voucher-btn-use">Dùng ngay</button>
+                  </div>
                 </div>
               </div>
             ))}

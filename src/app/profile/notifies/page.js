@@ -60,7 +60,6 @@ export default function Notifies() {
           <Stack>
           {notifies.map((notifies, index) => (
               <div key={index} className="notifies-item">
-                <div className="notifies-body">
                   
                     <div className="notifies_image">
                       <img src="" alt="notifies" />
@@ -71,7 +70,7 @@ export default function Notifies() {
                       <div className="notifies-detail">{notifies.detail}</div>
                     </div>
                   
-                </div>
+                
               </div>
             ))}
           </Stack>
