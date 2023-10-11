@@ -13,6 +13,7 @@ a {
   text-decoration: none;
 }
 
+//                                               LOGIN - FORGOT PASSWORD - REGISTER
 .login-container,
 .forgot-password-container,
 .register-container {
@@ -482,4 +483,75 @@ a {
 .gender-product-title {
   position: absolute;
   bottom: 15rem;
+}
+
+//                                               HOME PRODUCT
+//                                               New Product
+.home-product {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-items: center;
+  gap: 3rem;
+  padding: 3rem 0;
+}
+
+.home-product__items {
+  width: 25rem;
+  height: 45rem;
+  background-color: #ffffff;
+  padding: 0;
+  border: 0.05rem solid #000000;
+  box-shadow: 0.1rem 0.1rem 0.1rem 0 #333333;
+}
+
+.home-product__img {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 30rem;
+  object-fit: cover;
+}
+
+.home-special-product {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-gap: 2rem 3rem;
+  place-items: center;
+  overflow-x: hidden;
+  grid-template-areas:
+    "h1 h2"
+    "h1 h3";
+}
+
+.home-special-product-item {
+  grid-gap: 3rem 2rem;
+  height: 100%;
+  width: 100%;
+}
+.home-special-product-item:first-child img {
+  width: 50.925rem;
+  height: 84.8rem;
+}
+
+.home-special-product-item:nth-child(2) img {
+  width: 65.881rem;
+  height: 45.2rem;
+}
+
+.home-special-product-item:last-child img {
+  width: 65.881rem;
+  height: 34.4rem;
+}
+
+.home-special-product-item:first-child {
+  grid-area: h1;
+}
+
+.home-special-product-item:nth-child(2) {
+  grid-area: h2;
+}
+
+.home-special-product-item:last-child {
+  grid-area: h3;
 }
