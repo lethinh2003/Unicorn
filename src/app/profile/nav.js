@@ -55,7 +55,7 @@ export default function ProfileNav() {
         <div className="user-nav">
           <div className="user-avt-logout">
             <Image
-              src="/use-logo.png"
+              src="/icons8-user-48.png"
               alt="me"
               width="40"
               height="40"

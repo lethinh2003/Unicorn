@@ -1,23 +1,28 @@
-'use client'
-import { Stack, Button, Radio, Breadcrumbs,Typography,Link } from "@mui/material";
+"use client";
+import { Box, Breadcrumbs, Link, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 import { useState } from "react";
 
 const USER_NOTIFIES = [
   {
-    title:"DEAL SỐC ĐẾN 50%",
-    detail:"Sản phẩm bạn yêu thích đang được giảm giá đến 50%. Vô xem ngay kẻo bỏ lỡ nhé !!!",
+    title: "DEAL SỐC ĐẾN 50%",
+    detail:
+      "Sản phẩm bạn yêu thích đang được giảm giá đến 50%. Vô xem ngay kẻo bỏ lỡ nhé !!!",
   },
   {
-    title:"GIAO KIỆN HÀNG THÀNH CÔNG ",
-    detail:"Kiện hàng áo thun tay ngắn của bạn đã được giao thành công đến bạn ",
+    title: "GIAO KIỆN HÀNG THÀNH CÔNG ",
+    detail:
+      "Kiện hàng áo thun tay ngắn của bạn đã được giao thành công đến bạn ",
   },
   {
-    title:"DEAL SỐC ĐẾN 50%",
-    detail:"Sản phẩm bạn yêu thích đang được giảm giá đến 50%. Vô xem ngay kẻo bỏ lỡ nhé !!!",
+    title: "DEAL SỐC ĐẾN 50%",
+    detail:
+      "Sản phẩm bạn yêu thích đang được giảm giá đến 50%. Vô xem ngay kẻo bỏ lỡ nhé !!!",
   },
   {
-    title:"DEAL SỐC ĐẾN 50%",
-    detail:"Sản phẩm bạn yêu thích đang được giảm giá đến 50%. Vô xem ngay kẻo bỏ lỡ nhé !!!",
+    title: "DEAL SỐC ĐẾN 50%",
+    detail:
+      "Sản phẩm bạn yêu thích đang được giảm giá đến 50%. Vô xem ngay kẻo bỏ lỡ nhé !!!",
   },
 ];
 
@@ -58,19 +63,36 @@ export default function Notifies() {
         </div>
         <div className="user-notifies-body">
           <Stack>
-          {notifies.map((notifies, index) => (
-              <div key={index} className="notifies-item">
-                  
-                    <div className="notifies_image">
-                      <img src="" alt="notifies" />
-                    </div>
+            {notifies.map((notifies, index) => (
+              <div
+                key={index}
+                className="notifies-item"
+                style={{
+                  gap: "1rem",
+                }}
+              >
+                <div className="notifies_image">
+                  <Box
+                    sx={{
+                      width: "100%",
 
-                    <div className="notifies-infomation">
-                      <div className="notifies-title">{notifies.title}</div>
-                      <div className="notifies-detail">{notifies.detail}</div>
-                    </div>
-                  
-                
+                      margin: "0 auto",
+                      position: "relative",
+                    }}
+                  >
+                    <Image
+                      src="/item_product.png"
+                      alt="me"
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </Box>
+                </div>
+
+                <div className="notifies-infomation">
+                  <div className="notifies-title">{notifies.title}</div>
+                  <div className="notifies-detail">{notifies.detail}</div>
+                </div>
               </div>
             ))}
           </Stack>

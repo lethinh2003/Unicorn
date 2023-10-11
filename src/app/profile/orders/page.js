@@ -152,7 +152,7 @@ export default function Notifies() {
                       }}
                     >
                       <Image
-                        src="/logo.png"
+                        src="/item_product.png"
                         alt="me"
                         layout="fill"
                         objectFit="contain"
@@ -164,7 +164,6 @@ export default function Notifies() {
                         gap: "1rem",
                         display: "flex",
                         flexDirection: "column",
-                        marginLeft: "1rem",
                       }}
                     >
                       <Box

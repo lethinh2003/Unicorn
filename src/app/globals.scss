@@ -110,8 +110,8 @@ a {
   justify-content: space-between;
   margin-top: 9rem;
 }
-.redirect-title-container{
-  position:absolute;
+.redirect-title-container {
+  position: absolute;
   z-index: 1;
   top: -10rem;
   left: 0rem;
@@ -182,7 +182,7 @@ a {
 .nav-toggle-content p {
   margin: 0 0 0 2rem;
 }
-.toggle-link-nav{
+.toggle-link-nav {
   display: flex;
   width: 100% !important;
   height: 100%;
@@ -230,13 +230,13 @@ a {
 .user-desc-container,
 .user-voucher-container {
   width: 74.7rem;
-  height: 70rem;
+  min-height: 70rem;
   margin-left: 1.25rem;
   background-color: #eee;
 }
 .user-desc-body,
 .user-voucher-body,
-.user-notifies-body{
+.user-notifies-body {
   display: flex;
   text-align: start;
   padding: 3.2rem;
@@ -284,7 +284,7 @@ a {
   width: 2.5rem !important;
   height: 2.5rem !important;
   font-size: 0.8rem !important;
-  border-radius: 0.5rem ;
+  border-radius: 0.5rem;
   color: #000;
   background-color: #fff !important;
 }
@@ -293,9 +293,9 @@ a {
   height: 2.5rem !important;
   font-size: 0.9rem !important;
   border-radius: 0.5rem;
-  background-color: #E74040E5 !important;
+  background-color: #e74040e5 !important;
 }
-.operation-stack{
+.operation-stack {
   display: flex !important;
   flex-direction: column-reverse;
   height: 100%;
@@ -305,137 +305,127 @@ a {
   padding: 4rem 0;
 }
 
-.user-voucher-container{
+.user-voucher-container {
   width: 82rem;
   height: auto;
   margin-right: 4.3rem;
 }
 
-.voucher-item{
+.voucher-item {
   width: 71rem;
   flex-shrink: 0;
   border: 0.1rem;
   position: relative;
-  border: 1px solid #ACA3A3;
-  background: #F6F3F3;
+  border: 1px solid #aca3a3;
+  background: #f6f3f3;
   margin: 1.35rem 0;
   flex-direction: row;
 
   display: flex;
-  
 }
 
-.voucher_image{
+.voucher_image {
   width: 13rem;
   min-height: 12.7962rem;
   flex-shrink: 0;
   background-color: #6c6c6c;
-  background: #38AC8F;
+  background: #38ac8f;
   display: flex;
 }
 
-.voucher-infomation
-{
+.voucher-infomation {
   flex: 1;
   margin-left: 1.35rem;
   margin-top: 1.01rem;
   margin-bottom: 2.06rem;
   margin-right: 2.07rem;
   display: flex;
-  flex-direction:column;
-  justify-content: space-between; 
-  align-items: flex-start; 
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
   // gap: 1.3rem;
-
 }
 
-.voucher-line{
+.voucher-line {
   display: flex;
   justify-content: space-between; /* Đặt khoảng cách giữa voucher-percent và voucher-id */
   width: 100%;
   align-items: center;
 }
 
-.voucher-percent{
+.voucher-percent {
   color: #000;
-  justify-content: flex-start ;
+  justify-content: flex-start;
   align-self: flex-start;
   display: flex;
 }
 
-.voucher-detail{
+.voucher-detail {
   color: #000;
   font-size: 2rem;
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
-  justify-content: start;  
+  justify-content: start;
 }
 
-.voucher-id
-{
+.voucher-id {
   display: flex;
-  color: #ACA5A5;
+  color: #aca5a5;
   font-size: 1.8rem;
   font-weight: 400;
-  
-
 }
 
-.voucher-expired{
-  color: #F46969;
+.voucher-expired {
+  color: #f46969;
   font-size: 1.8rem;
 }
 
-.voucher-btn-use{
+.voucher-btn-use {
   width: 11.6474rem;
   height: 2.9333rem;
   flex-shrink: 0;
-  color: #FFF;
+  color: #fff;
   font-size: 1.6rem;
-  border: 1px solid #ACA3A3;
-  background: #38AC8F;
-  
+  border: 1px solid #aca3a3;
+  background: #38ac8f;
 }
 
-.user-notifies-container{
+.user-notifies-container {
   width: 82rem;
-flex-shrink: 0;
-background: #EEE;
-margin-left: 1.25rem;
+  flex-shrink: 0;
+  background: #eee;
+  margin-left: 1.25rem;
 }
 
-.notifies-item{
+.notifies-item {
   flex-direction: row;
-  border-bottom: 1px solid #ACA3A3;
-  background: #F6F3F3;
+  border-bottom: 1px solid #aca3a3;
+  background: #f6f3f3;
   padding: 2.1rem;
-
 }
 
-.notifies_image{
+.notifies_image {
   width: 13rem;
   min-height: 12.7962rem;
   flex-shrink: 0;
   display: flex;
-  background-color: #6c6c6c;
 }
 
-.notifies-infomation{
+.notifies-infomation {
   display: flex;
-  flex-direction:column;
-  align-items: flex-start; 
+  flex-direction: column;
+  align-items: flex-start;
   gap: 2.7rem;
 }
 
-.notifies-title{
+.notifies-title {
   color: #000;
   font-size: 2.5rem;
 }
 
-.notifies-detail{
-  color: #7A7272;
+.notifies-detail {
+  color: #7a7272;
   font-size: 2rem;
   font-weight: 400;
   display: flex;
-
 }

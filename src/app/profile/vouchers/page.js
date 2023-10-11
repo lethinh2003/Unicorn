@@ -1,42 +1,52 @@
-'use client'
-import { Stack, Button, Radio, Breadcrumbs,Typography,Link } from "@mui/material";
-import { useState } from "react";
-
+"use client";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Link,
+  Stack,
+  Typography,
+} from "@mui/material";
+import Image from "next/image";
 const USER_VOUCHER = [
   {
-    percent: "50",
+    percent: "30",
     voucherID: "ANANAN",
-    detail_voucher: "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
+    detail_voucher:
+      "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
+    expired: "1 ngày",
+  },
+  {
+    percent: "70",
+    voucherID: "ANANAN",
+    detail_voucher:
+      "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
+    expired: "1 ngày",
+  },
+  {
+    percent: "20",
+    voucherID: "ANANAN",
+    detail_voucher:
+      "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
     expired: "1 ngày",
   },
   {
     percent: "50",
     voucherID: "ANANAN",
-    detail_voucher: "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
+    detail_voucher:
+      "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
     expired: "1 ngày",
   },
   {
-    percent: "50",
+    percent: "70",
     voucherID: "ANANAN",
-    detail_voucher: "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
+    detail_voucher:
+      "Mã Giảm Giá Cho Lần Đầu Đăng Ký Tài Khoản Của Shop UniCorn ",
     expired: "1 ngày",
   },
-  
 ];
 
 export default function Voucher() {
-  const [voucher, setVoucher] = useState(USER_VOUCHER);
-
-  const handleSetDefault = (index) => {
-    const updatedVoucher = voucher.map((voucher, i) => {
-      return {
-        ...voucher,
-        isDefault: i === index,
-      };
-    });
-    setVoucher(updatedVoucher);
-  };
-
   return (
     <>
       <div className="redirect-title-container">
@@ -61,22 +71,39 @@ export default function Voucher() {
         </div>
         <div className="user-voucher-body">
           <Stack>
-          {voucher.map((voucher, index) => (
+            {USER_VOUCHER.map((voucher, index) => (
               <div key={index} className="voucher-item">
-                  
-                <div className="voucher_image">
-                  <img src="discount_coupon.png" alt="discountIcon" />
-                </div>
+                <Box className="voucher_image">
+                  <Box
+                    sx={{
+                      maxWidth: "5rem",
+                      minWidth: "5rem",
+                      margin: "0 auto",
+                      position: "relative",
+                    }}
+                  >
+                    <Image
+                      src="/voucher_icon.png"
+                      alt="me"
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </Box>
+                </Box>
 
                 <div className="voucher-infomation">
                   <div className="voucher-line">
-                    <div className="voucher-percent">Giảm {voucher.percent}%</div>
+                    <div className="voucher-percent">
+                      Giảm {voucher.percent}%
+                    </div>
                     <div className="voucher-id">Mã: {voucher.voucherID}</div>
                   </div>
                   <div className="voucher-detail">{voucher.detail_voucher}</div>
                   <div className="voucher-line">
-                    <div className="voucher-expired">Hết hạn sau: {voucher.expired}</div>
-                    <button className="voucher-btn-use">Dùng ngay</button>
+                    <div className="voucher-expired">
+                      Hết hạn sau: {voucher.expired}
+                    </div>
+                    <Button>Dùng ngay</Button>
                   </div>
                 </div>
               </div>
