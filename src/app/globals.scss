@@ -7,6 +7,12 @@
 html {
   font-size: 62.5%;
 }
+@media only screen and (max-width: 600px) {
+  html,
+  body {
+    font-size: 55.5%;
+  }
+}
 
 a {
   color: inherit;
@@ -489,14 +495,14 @@ a {
 //                                               New Product
 .home-product {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   place-items: center;
   gap: 3rem;
   padding: 3rem 0;
 }
 
 .home-product__items {
-  width: 25rem;
+  min-width: 25rem;
   height: 45rem;
   background-color: #ffffff;
   padding: 0;

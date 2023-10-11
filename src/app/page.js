@@ -1,3 +1,4 @@
+"use client";
 import { Box, Button, Checkbox, Container, Typography } from "@mui/material";
 
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
@@ -139,7 +140,11 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            marginTop: "10rem",
+          }}
+        >
           <Link href={"/"}>
             <Typography variant="h3" sx={TitleStyle} gutterBottom>
               SẢN PHẨM MỚI
@@ -228,7 +233,7 @@ export default function Home() {
             Xem thêm
           </Button>
         </Box>
-        <Box sx={{ marginTop: "4rem" }}>
+        <Box sx={{ marginTop: "10rem" }}>
           <Link href={"/"}>
             <Typography variant="h3" sx={TitleStyle} gutterBottom>
               SẢN PHẨM BÁN CHẠY
@@ -264,7 +269,7 @@ export default function Home() {
             Xem ngay
           </Button>
         </Box>
-        <Box sx={{ marginTop: "4rem" }}>
+        <Box sx={{ marginTop: "10rem" }}>
           <Link href={"/"}>
             <Typography variant="h3" sx={TitleStyle} gutterBottom>
               SALE ĐỒNG GIÁ
