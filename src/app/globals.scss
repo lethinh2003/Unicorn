@@ -108,7 +108,10 @@ a {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ACA3A3;
-  padding: 1rem 3rem;
+  padding: 2.5rem;
+}
+.favorite-producs-item:hover{
+  background-color: #f0f0f0;
 }
 .favorite-product-image{
   width: 18.4375rem;
@@ -116,11 +119,16 @@ a {
 }
 .favorite-product-desc{
   padding: 2rem 0;
+  text-overflow: ellipsis;
 }
 .favorite-product-name{
+  width: 65rem;
   font-size: 2.1875rem;
   font-style: normal;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
 }
 .favorite-product-color,
 .favorite-product-size{

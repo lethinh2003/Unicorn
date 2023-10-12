@@ -9,7 +9,8 @@ import Image from "next/image";
 const FAVORITE_PRODUCTS = [
   {
     product_id: "1",
-    product_name: "Áo thun tay ngắn nam",
+    product_name:
+      "Áo thun tay ngắn nam Áo thun tay ngắn nam Áo thun tay ngắn nam Áo thun tay ngắn nam Áo thun tay ngắn nam Áo thun tay ngắn nam Áo thun tay ngắn nam Áo thun tay ngắn nam",
     product_color: "Đen",
     product_size: "L",
     product_price: 100000,
@@ -72,7 +73,7 @@ export default function FavoriteProducts() {
           </div>
           <Stack className="favorite-producs" >
             {favorites.map((item) => (
-              <div className="favorite-producs-item" key={item.product_id}>
+              <Link href='#' className="favorite-producs-item" key={item.product_id}>
                 <Stack direction="row" spacing={6}>
                   <Image
                     src={item.product_image}
@@ -103,7 +104,7 @@ export default function FavoriteProducts() {
                     onClick={() => handleRemoveFavorite(item.product_id)}
                   />
                 </div>
-              </div>
+              </Link>
             ))}
           </Stack>
         </div>
