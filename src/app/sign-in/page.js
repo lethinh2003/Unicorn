@@ -1,8 +1,10 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
 import LoadingBox from "@/components/generals/LoadingBox";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import USER_MESSAGES from "@/configs/config.users.messages";
+import useAuth from "@/customHooks/useAuth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -26,16 +28,21 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
-function Login() {
+function Login({ session: session2 }) {
+  console.log(session2);
   const { data: session, status } = useSession(); // Next Auth
+  const { isAuthenticated } = useAuth();
 
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    console.log(session); // Check user is authenticated?
-  }, [session]);
+    // If user is authenticated then redirect to home page
+    if (isAuthenticated) {
+      router.push(ROUTERS_PATH.HOME_PAGE);
+    }
+  }, [isAuthenticated]);
 
   // form validation rules
   const validationSchema = Yup.object().shape({
