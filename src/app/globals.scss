@@ -279,12 +279,15 @@ text{
   display: flex;
   text-align: start;
   flex-direction: column;
+  
 }
 
 .review-item{
   display: flex;
   border-bottom: 0.5px solid #ccc;
   flex-direction: column;
+  margin: 1.9rem 0;
+  padding-bottom: 5.8rem;
 }
 
 .info-reviewer{
@@ -331,6 +334,14 @@ line-height: normal;
 
 }
 
+.respone-image{
+  display: flex;
+  overflow: hidden;
+  max-width: fit-content;
+  max-height: fit-content;
+  gap:4.5rem;
+}
+
 .More{
   display: flex;
     font-size: 1.25rem;
@@ -342,4 +353,9 @@ line-height: normal;
     align-content: center;
     justify-content: center;
     align-items: center;
+}
+
+.picture{
+  gap: 4.5rem;
+  display:flex;
 }

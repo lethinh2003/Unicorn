@@ -1,5 +1,5 @@
 'use client'
-import { Stack, Button, Radio, Breadcrumbs,Typography,Link } from "@mui/material";
+import { Stack,Typography,Link } from "@mui/material";
 import { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import * as React from 'react';
@@ -8,32 +8,9 @@ import Rating from '@mui/material/Rating';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
-
-  const USER_REVIEWS = [
-    {
-        avatar:"public\logo.png",
-        name:"TeaMee",
-        star:5,
-        color: "Đen",
-        size:"L",
-        comment: "Sản phẩm tuỵt zời khách hàng rất iu ",
-        picture:"public/review.png",
-      
-    },
-    {
-        name:"Tum",
-        star:5,
-        color: "Đen",
-        size:"L",
-        comment: "Sản phẩm tuỵt zời khách hàng rất iu ",
-        image:"public/review.png",
-        image:"public/review.png"
-      },
-    
-  ];
-
-  const RATING = [
+    const RATING = [
     {
         star:"5",
         numberofstar:5,
@@ -60,6 +37,31 @@ import PropTypes from 'prop-types';
     number:"0"
     }
   ];
+
+
+  const USER_REVIEWS = [
+    {
+        avatar:"/avatar.png",
+        name:"TeaMee",
+        star:5,
+        color: "Đen",
+        size:"L",
+        comment: "Sản phẩm tuỵt zời khách hàng rất iu ",
+        image:["/review.png","/review.png"],
+    },
+    {
+        avatar:"/avatar.png",
+        name:"Tum",
+        star:5,
+        color: "Đen",
+        size:"L",
+        comment: "Sản phẩm tuỵt zời khách hàng rất iu ",
+        image:[],
+      },
+    
+  ];
+
+
 
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -196,12 +198,18 @@ import PropTypes from 'prop-types';
                             <div className="comment">{review.comment}</div>
                             
                             <div className="respone-image">
-                              <img src={review.picture} alt="pc1" />
-                            </div>
-
-                          </div>
-
-                          
+                              {review.image.length > 0 && 
+                                review.image.map(image => (
+                                  <Image className="respone-image"
+                                    width={135}
+                                    height={203}
+                                    src={review.image}
+                                    alt="Picture of the author"
+                                  />
+                                ))
+                              },
+                            </div>                         
+                          </div>                          
                         </div>
                       ))}
                   </Stack>
