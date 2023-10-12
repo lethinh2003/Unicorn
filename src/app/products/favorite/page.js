@@ -1,6 +1,8 @@
 'use client'
 import { Container, Breadcrumbs, Typography, Stack,Checkbox } from "@mui/material";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Favorite from "@mui/icons-material/Favorite";
 import Link from "next/link";
 import Image from "next/image";
@@ -42,7 +44,7 @@ export default function FavoriteProducts() {
           (item) => item.product_id !== product_id
         );
         setFavorites(updatedFavorites);
-        console.log(favorites);
+        toast.success('Đã xóa khỏi danh sách yêu thích');
     }
 
   return (
