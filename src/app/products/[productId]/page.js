@@ -199,11 +199,11 @@ import Image from 'next/image';
                             
                             <div className="respone-image">
                               {review.image.length > 0 && 
-                                review.image.map(image => (
+                                review.image.map(img => (
                                   <Image className="respone-image"
                                     width={135}
                                     height={203}
-                                    src={review.image}
+                                    src={img}
                                     alt="Picture of the author"
                                   />
                                 ))
