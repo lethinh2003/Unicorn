@@ -104,8 +104,8 @@ a {
   text-align: center;
 }
 
-//                                               HOME PRODUCT
-//                                               New Product
+//////////////////////HOME PRODUCT///////////////////////////////
+//////////////////////New Product - Sale Off Product///////////////////////////////
 .home-product {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -173,4 +173,330 @@ a {
 
 .home-special-product-item:last-child {
   grid-area: h3;
+//////////////////////Profile Page///////////////////////////////
+
+.profile-infomation-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 9rem;
+}
+.redirect-title-container {
+  position: absolute;
+  z-index: 1;
+  top: -10rem;
+  left: 0rem;
+}
+.profile-page-header h1 {
+  text-transform: uppercase;
+  padding: 2rem 0 1.5rem 0;
+}
+
+.profile-page-header h3 {
+  padding-bottom: 3rem;
+}
+
+.user-nav {
+  width: 39rem;
+  height: 70rem;
+  background-color: #eee;
+}
+
+.user-avt-logout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.user-avt {
+  width: 9.5rem;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin: 3.75rem 0 1rem 0;
+  box-shadow: 1px 1px 2px #6c6c6c;
+}
+
+.user-name {
+  font-size: 2rem;
+}
+
+.logout-button {
+  width: 20rem !important;
+  height: 3.1rem !important;
+  color: #fff !important;
+  background-color: #fcaf17 !important;
+  font-size: 1.3rem !important;
+  margin: 1.5rem 0 5rem 0 !important;
+  border-radius: 2rem !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+}
+
+.nav-toggle-content {
+  width: 100%;
+  display: flex;
+  padding: 0.5rem 0 0.5rem 2rem;
+  align-items: center;
+  justify-content: start;
+}
+.toggle-button-text {
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: none !important;
+}
+
+.nav-toggle-content p {
+  margin: 0 0 0 2rem;
+}
+.toggle-link-nav {
+  display: flex;
+  width: 100% !important;
+  height: 100%;
+}
+.selected-button {
+  background-color: #c0ded7;
+  color: white;
+}
+.user-desc-header,
+.user-voucher-header,
+.user-notifies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #a1a1a1;
+  padding: 1rem 3.2rem;
+}
+
+.edit-infomation-button {
+  background-color: #38ac8f;
+  border-radius: 1rem !important;
+  text-transform: none !important;
+}
+
+.user-desc-text,
+.user-voucher-text,
+.voucher-percent,
+.voucher-detail,
+.voucher-id,
+.voucher-expired,
+.voucher-btn-use,
+.user-notifies-text,
+.notifies-title,
+.notifies-detail {
+  color: #38ac8f;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.edit-infomation-button:hover {
+  background-color: #53cfb0;
+}
+.user-desc-container,
+.user-voucher-container {
+  width: 74.7rem;
+  min-height: 70rem;
+  margin-left: 1.25rem;
+  background-color: #eee;
+}
+.user-desc-body,
+.user-voucher-body,
+.user-notifies-body {
+  display: flex;
+  text-align: start;
+  padding: 3.2rem;
+}
+.address-item,
+.notifies-item {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-title {
+  display: flex;
+  flex-direction: column;
+}
+.user-title .user-title-item {
+  padding: 1.5rem 0;
+  color: #747474;
+  font-size: 1.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.user-desc-value {
+  margin-left: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+.user-desc-value .user-desc-value-item {
+  padding: 1.5rem 0;
+  color: #000;
+  font-size: 1.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.address-operation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: end !important;
+  margin-left: 5rem;
+}
+.address-operation .edit-address-button {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  font-size: 0.8rem !important;
+  border-radius: 0.5rem;
+  color: #000;
+  background-color: #fff !important;
+}
+.address-operation .delete-address-button {
+  width: 2rem !important;
+  height: 2.5rem !important;
+  font-size: 0.9rem !important;
+  border-radius: 0.5rem;
+  background-color: #e74040e5 !important;
+}
+.operation-stack {
+  display: flex !important;
+  flex-direction: column-reverse;
+  height: 100%;
+  justify-content: space-between;
+  text-align: center;
+  align-items: start;
+  padding: 4rem 0;
+}
+
+.user-voucher-container {
+  width: 82rem;
+  height: auto;
+  margin-right: 4.3rem;
+}
+
+.voucher-item {
+  width: 71rem;
+  flex-shrink: 0;
+  border: 0.1rem;
+  position: relative;
+  border: 1px solid #aca3a3;
+  background: #f6f3f3;
+  margin: 1.35rem 0;
+  flex-direction: row;
+
+  display: flex;
+}
+
+.voucher_image {
+  width: 13rem;
+  min-height: 12.7962rem;
+  flex-shrink: 0;
+  background-color: #6c6c6c;
+  background: #38ac8f;
+  display: flex;
+}
+
+.voucher-infomation {
+  flex: 1;
+  margin-left: 1.35rem;
+  margin-top: 1.01rem;
+  margin-bottom: 2.06rem;
+  margin-right: 2.07rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  // gap: 1.3rem;
+}
+
+.voucher-line {
+  display: flex;
+  justify-content: space-between; /* Đặt khoảng cách giữa voucher-percent và voucher-id */
+  width: 100%;
+  align-items: center;
+}
+
+.voucher-percent {
+  color: #000;
+  justify-content: flex-start;
+  align-self: flex-start;
+  display: flex;
+}
+
+.voucher-detail {
+  color: #000;
+  font-size: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.voucher-id {
+  display: flex;
+  color: #aca5a5;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.voucher-expired {
+  color: #f46969;
+  font-size: 1.8rem;
+}
+
+.voucher-btn-use {
+  width: 11.6474rem;
+  height: 2.9333rem;
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 1.6rem;
+  border: 1px solid #aca3a3;
+  background: #38ac8f;
+}
+
+.user-notifies-container {
+  width: 82rem;
+  flex-shrink: 0;
+  background: #eee;
+  margin-left: 1.25rem;
+}
+
+.notifies-item {
+  flex-direction: row;
+  border-bottom: 1px solid #aca3a3;
+  background: #f6f3f3;
+  padding: 2.1rem;
+}
+
+.notifies_image {
+  width: 13rem;
+  min-height: 12.7962rem;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.notifies-infomation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.7rem;
+}
+
+.notifies-title {
+  color: #000;
+  font-size: 2.5rem;
+}
+
+.notifies-detail {
+  color: #7a7272;
+  font-size: 2rem;
+  font-weight: 400;
+  display: flex;
 }
