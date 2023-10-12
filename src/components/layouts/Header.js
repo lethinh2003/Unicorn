@@ -135,11 +135,13 @@ const Header = () => {
                 fontSize: "2.5rem",
               }}
             ></FavoriteBorderIcon>
-            <ShoppingBagOutlinedIcon
-              sx={{
-                fontSize: "2.5rem",
-              }}
-            ></ShoppingBagOutlinedIcon>
+            <Link href="/cart">
+              <ShoppingBagOutlinedIcon
+                sx={{
+                  fontSize: "2.5rem",
+                }}
+              ></ShoppingBagOutlinedIcon>
+            </Link>
             <Link href="/sign-in">
               <PersonOutlineOutlinedIcon
                 sx={{

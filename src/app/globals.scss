@@ -13,6 +13,22 @@ a {
   text-decoration: none;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+:root {
+  // Color
+  --Teal-Color: #38ac8f;
+  --Border-Taupe-Color: #aca3a3;
+  --Black-Color: #000000;
+}
+
 //                                               LOGIN - FORGOT PASSWORD - REGISTER
 .login-container,
 .forgot-password-container,
@@ -21,7 +37,7 @@ a {
   height: 80rem;
   background-color: #f5f5f5;
   border-radius: 1rem;
-  box-shadow: 1px 0 2px #000;
+  box-shadow: 1px 0 2px var(--Black-Color);
 }
 
 .forgot-password-container {
@@ -31,13 +47,12 @@ a {
   left: 50%;
   transform: translateX(-50%);
   border-radius: 1rem;
-  box-shadow: 1px 0 2px #000;
+  box-shadow: 1px 0 2px var(--Black-Color);
 }
 
 .login-left-panel,
 .forgot-password-panel,
 .register-right-panel {
-  width: 67rem;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -59,7 +74,7 @@ a {
 .login-left-panel-header .login-title,
 .forgot-password-panel-header .forgot-password-title,
 .register-right-panel-header .register-title {
-  color: #38ac8f;
+  color: var(--Teal-Color);
   font-size: 5rem;
   font-weight: bold;
 }
@@ -119,7 +134,7 @@ a {
   height: 45rem;
   background-color: #ffffff;
   padding: 0;
-  border: 0.05rem solid #000000;
+  border: 0.05rem solid var(--Black-Color);
   box-shadow: 0.1rem 0.1rem 0.1rem 0 #333333;
 }
 
@@ -173,6 +188,7 @@ a {
 
 .home-special-product-item:last-child {
   grid-area: h3;
+}
 //////////////////////Profile Page///////////////////////////////
 
 .profile-infomation-container {
@@ -187,6 +203,7 @@ a {
   top: -10rem;
   left: 0rem;
 }
+
 .profile-page-header h1 {
   text-transform: uppercase;
   padding: 2rem 0 1.5rem 0;
@@ -273,7 +290,7 @@ a {
 }
 
 .edit-infomation-button {
-  background-color: #38ac8f;
+  background-color: var(--Teal-Color);
   border-radius: 1rem !important;
   text-transform: none !important;
 }
@@ -288,7 +305,7 @@ a {
 .user-notifies-text,
 .notifies-title,
 .notifies-detail {
-  color: #38ac8f;
+  color: var(--Teal-Color);
   font-size: 2.5rem;
   font-style: normal;
   font-weight: 600;
@@ -337,7 +354,7 @@ a {
 }
 .user-desc-value .user-desc-value-item {
   padding: 1.5rem 0;
-  color: #000;
+  color: var(--Black-Color);
   font-size: 1.7rem;
   font-style: normal;
   font-weight: 500;
@@ -356,7 +373,7 @@ a {
   height: 2.5rem !important;
   font-size: 0.8rem !important;
   border-radius: 0.5rem;
-  color: #000;
+  color: var(--Black-Color);
   background-color: #fff !important;
 }
 .address-operation .delete-address-button {
@@ -387,7 +404,7 @@ a {
   flex-shrink: 0;
   border: 0.1rem;
   position: relative;
-  border: 1px solid #aca3a3;
+  border: 1px solid var(--Border-Taupe-Color);
   background: #f6f3f3;
   margin: 1.35rem 0;
   flex-direction: row;
@@ -400,7 +417,7 @@ a {
   min-height: 12.7962rem;
   flex-shrink: 0;
   background-color: #6c6c6c;
-  background: #38ac8f;
+  background: var(--Teal-Color);
   display: flex;
 }
 
@@ -414,7 +431,6 @@ a {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  // gap: 1.3rem;
 }
 
 .voucher-line {
@@ -425,14 +441,14 @@ a {
 }
 
 .voucher-percent {
-  color: #000;
+  color: var(--Black-Color);
   justify-content: flex-start;
   align-self: flex-start;
   display: flex;
 }
 
 .voucher-detail {
-  color: #000;
+  color: var(--Black-Color);
   font-size: 2rem;
   display: flex;
   flex-wrap: wrap;
@@ -457,8 +473,8 @@ a {
   flex-shrink: 0;
   color: #fff;
   font-size: 1.6rem;
-  border: 1px solid #aca3a3;
-  background: #38ac8f;
+  border: 1px solid var(--Border-Taupe-Color);
+  background: var(--Teal-Color);
 }
 
 .user-notifies-container {
@@ -470,7 +486,7 @@ a {
 
 .notifies-item {
   flex-direction: row;
-  border-bottom: 1px solid #aca3a3;
+  border-bottom: 1px solid var(--Border-Taupe-Color);
   background: #f6f3f3;
   padding: 2.1rem;
 }
@@ -490,7 +506,7 @@ a {
 }
 
 .notifies-title {
-  color: #000;
+  color: var(--Black-Color);
   font-size: 2.5rem;
 }
 
@@ -500,3 +516,116 @@ a {
   font-weight: 400;
   display: flex;
 }
+
+////////////////////// CART ///////////////////////////////
+.cart-container {
+  display: flex;
+  height: 55rem;
+  background-color: #f5f5f5;
+  border-radius: 1rem;
+  box-shadow: 1px 0 2px var(--Black-Color);
+  overflow-y: hidden;
+  margin-bottom: 2rem;
+}
+
+.cart-left-panel {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 6rem 2rem;
+  width: 65%;
+  height: 100%;
+}
+
+.cart-right-panel {
+  background-color: var(--Teal-Color);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 6rem 4rem;
+  width: 35%;
+  height: 100%;
+}
+
+.cart-left-panel-header,
+.cart-right-panel-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  align-items: center;
+  border-bottom: .1rem solid var(--Border-Taupe-Color);
+}
+
+.cart-left-panel-title,
+.cart-right-panel-title {
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+.cart-left-panel-quantity {
+  font-size: 2.5rem;
+  font-weight: 600;
+  transform: translateY(25%);
+  height: 100%;
+}
+
+.cart-right-panel-body,
+.cart-right-panel-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem 0;
+}
+
+
+
+.cart-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.cart-empty img {
+  width: 35%;
+  margin: 2rem 0;
+}
+.cart-empty p {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #BFBBBB;
+  font-weight: 500;
+}
+
+.cart-right-panel-merchandises,
+.cart-right-panel-sale-offs,
+.cart-right-panel-totals  {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.cart-right-panel-sale-off-price, 
+.cart-right-panel-merchandise,
+.cart-right-panel-total-price, 
+.cart-right-panel-sale-off,
+.cart-right-panel-price,
+.cart-right-panel-total {
+  font-size: 2.5rem;
+  font-weight: 600;
+  transform: translateY(25%);
+  height: 100%;
+  color: #fff;
+}
+
+
+
+
+
+
+
+
