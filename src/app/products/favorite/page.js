@@ -102,7 +102,7 @@ export default function FavoriteProducts() {
                 <div className="favorite-control">
                   <Checkbox
                     checked
-                    checkedIcon={<Favorite sx={{ color: "#f44336", fontSize:30 }} />}
+                    checkedIcon={<Favorite sx={{ color: "#f44336", fontSize:40 }} />}
                     onClick={() => handleRemoveFavorite(item.product_id)}
                   />
                 </div>
