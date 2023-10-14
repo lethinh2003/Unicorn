@@ -1,19 +1,20 @@
-'use client'
-import React, { useState } from "react";
-import ListSubheader from "@mui/material/ListSubheader";
+"use client";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Stack } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import Collapse from "@mui/material/Collapse";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import LoadingBox from "@/components/generals/LoadingBox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { Stack } from "@mui/material";
+import ListSubheader from "@mui/material/ListSubheader";
 import axios from "axios";
+import { useState } from "react";
 import { useQuery } from "react-query";
+
+const GENDER = "men";
 
 const filterPrice = [
   "Nhỏ hơn 100.000đ",
@@ -24,17 +25,15 @@ const filterPrice = [
   "Trên 700.000 đ",
 ];
 
-const categoriesQuery = async () => {
+const categoriesQuery = async (GENDER) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=men`
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=${GENDER}`
     );
-    const data = response.data.data.filter(
-      (category) => category.product_category_gender !== "women"
-    );
+    const data = response.data.data;
     return data;
   } catch (err) {
-    throw err;
+    console.error(err);
   }
 };
 
@@ -66,7 +65,7 @@ export default function Filter() {
     error: categoriesError,
     isError: isCategoriesError,
     isLoading: isCategoriesLoading,
-  } = useQuery(["category"], categoriesQuery);
+  } = useQuery(["category", GENDER], () => categoriesQuery(GENDER));
 
   const {
     data: sizes,
@@ -98,7 +97,7 @@ export default function Filter() {
         <ListSubheader component="div" id="nested-list-subheader">
           Nam
         </ListSubheader>
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <div key={category._id}>
             <ListItemButton
               onClick={() => handleToggle(category._id)}
@@ -130,7 +129,7 @@ export default function Filter() {
         </ListItemButton>
         <Collapse in={open["colors"]} timeout="auto" unmountOnExit>
           <div className="colors-filler-container">
-            {colors.map((color) => (
+            {colors?.map((color) => (
               <Stack direction="row" spacing={1} className="color-selection">
                 <div
                   className="color-point"
@@ -155,7 +154,7 @@ export default function Filter() {
         </ListItemButton>
         <Collapse in={open["sizes"]} timeout="auto" unmountOnExit>
           <div className="sizes-filter-container">
-            {sizes.map((size) => (
+            {sizes?.map((size) => (
               <span className="size-item">{size.product_size_name}</span>
             ))}
           </div>
@@ -168,11 +167,11 @@ export default function Filter() {
           {open["price"] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </ListItemButton>
         <Collapse in={open["price"]} timeout="auto" unmountOnExit>
-          <FormGroup sx={{paddingLeft:1}}>
-            {filterPrice.map((price,index) => (
+          <FormGroup sx={{ paddingLeft: 1 }}>
+            {filterPrice.map((price, index) => (
               <FormControlLabel
-              key={index}
-                control={<Checkbox/>}
+                key={index}
+                control={<Checkbox />}
                 label={price}
               />
             ))}

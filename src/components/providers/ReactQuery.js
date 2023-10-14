@@ -1,10 +1,21 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "react-query";
-const queryClient = new QueryClient();
+import { ReactQueryDevtools } from "react-query/devtools";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      cacheTime: Infinity,
+    },
+  },
+});
 
 const ReactQueryProvider = ({ children }) => {
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      {children}
+    </QueryClientProvider>
   );
 };
 export default ReactQueryProvider;
