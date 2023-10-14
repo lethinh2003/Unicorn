@@ -14,8 +14,8 @@ import {
     TableContainer,
 } from '@mui/material';
 import Link from 'next/link';
-import { toast } from "react-toastify";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import LoadingBox from "@/components/generals/LoadingBox";
 
 //fake data san pham
@@ -69,15 +69,14 @@ const PRODUCTS_CART = [
 
 function Cart() {
     const [products, setProducts] = useState(PRODUCTS_CART)
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handlePayMent = () => {
+    const [isLoading, setIsLoading] = useState(false)
+    const Router = useRouter()
+    const handleContinue = () => {
         setIsLoading(true)
         setTimeout(() => {
-            setProducts([])
             setIsLoading(false)
         },500)
-        toast.success('Thanh toán thành công');
+        Router.push('/cart/payment')
     }
 
     const handleChangeQuantity = (value = 0, product_id = 0) => {
@@ -338,7 +337,7 @@ function Cart() {
                                     filter: 'brightness(1.5)'
                                 }
                             }}
-                            onClick={() => handlePayMent()}>Thanh toán</Button>
+                            onClick={() => handleContinue()}>Tiếp tục</Button>
                     </div>
                 </div>
             </div>
