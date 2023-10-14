@@ -124,6 +124,10 @@ a {
   left: 0rem;
 }
 .profile-page-header h1 {
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   text-transform: uppercase;
   padding: 2rem 0 1.5rem 0;
 }
@@ -560,4 +564,125 @@ a {
 
 .home-special-product-item:last-child {
   grid-area: h3;
+}
+////////////////////////////Filters //////////////////////////
+.filter-container {
+  margin-top: 4rem;
+  width: 25rem;
+}
+#nested-list-subheader {
+  color: #000;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.colors-filler-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.color-selection {
+  background-color: #eee;
+  padding: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+}
+.sizes-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.size-item {
+  background-color: #eee;
+  padding: 1rem;
+  margin: 0.5rem;
+  width: 5rem;
+  text-align: center;
+  cursor: pointer;
+}
+///////////////////Products //////////////////////////////
+.header-image {
+  width: 100%;
+  height: auto;
+}
+.product-page-title-text {
+  color: #000;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.products-page-header {
+  margin: 4rem 0 -4rem 0;
+}
+.products-page-header-title {
+  color: #000;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.product-item-container {
+  margin: 0 0 0.5rem 0;
+}
+.products-item-wrap {
+  gap: 1.8rem;
+  align-items: center;
+}
+.products-item {
+  flex-basis: 32%;
+  margin: 4rem 0 0 0;
+  position: relative;
+  padding: 1rem 0;
+  cursor: pointer;
+}
+.products-item:hover {
+  box-shadow: 0 2px 2px 1px #ccc;
+}
+.product-item-image {
+  width: 100%;
+  height: auto;
+}
+.product-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1rem;
+}
+.product-item-name {
+  color: #000;
+  height: 7rem;
+  font-size: 2.3rem;
+  font-weight: 500;
+  overflow: hidden;
+  max-width: 100%;
+  padding-bottom: 1rem;
+  letter-spacing: 1px;
+}
+.product-item-price {
+  color: #000;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+////////Totop button //////////////////////////////////
+.to-top-button {
+  position: fixed !important;
+  width: 3.5rem !important;
+  height: 3rem !important;
+  border-radius: 0;
+  bottom: 5rem;
+  right: 1rem;
+  background-color: #ffffff !important;
+  color: #38ac8f !important;
+}
+.viewmore {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 0 0;
 }
