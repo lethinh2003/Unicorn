@@ -1,12 +1,18 @@
-'use client'
-import { Container, Breadcrumbs, Typography, Stack,Checkbox } from "@mui/material";
-import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+"use client";
+import { ConvertMoney } from "@/utils/convertMoney";
 import Favorite from "@mui/icons-material/Favorite";
-import Link from "next/link";
+import {
+  Breadcrumbs,
+  Checkbox,
+  Container,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
-
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FAVORITE_PRODUCTS = [
   {
@@ -37,15 +43,15 @@ const FAVORITE_PRODUCTS = [
 ];
 
 export default function FavoriteProducts() {
-    const [favorites, setFavorites] = useState(FAVORITE_PRODUCTS);
+  const [favorites, setFavorites] = useState(FAVORITE_PRODUCTS);
 
-    const handleRemoveFavorite = (product_id) => {
-        const updatedFavorites = favorites.filter(
-          (item) => item.product_id !== product_id
-        );
-        setFavorites(updatedFavorites);
-        toast.success('Đã xóa khỏi danh sách yêu thích');
-    }
+  const handleRemoveFavorite = (product_id) => {
+    const updatedFavorites = favorites.filter(
+      (item) => item.product_id !== product_id
+    );
+    setFavorites(updatedFavorites);
+    toast.success("Đã xóa khỏi danh sách yêu thích");
+  };
 
   return (
     <div className="favorite-container">
@@ -70,12 +76,18 @@ export default function FavoriteProducts() {
         <div className="favorite-content">
           <div className="favorite-content-header">
             <span className="favorite-products-quantity">
-              {favorites.length !== 0 ? favorites.length + ' sản phẩm' : 'Không có sản phẩm nào'}
+              {favorites.length !== 0
+                ? favorites.length + " sản phẩm"
+                : "Không có sản phẩm nào"}
             </span>
           </div>
-          <Stack className="favorite-producs" >
+          <Stack className="favorite-producs">
             {favorites.map((item) => (
-              <Link href='#' className="favorite-producs-item" key={item.product_id}>
+              <Link
+                href="#"
+                className="favorite-producs-item"
+                key={item.product_id}
+              >
                 <Stack direction="row" spacing={6}>
                   <Image
                     src={item.product_image}
@@ -95,14 +107,16 @@ export default function FavoriteProducts() {
                       Kích cỡ: {item.product_size}
                     </span>
                     <span className="favorite-product-price">
-                      {item.product_price}đ
+                      <ConvertMoney money={item.product_price} />đ
                     </span>
                   </Stack>
                 </Stack>
                 <div className="favorite-control">
                   <Checkbox
                     checked
-                    checkedIcon={<Favorite sx={{ color: "#f44336", fontSize:40 }} />}
+                    checkedIcon={
+                      <Favorite sx={{ color: "#f44336", fontSize: 40 }} />
+                    }
                     onClick={() => handleRemoveFavorite(item.product_id)}
                   />
                 </div>
