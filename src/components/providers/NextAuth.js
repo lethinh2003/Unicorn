@@ -1,11 +1,9 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 
-const NextAuthProvider = ({ children, session }) => {
+const NextAuthProvider = ({ children }) => {
   return (
-    <SessionProvider refetchOnWindowFocus={false} session={session}>
-      {children}
-    </SessionProvider>
+    <SessionProvider refetchOnWindowFocus={false}>{children}</SessionProvider>
   );
 };
 export default NextAuthProvider;
