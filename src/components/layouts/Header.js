@@ -1,4 +1,6 @@
 "use client";
+import ROUTERS_PATH from "@/configs/config.routers.path";
+import useAuth from "@/customHooks/useAuth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,11 +10,17 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 const Header = () => {
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const handleLoginClick = () => {
-    router.push("/login");
+  const handleClickProfileButton = () => {
+    if (isAuthenticated) {
+      // Redirect to profile page
+      router.push(ROUTERS_PATH.PROFILE);
+    } else {
+      // Redirect to sign in page
+      router.push(ROUTERS_PATH.SIGN_IN);
+    }
   };
   return (
     <>
@@ -40,7 +48,7 @@ const Header = () => {
             flex: 1,
           }}
         >
-          <Link href="/">
+          <Link href={ROUTERS_PATH.HOME_PAGE}>
             <Box
               sx={{
                 display: "flex",
