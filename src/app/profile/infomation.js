@@ -1,4 +1,6 @@
-import { Stack, Button,Breadcrumbs,Typography,Link } from "@mui/material";
+"use client";
+import useAuth from "@/customHooks/useAuth";
+import { Breadcrumbs, Button, Link, Typography } from "@mui/material";
 
 const initInfo = {
   name: "Nguyễn Nhật Anh",
@@ -9,6 +11,8 @@ const initInfo = {
 };
 
 export default function Infomation() {
+  const { isAuthenticated, session } = useAuth();
+
   return (
     <div className="infomation-container">
       <div className="redirect-title-container">
@@ -30,20 +34,20 @@ export default function Infomation() {
           <Button className="edit-infomation-button">Sửa thông tin</Button>
         </div>
         <div className="user-desc-body">
-            <div className="user-title">
-              <span className="user-title-item">Họ và tên:</span>
-              <span className="user-title-item">Email:</span>
-              <span className="user-title-item">Ngày sinh</span>
-              <span className="user-title-item">Giới tính</span>
-              <span className="user-title-item">Số điện thoại</span>
-            </div>
-            <div className="user-desc-value">
-              <span className="user-desc-value-item">{initInfo.name}</span>
-              <span className="user-desc-value-item">{initInfo.email}</span>
-              <span className="user-desc-value-item">{initInfo.birthday}</span>
-              <span className="user-desc-value-item">{initInfo.gender}</span>
-              <span className="user-desc-value-item">{initInfo.phone}</span>
-            </div>
+          <div className="user-title">
+            <span className="user-title-item">Họ và tên:</span>
+            <span className="user-title-item">Email:</span>
+            <span className="user-title-item">Ngày sinh</span>
+            <span className="user-title-item">Giới tính</span>
+            <span className="user-title-item">Số điện thoại</span>
+          </div>
+          <div className="user-desc-value">
+            <span className="user-desc-value-item">{initInfo.name}</span>
+            <span className="user-desc-value-item">{session?.user?.email}</span>
+            <span className="user-desc-value-item">{initInfo.birthday}</span>
+            <span className="user-desc-value-item">{initInfo.gender}</span>
+            <span className="user-desc-value-item">{initInfo.phone}</span>
+          </div>
         </div>
       </div>
     </div>

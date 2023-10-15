@@ -4,6 +4,8 @@ const ROUTERS_PATH = {
   SIGN_UP: "/sign-up",
   FORGOT_PASSWORD: "/forgot-password",
   PROFILE: "/profile",
+  CART: "/cart",
+  FAVORITE_PRODUCT: "/products/favorite",
 };
 
 export default ROUTERS_PATH;

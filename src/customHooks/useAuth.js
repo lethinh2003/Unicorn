@@ -23,6 +23,6 @@ const useAuth = () => {
     }
   }, [session]);
 
-  return { isAuthenticated };
+  return { isAuthenticated, session };
 };
 export default useAuth;

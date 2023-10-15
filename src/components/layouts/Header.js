@@ -138,7 +138,7 @@ const Header = () => {
               gap: "1rem",
             }}
           >
-            <Link href="/products/favorite">
+            <Link href={ROUTERS_PATH.FAVORITE_PRODUCT}>
               <FavoriteBorderIcon
                 sx={{
                   fontSize: "2.5rem",
@@ -146,20 +146,21 @@ const Header = () => {
               ></FavoriteBorderIcon>
             </Link>
 
-            <Link href="/cart">
+            <Link href={ROUTERS_PATH.CART}>
               <ShoppingBagOutlinedIcon
                 sx={{
                   fontSize: "2.5rem",
                 }}
               ></ShoppingBagOutlinedIcon>
             </Link>
-            <Link href="/sign-in">
+            <Box onClick={handleClickProfileButton}>
               <PersonOutlineOutlinedIcon
                 sx={{
                   fontSize: "2.5rem",
+                  cursor: "pointer",
                 }}
               ></PersonOutlineOutlinedIcon>
-            </Link>
+            </Box>
           </Box>
         </Box>
       </Box>

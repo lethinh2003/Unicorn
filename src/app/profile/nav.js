@@ -7,11 +7,11 @@ import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutl
 import { Button } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-
 const IconArray = [
   {
     label: "Tài khoản của tôi",
@@ -48,6 +48,9 @@ const IconArray = [
 export default function ProfileNav() {
   const [view, setView] = useState("list");
   const pathName = usePathname();
+  const handleClickSignOut = async () => {
+    signOut();
+  };
 
   return (
     <div className="container">
@@ -62,7 +65,9 @@ export default function ProfileNav() {
               className="user-avt"
             ></Image>
             <span className="user-name">Na</span>
-            <Button className="logout-button">Đăng xuất</Button>
+            <Button className="logout-button" onClick={handleClickSignOut}>
+              Đăng xuất
+            </Button>
           </div>
           <div className="nav-infomation">
             <ToggleButtonGroup
