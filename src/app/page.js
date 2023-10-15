@@ -1,6 +1,12 @@
-"use client";
-import { Box, Button, Checkbox, Container, Typography } from "@mui/material";
-
+'use client'
+import {
+  Box,
+  Button,
+  Checkbox,
+  ImageList,
+  Container,
+  Typography,
+} from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
