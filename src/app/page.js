@@ -228,7 +228,7 @@ export default function Home() {
                 backgroundColor: "#000000",
               },
             }}
-            onClick={() => Router.push("/")}
+            onClick={() => Router.push("/products")}
           >
             Xem thêm
           </Button>
@@ -264,7 +264,7 @@ export default function Home() {
                 backgroundColor: "#000000",
               },
             }}
-            onClick={() => Router.push("/")}
+            onClick={() => Router.push("/products")}
           >
             Xem ngay
           </Button>
@@ -349,7 +349,7 @@ export default function Home() {
                 backgroundColor: "#000000",
               },
             }}
-            onClick={() => Router.push("/")}
+            onClick={() => Router.push("/products")}
           >
             Xem thêm
           </Button>
