@@ -130,11 +130,13 @@ const Header = () => {
               gap: "1rem",
             }}
           >
-            <FavoriteBorderIcon
-              sx={{
-                fontSize: "2.5rem",
-              }}
-            ></FavoriteBorderIcon>
+            <Link href="/products/favorite">
+              <FavoriteBorderIcon
+                sx={{
+                  fontSize: "2.5rem",
+                }}
+              ></FavoriteBorderIcon>
+            </Link>
             <ShoppingBagOutlinedIcon
               sx={{
                 fontSize: "2.5rem",

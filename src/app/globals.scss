@@ -809,3 +809,63 @@ text {
   gap: 4.5rem;
   display: flex;
 }
+/////////////////////////////////////Favorite products page////////////////////////////////\
+.favorite-header {
+  padding-bottom: 2.5rem;
+}
+.favorite-page-header-title {
+  padding-top: 2rem;
+}
+.favorite-content {
+  border-top: 1px solid #aca3a3;
+  border-left: 1px solid #aca3a3;
+  border-right: 1px solid #aca3a3;
+}
+.favorite-content-header {
+  border-bottom: 1px solid #aca3a3;
+  padding: 1rem 3rem;
+}
+.favorite-products-quantity {
+  color: #797979;
+  font-weight: 600;
+}
+.favorite-producs-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #aca3a3;
+  padding: 2.5rem;
+}
+.favorite-producs-item:hover {
+  background-color: #f0f0f0;
+}
+.favorite-product-image {
+  width: 18.4375rem;
+  height: auto;
+}
+.favorite-product-desc {
+  padding: 2rem 0;
+  text-overflow: ellipsis;
+}
+.favorite-product-name {
+  width: 65rem;
+  font-size: 2.1875rem;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.favorite-product-color,
+.favorite-product-size {
+  font-size: 1.5625rem;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
+}
+.favorite-product-price {
+  color: rgba(231, 64, 64, 0.9);
+  font-size: 2.1875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
