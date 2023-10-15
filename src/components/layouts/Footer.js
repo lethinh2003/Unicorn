@@ -123,18 +123,11 @@ const Footer = () => {
           sx={{
             width: "100%",
             height: "300px",
+            background:
+              "url(/footer_background.webp) no-repeat center center fixed",
+            backgroundSize: "cover",
           }}
-        >
-          <img
-            src="/footer_background.webp"
-            alt="Footer image"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </Box>
+        ></Box>
       </Box>
     </>
   );

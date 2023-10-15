@@ -158,7 +158,7 @@ export default function Home() {
             {Products.map((item) => {
               return (
                 <Link
-                  href={"/"}
+                  href={"/products/test"}
                   className="home-product__items"
                   style={{ position: "relative" }}
                 >
@@ -279,7 +279,7 @@ export default function Home() {
             {Products.map((item) => {
               return (
                 <Link
-                  href={"/"}
+                  href={"/products/test"}
                   className="home-product__items"
                   style={{ position: "relative" }}
                 >
