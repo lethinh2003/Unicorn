@@ -5,12 +5,18 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography,Stack } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import HeaderNavigation from "./HeaderNavigation";
+import { useState } from "react";
+
 const Header = () => {
+  const [isMenHover, setIsMenHover] = useState(false);
+  const [isWomenHover, setIsWomenHover] = useState(false);
+
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const handleClickProfileButton = () => {
@@ -22,6 +28,23 @@ const Header = () => {
       router.push(ROUTERS_PATH.SIGN_IN);
     }
   };
+
+  const handleMenMouseEnter = () => {
+    setIsMenHover(true);
+  };
+
+  const handleMenMouseLeave = () => {
+    setIsMenHover(false);
+  };
+
+  const handleWomenMouseEnter = () => {
+    setIsWomenHover(true);
+  };
+
+  const handleWomenMouseLeave = () => {
+    setIsWomenHover(false);
+  };
+
   return (
     <>
       <Box
@@ -81,16 +104,30 @@ const Header = () => {
             <Box
               sx={{
                 paddingLeft: "2rem",
+                cursor: "pointer",
               }}
+              onMouseEnter={handleMenMouseEnter}
+              onMouseLeave={handleMenMouseLeave}
             >
-              Nam
+              <Stack>
+                <span className="category-gender-button">Nam</span>
+                <div className="header-men-categories">
+                  {isMenHover && <HeaderNavigation GENDER="men" />}
+                </div>
+              </Stack>
             </Box>
             <Box
               sx={{
                 paddingLeft: "3rem",
+                cursor: "pointer",
               }}
+              onMouseEnter={handleWomenMouseEnter}
+              onMouseLeave={handleWomenMouseLeave}
             >
-              Nữ
+              <span className="category-gender-button">Nữ</span>
+              <div className="header-women-categories">
+                {isWomenHover && <HeaderNavigation GENDER="women" />}
+              </div>
             </Box>
             <Box
               sx={{

@@ -1247,3 +1247,54 @@ text {
   align-self: center;
   text-align: end;
 }
+
+////////////////////////////////// HEADER NAVIGATION //////////////////////////////////
+.header-navigation-container {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  margin-top: 0rem;
+  padding: 2rem 6rem;
+  height: 75vh;
+}
+.header-men-categories {
+  width: 100%;
+  margin-left: -18.45rem;
+}
+.header-women-categories {
+  width: 100%;
+  margin-left: -27.5rem;
+}
+.categories-item-container {
+  gap: 1.5rem;
+}
+.categories-item {
+  text-align: center !important;
+  flex-basis: 30%;
+}
+.category-name {
+  padding-left: 1rem;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
+}
+.child-category-name{
+  padding: 0;
+}
+.child-category-name:hover{
+  color: #38ac8f;
+}
+.loading-progress{
+  color: #38ac8f !important;
+  position: absolute;
+  top: 15rem;
+  font-size: 10rem !important;
+}
+.category-gender-button{
+  transition: 0.2s ease-in-out;
+}
+.category-gender-button:hover{
+  letter-spacing: 1px;
+  color: #38ac8f !important;
+}
