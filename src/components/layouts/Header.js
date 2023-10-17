@@ -10,16 +10,19 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import BasicPopover from "./ProfileOption";
+
+
 const Header = () => {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const handleClickProfileButton = () => {
     if (isAuthenticated) {
       // Redirect to profile page
-      router.push(ROUTERS_PATH.PROFILE);
+      //router.push(ROUTERS_PATH.PROFILE);
     } else {
       // Redirect to sign in page
-      router.push(ROUTERS_PATH.SIGN_IN);
+      //  router.push(ROUTERS_PATH.SIGN_IN);
     }
   };
   return (
@@ -154,12 +157,14 @@ const Header = () => {
               ></ShoppingBagOutlinedIcon>
             </Link>
             <Box onClick={handleClickProfileButton}>
+            <BasicPopover>
               <PersonOutlineOutlinedIcon
                 sx={{
                   fontSize: "2.5rem",
                   cursor: "pointer",
                 }}
-              ></PersonOutlineOutlinedIcon>
+              />
+                </BasicPopover>
             </Box>
           </Box>
         </Box>
