@@ -4,6 +4,10 @@ const ROUTERS_PATH = {
   SIGN_UP: "/sign-up",
   FORGOT_PASSWORD: "/forgot-password",
   PROFILE: "/profile",
+  PROFILE_NOTIFICATION: "/profile/notifies",
+  PROFILE_ADDRESS: "/profile/address",
+  PROFILE_VOUCHER: "/profile/vouchers",
+  PROFILE_ORDER: "/profile/orders",
   CART: "/cart",
   FAVORITE_PRODUCT: "/products/favorite",
 };
