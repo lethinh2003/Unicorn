@@ -1,4 +1,5 @@
 "use client";
+import SearchBarHeader from "./SearchBarHeader";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import useAuth from "@/customHooks/useAuth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -10,7 +11,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 const Header = () => {
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const handleClickProfileButton = () => {
@@ -22,6 +25,9 @@ const Header = () => {
       router.push(ROUTERS_PATH.SIGN_IN);
     }
   };
+
+  const handleShowSearchBar = () => setShowSearchBar(true)
+
   return (
     <>
       <Box
@@ -117,24 +123,21 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <Box>
-            <TextField
-              id="seach-input"
-              label=""
-              placeholder="Tìm kiếm"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
+          <Box sx={{
+            display: "flex",
+            gap: "1rem",
+          }}>
+            <SearchIcon sx={{
+              fontSize: "3rem",
+              cursor: 'pointer'
+            }}
+              onClick={() => handleShowSearchBar()}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
+              alignItems: 'center',
               gap: "1rem",
             }}
           >
@@ -164,6 +167,11 @@ const Header = () => {
           </Box>
         </Box>
       </Box>
+
+      <SearchBarHeader
+        showSearchBar={showSearchBar}
+        setShowSearchBar={setShowSearchBar}
+      />
     </>
   );
 };
