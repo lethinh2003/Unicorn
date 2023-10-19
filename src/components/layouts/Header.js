@@ -1,33 +1,24 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useAuth from "@/customHooks/useAuth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, TextField, Typography,Stack } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import HeaderNavigation from "./HeaderNavigation";
+import ProfileOption from "./ProfileOption";
+import SearchBarHeader from "./SearchBarHeader";
+
 import { useState } from "react";
+import HeaderNavigation from "./HeaderNavigation";
 
 const Header = () => {
   const [isMenHover, setIsMenHover] = useState(false);
   const [isWomenHover, setIsWomenHover] = useState(false);
 
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
-  const handleClickProfileButton = () => {
-    if (isAuthenticated) {
-      // Redirect to profile page
-      router.push(ROUTERS_PATH.PROFILE);
-    } else {
-      // Redirect to sign in page
-      router.push(ROUTERS_PATH.SIGN_IN);
-    }
-  };
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  const handleShowSearchBar = () => setShowSearchBar(true);
 
   const handleMenMouseEnter = () => {
     setIsMenHover(true);
@@ -154,24 +145,24 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <Box>
-            <TextField
-              id="seach-input"
-              label=""
-              placeholder="Tìm kiếm"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
+            <SearchIcon
+              sx={{
+                fontSize: "3rem",
+                cursor: "pointer",
               }}
-              variant="standard"
+              onClick={() => handleShowSearchBar()}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
+              alignItems: "center",
               gap: "1rem",
             }}
           >
@@ -190,17 +181,16 @@ const Header = () => {
                 }}
               ></ShoppingBagOutlinedIcon>
             </Link>
-            <Box onClick={handleClickProfileButton}>
-              <PersonOutlineOutlinedIcon
-                sx={{
-                  fontSize: "2.5rem",
-                  cursor: "pointer",
-                }}
-              ></PersonOutlineOutlinedIcon>
-            </Box>
+
+            <ProfileOption />
           </Box>
         </Box>
       </Box>
+
+      <SearchBarHeader
+        showSearchBar={showSearchBar}
+        setShowSearchBar={setShowSearchBar}
+      />
     </>
   );
 };
