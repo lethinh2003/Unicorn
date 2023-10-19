@@ -3,17 +3,38 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileOption from "./ProfileOption";
 import SearchBarHeader from "./SearchBarHeader";
 
 import { useState } from "react";
+import HeaderNavigation from "./HeaderNavigation";
+
 const Header = () => {
+  const [isMenHover, setIsMenHover] = useState(false);
+  const [isWomenHover, setIsWomenHover] = useState(false);
+
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const handleShowSearchBar = () => setShowSearchBar(true);
+
+  const handleMenMouseEnter = () => {
+    setIsMenHover(true);
+  };
+
+  const handleMenMouseLeave = () => {
+    setIsMenHover(false);
+  };
+
+  const handleWomenMouseEnter = () => {
+    setIsWomenHover(true);
+  };
+
+  const handleWomenMouseLeave = () => {
+    setIsWomenHover(false);
+  };
 
   return (
     <>
@@ -74,16 +95,30 @@ const Header = () => {
             <Box
               sx={{
                 paddingLeft: "2rem",
+                cursor: "pointer",
               }}
+              onMouseEnter={handleMenMouseEnter}
+              onMouseLeave={handleMenMouseLeave}
             >
-              Nam
+              <Stack>
+                <span className="category-gender-button">Nam</span>
+                <div className="header-men-categories">
+                  {isMenHover && <HeaderNavigation GENDER="men" />}
+                </div>
+              </Stack>
             </Box>
             <Box
               sx={{
                 paddingLeft: "3rem",
+                cursor: "pointer",
               }}
+              onMouseEnter={handleWomenMouseEnter}
+              onMouseLeave={handleWomenMouseLeave}
             >
-              Nữ
+              <span className="category-gender-button">Nữ</span>
+              <div className="header-women-categories">
+                {isWomenHover && <HeaderNavigation GENDER="women" />}
+              </div>
             </Box>
             <Box
               sx={{
