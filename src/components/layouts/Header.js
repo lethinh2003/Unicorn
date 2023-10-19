@@ -1,27 +1,15 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useAuth from "@/customHooks/useAuth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Box, TextField, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import ProfileOption from "./ProfileOption";
+
 const Header = () => {
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
-  const handleClickProfileButton = () => {
-    if (isAuthenticated) {
-      // Redirect to profile page
-      router.push(ROUTERS_PATH.PROFILE);
-    } else {
-      // Redirect to sign in page
-      router.push(ROUTERS_PATH.SIGN_IN);
-    }
-  };
   return (
     <>
       <Box
@@ -153,14 +141,8 @@ const Header = () => {
                 }}
               ></ShoppingBagOutlinedIcon>
             </Link>
-            <Box onClick={handleClickProfileButton}>
-              <PersonOutlineOutlinedIcon
-                sx={{
-                  fontSize: "2.5rem",
-                  cursor: "pointer",
-                }}
-              ></PersonOutlineOutlinedIcon>
-            </Box>
+
+            <ProfileOption />
           </Box>
         </Box>
       </Box>
