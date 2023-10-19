@@ -1,32 +1,19 @@
 "use client";
-import SearchBarHeader from "./SearchBarHeader";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useAuth from "@/customHooks/useAuth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, TextField, Typography } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import ProfileOption from "./ProfileOption";
+import SearchBarHeader from "./SearchBarHeader";
+
 import { useState } from "react";
 const Header = () => {
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
-  const handleClickProfileButton = () => {
-    if (isAuthenticated) {
-      // Redirect to profile page
-      router.push(ROUTERS_PATH.PROFILE);
-    } else {
-      // Redirect to sign in page
-      router.push(ROUTERS_PATH.SIGN_IN);
-    }
-  };
 
-  const handleShowSearchBar = () => setShowSearchBar(true)
+  const handleShowSearchBar = () => setShowSearchBar(true);
 
   return (
     <>
@@ -123,21 +110,24 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <Box sx={{
-            display: "flex",
-            gap: "1rem",
-          }}>
-            <SearchIcon sx={{
-              fontSize: "3rem",
-              cursor: 'pointer'
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1rem",
             }}
+          >
+            <SearchIcon
+              sx={{
+                fontSize: "3rem",
+                cursor: "pointer",
+              }}
               onClick={() => handleShowSearchBar()}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
-              alignItems: 'center',
+              alignItems: "center",
               gap: "1rem",
             }}
           >
@@ -156,14 +146,8 @@ const Header = () => {
                 }}
               ></ShoppingBagOutlinedIcon>
             </Link>
-            <Box onClick={handleClickProfileButton}>
-              <PersonOutlineOutlinedIcon
-                sx={{
-                  fontSize: "2.5rem",
-                  cursor: "pointer",
-                }}
-              ></PersonOutlineOutlinedIcon>
-            </Box>
+
+            <ProfileOption />
           </Box>
         </Box>
       </Box>
