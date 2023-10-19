@@ -1256,16 +1256,15 @@ text {
   margin-top: 0rem;
   padding: 2rem 6rem;
   height: 75vh;
-
 }
-.header-navigation-container::after{
-  content: '';
+.header-navigation-container::after {
+  content: "";
   position: absolute;
   width: 100%;
-  height: 10px; 
+  height: 10px;
   bottom: 0;
   left: 0;
-  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
   z-index: -1;
 }
 .header-men-categories {
@@ -1290,22 +1289,22 @@ text {
   font-weight: 550;
   line-height: normal;
 }
-.child-category-name{
+.child-category-name {
   padding: 0;
 }
-.child-category-name:hover{
+.child-category-name:hover {
   color: #38ac8f;
 }
-.loading-progress{
+.loading-progress {
   color: #38ac8f !important;
   position: absolute;
   top: 15rem;
   font-size: 10rem !important;
 }
-.category-gender-button{
+.category-gender-button {
   transition: 0.2s ease-in-out;
 }
-.category-gender-button:hover{
-  letter-spacing: 1px;
+.category-gender-button:hover {
+  // letter-spacing: 1px;
   color: #38ac8f !important;
 }
