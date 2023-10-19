@@ -3,7 +3,6 @@ import Header from "@/components/layouts/Header";
 import MainContent from "@/components/layouts/MainContent";
 import ThemeLayout from "@/components/layouts/ThemeLayout";
 import ReactQueryProvider from "@/components/providers/ReactQuery";
-
 import NextAuthProvider from "@/components/providers/NextAuth";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.scss";

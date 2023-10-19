@@ -3,13 +3,18 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, TextField, Typography } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileOption from "./ProfileOption";
+import SearchBarHeader from "./SearchBarHeader";
 
+import { useState } from "react";
 const Header = () => {
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  const handleShowSearchBar = () => setShowSearchBar(true);
+
   return (
     <>
       <Box
@@ -105,24 +110,24 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <Box>
-            <TextField
-              id="seach-input"
-              label=""
-              placeholder="Tìm kiếm"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
+            <SearchIcon
+              sx={{
+                fontSize: "3rem",
+                cursor: "pointer",
               }}
-              variant="standard"
+              onClick={() => handleShowSearchBar()}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
+              alignItems: "center",
               gap: "1rem",
             }}
           >
@@ -146,6 +151,11 @@ const Header = () => {
           </Box>
         </Box>
       </Box>
+
+      <SearchBarHeader
+        showSearchBar={showSearchBar}
+        setShowSearchBar={setShowSearchBar}
+      />
     </>
   );
 };
