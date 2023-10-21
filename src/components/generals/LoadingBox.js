@@ -1,5 +1,5 @@
 "use client";
-import { Backdrop, Box, Typography } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { BsCheckSquare } from "react-icons/bs";
 import { ThreeDots } from "react-loading-icons";
@@ -61,3 +61,18 @@ const LoadingBox = ({ isSuccess, isLoading }) => {
   );
 };
 export default LoadingBox;
+
+export const LoadingContent = () => {
+  return (
+    <>
+      <Box
+        sx={{
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    </>
+  );
+};
