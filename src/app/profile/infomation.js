@@ -1,17 +1,44 @@
 "use client";
 import useAuth from "@/customHooks/useAuth";
-import { Breadcrumbs, Button, Link, Typography } from "@mui/material";
-
-const initInfo = {
-  name: "Nguyễn Nhật Anh",
-  email: "nhata338@gmail.com",
-  birthday: "10/08/2003",
-  gender: "Nam",
-  phone: "0369569835",
+import { convertDate } from "@/utils/convertDate";
+import { convertUserGender } from "@/utils/convertGender";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  CircularProgress,
+  Link,
+  Typography,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+const getInformationUser = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users`
+    );
+    const data = response.data.data;
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export default function Infomation() {
   const { isAuthenticated, session } = useAuth();
+  const {
+    data: dataInformation,
+    error,
+    isLoading,
+    isError,
+  } = useQuery(["user-information"], () => getInformationUser());
+
+  useEffect(() => {
+    if (isError) {
+      throw error;
+    }
+  }, [isError]);
 
   return (
     <div className="infomation-container">
@@ -34,20 +61,44 @@ export default function Infomation() {
           <Button className="edit-infomation-button">Sửa thông tin</Button>
         </div>
         <div className="user-desc-body">
-          <div className="user-title">
-            <span className="user-title-item">Họ và tên:</span>
-            <span className="user-title-item">Email:</span>
-            <span className="user-title-item">Ngày sinh</span>
-            <span className="user-title-item">Giới tính</span>
-            <span className="user-title-item">Số điện thoại</span>
-          </div>
-          <div className="user-desc-value">
-            <span className="user-desc-value-item">{initInfo.name}</span>
-            <span className="user-desc-value-item">{session?.user?.email}</span>
-            <span className="user-desc-value-item">{initInfo.birthday}</span>
-            <span className="user-desc-value-item">{initInfo.gender}</span>
-            <span className="user-desc-value-item">{initInfo.phone}</span>
-          </div>
+          {isLoading && (
+            <Box
+              sx={{
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              <CircularProgress color="inherit" className="loading-progress" />
+            </Box>
+          )}
+          {!isLoading && (
+            <>
+              <div className="user-title">
+                <span className="user-title-item">Họ và tên:</span>
+                <span className="user-title-item">Email:</span>
+                <span className="user-title-item">Ngày sinh</span>
+                <span className="user-title-item">Giới tính</span>
+                <span className="user-title-item">Số điện thoại</span>
+              </div>
+              <div className="user-desc-value">
+                <span className="user-desc-value-item">
+                  {dataInformation?.name || "Chưa cài đặt"}
+                </span>
+                <span className="user-desc-value-item">
+                  {session?.user?.email || "Chưa cài đặt"}
+                </span>
+                <span className="user-desc-value-item">
+                  {convertDate(dataInformation?.birthday) || "Chưa cài đặt"}
+                </span>
+                <span className="user-desc-value-item">
+                  {convertUserGender(dataInformation?.gender) || "Chưa cài đặt"}
+                </span>
+                <span className="user-desc-value-item">
+                  {dataInformation?.phone_number || "Chưa cài đặt"}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
