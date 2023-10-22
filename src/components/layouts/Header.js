@@ -101,7 +101,9 @@ const Header = () => {
               onMouseLeave={handleMenMouseLeave}
             >
               <Stack>
-                <span className="category-gender-button">Nam</span>
+                <Link href="/products?gender=men">
+                  <span className="category-gender-button">Nam</span>
+                </Link>
                 <div className="header-men-categories">
                   {isMenHover && <HeaderNavigation GENDER="men" />}
                 </div>
@@ -115,7 +117,9 @@ const Header = () => {
               onMouseEnter={handleWomenMouseEnter}
               onMouseLeave={handleWomenMouseLeave}
             >
-              <span className="category-gender-button">Nữ</span>
+              <Link href="/products?gender=women">
+                <span className="category-gender-button">Nữ</span>
+              </Link>
               <div className="header-women-categories">
                 {isWomenHover && <HeaderNavigation GENDER="women" />}
               </div>

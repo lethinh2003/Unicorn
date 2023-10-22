@@ -1,13 +1,6 @@
-'use client'
-import {
-  Box,
-  Button,
-  Checkbox,
-  ImageList,
-  Container,
-  Typography,
-} from "@mui/material";
+"use client";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Box, Button, Checkbox, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -114,7 +107,10 @@ export default function Home() {
           <Container>
             <Stack direction="row" spacing={5}>
               <div className="male-products gender-products-item">
-                <Link href="#" className="male-products gender-products-item">
+                <Link
+                  href="/products?gender=men"
+                  className="male-products gender-products-item"
+                >
                   <Image
                     src="/male-products.jpg"
                     width={1000}
@@ -125,7 +121,10 @@ export default function Home() {
                 </Link>
               </div>
               <div>
-                <Link href="#" className="female-products gender-products-item">
+                <Link
+                  href="/products?gender=women"
+                  className="female-products gender-products-item"
+                >
                   <Image
                     src="/female-products.jpg"
                     width={1300}
@@ -234,7 +233,7 @@ export default function Home() {
                 backgroundColor: "#000000",
               },
             }}
-            onClick={() => Router.push("/products")}
+            onClick={() => Router.push("/")}
           >
             Xem thêm
           </Button>
@@ -270,7 +269,7 @@ export default function Home() {
                 backgroundColor: "#000000",
               },
             }}
-            onClick={() => Router.push("/products")}
+            onClick={() => Router.push("/")}
           >
             Xem ngay
           </Button>
@@ -355,7 +354,7 @@ export default function Home() {
                 backgroundColor: "#000000",
               },
             }}
-            onClick={() => Router.push("/products")}
+            onClick={() => Router.push("/")}
           >
             Xem thêm
           </Button>
