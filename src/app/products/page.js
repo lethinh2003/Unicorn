@@ -1,765 +1,111 @@
 "use client";
+import { LoadingContent } from "@/components/generals/LoadingBox";
 import { AllProductItem } from "@/components/product/ProductItem";
-import { Breadcrumbs, Button, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
+import axios from "axios";
+import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useInfiniteQuery } from "react-query";
 import Filter from "./filter";
-
-const PRODUCTS = [
-  {
-    _id: "65118dbdeb6baf6ff0fa1756",
-    product_categories: [
-      {
-        _id: "650ebe49baa58c5aece0d7ed",
-        status: true,
-        product_category_name: "Áo",
-        product_category_keyword: "tops",
-        createdAt: "2023-09-23T10:30:33.702Z",
-        updatedAt: "2023-09-23T10:30:33.702Z",
-        __v: 0,
-        product_category_gender: "unisex",
-      },
-      {
-        _id: "650ebeb5baa58c5aece0d7ef",
-        status: true,
-        product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-        product_category_name: "Áo Thun",
-        product_category_keyword: "t-shirts",
-        createdAt: "2023-09-23T10:32:21.726Z",
-        updatedAt: "2023-09-23T10:32:21.726Z",
-        __v: 0,
-        product_category_gender: "unisex",
-      },
-    ],
-    product_images: [
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/item/vngoods_00_422992.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub13.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub14.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub17.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub18.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub19.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub28.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub29.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub30.jpg?width=750",
-    ],
-    product_gender: "men",
-    product_original_price: 293000,
-    status: true,
-    product_name: "Áo Thun Cổ Tròn Ngắn Tay",
-    product_color: {
-      _id: "650eb01246193f4ddcf7862c",
-      status: true,
-      product_color_name: "Trắng",
-      product_color_code: "#fff",
-      createdAt: "2023-09-23T09:29:54.327Z",
-      updatedAt: "2023-09-23T09:29:54.327Z",
-      __v: 0,
-    },
-    product_sizes: [
-      {
-        size_quantities: 1,
-        _id: "65118dbdeb6baf6ff0fa1757",
-        size_type: {
-          _id: "650ea84a828567aff85ca68f",
-          product_size_name: "XS",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "65118dbdeb6baf6ff0fa1758",
-        size_type: {
-          _id: "650ea87a828567aff85ca690",
-          product_size_name: "S",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "65118dbdeb6baf6ff0fa1759",
-        size_type: {
-          _id: "650ea88a828567aff85ca691",
-          product_size_name: "M",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "65118dbdeb6baf6ff0fa175a",
-        size_type: {
-          _id: "650ea893828567aff85ca692",
-          product_size_name: "L",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "65118dbdeb6baf6ff0fa175b",
-        size_type: {
-          _id: "650ea8a4828567aff85ca693",
-          product_size_name: "XL",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "65118dbdeb6baf6ff0fa175c",
-        size_type: {
-          _id: "650ea8ae828567aff85ca694",
-          product_size_name: "XXL",
-        },
-      },
-    ],
-    product_description:
-      "Áo thun cổ tròn đơn giản bằng vải jersey dày dặn.- Vải jersey khô được dệt chặt có độ bền cao và vẫn giữ chất lượng cao sau mỗi lần giặt. - Thiết kế cổ tròn có dây buộc lấy cảm hứng từ đường viền cổ áo thun quân đội cổ điển. - Dây buộc giúp cổ áo giữ được hình dạng.- Kiểu dáng rộng rãi phù hợp với cả nam và nữ.",
-    createdAt: "2023-09-25T13:40:13.757Z",
-    updatedAt: "2023-09-25T13:40:13.757Z",
-    __v: 0,
-    child_products: [
-      {
-        _id: "65118ec85700f56d346034e7",
-        product_categories: [
-          {
-            _id: "650ebe49baa58c5aece0d7ed",
-            status: true,
-            product_category_name: "Áo",
-            product_category_keyword: "tops",
-            createdAt: "2023-09-23T10:30:33.702Z",
-            updatedAt: "2023-09-23T10:30:33.702Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-          {
-            _id: "650ebeb5baa58c5aece0d7ef",
-            status: true,
-            product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-            product_category_name: "Áo Thun",
-            product_category_keyword: "t-shirts",
-            createdAt: "2023-09-23T10:32:21.726Z",
-            updatedAt: "2023-09-23T10:32:21.726Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-        ],
-        product_images: [
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/item/vngoods_07_422992.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub13.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub14.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub17.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub18.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub19.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub28.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub29.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub30.jpg?width=750",
-        ],
-        product_gender: "men",
-        product_original_price: 293000,
-        status: true,
-        parent_product_id: "65118dbdeb6baf6ff0fa1756",
-        product_name: "Áo Thun Cổ Tròn Ngắn Tay",
-        product_color: {
-          _id: "650eb0d6b30a24284036ead1",
-          status: true,
-          product_color_name: "Xám",
-          product_color_code: "#dedede",
-          createdAt: "2023-09-23T09:33:10.260Z",
-          updatedAt: "2023-09-23T09:33:10.260Z",
-          __v: 0,
-        },
-        product_sizes: [
-          {
-            size_quantities: 1,
-            _id: "65118ec85700f56d346034e8",
-            size_type: {
-              _id: "650ea84a828567aff85ca68f",
-              product_size_name: "XS",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118ec85700f56d346034e9",
-            size_type: {
-              _id: "650ea87a828567aff85ca690",
-              product_size_name: "S",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118ec85700f56d346034ea",
-            size_type: {
-              _id: "650ea88a828567aff85ca691",
-              product_size_name: "M",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118ec85700f56d346034eb",
-            size_type: {
-              _id: "650ea893828567aff85ca692",
-              product_size_name: "L",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118ec85700f56d346034ec",
-            size_type: {
-              _id: "650ea8a4828567aff85ca693",
-              product_size_name: "XL",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118ec85700f56d346034ed",
-            size_type: {
-              _id: "650ea8ae828567aff85ca694",
-              product_size_name: "XXL",
-            },
-          },
-        ],
-        product_description:
-          "Áo thun cổ tròn đơn giản bằng vải jersey dày dặn.- Vải jersey khô được dệt chặt có độ bền cao và vẫn giữ chất lượng cao sau mỗi lần giặt. - Thiết kế cổ tròn có dây buộc lấy cảm hứng từ đường viền cổ áo thun quân đội cổ điển. - Dây buộc giúp cổ áo giữ được hình dạng.- Kiểu dáng rộng rãi phù hợp với cả nam và nữ.",
-        createdAt: "2023-09-25T13:44:40.055Z",
-        updatedAt: "2023-09-25T13:44:40.055Z",
-        __v: 0,
-      },
-      {
-        _id: "65118f075700f56d346034ef",
-        product_categories: [
-          {
-            _id: "650ebe49baa58c5aece0d7ed",
-            status: true,
-            product_category_name: "Áo",
-            product_category_keyword: "tops",
-            createdAt: "2023-09-23T10:30:33.702Z",
-            updatedAt: "2023-09-23T10:30:33.702Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-          {
-            _id: "650ebeb5baa58c5aece0d7ef",
-            status: true,
-            product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-            product_category_name: "Áo Thun",
-            product_category_keyword: "t-shirts",
-            createdAt: "2023-09-23T10:32:21.726Z",
-            updatedAt: "2023-09-23T10:32:21.726Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-        ],
-        product_images: [
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/item/vngoods_09_422992.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub13.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub14.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub17.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub18.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub19.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub28.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub29.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub30.jpg?width=750",
-        ],
-        product_gender: "men",
-        product_original_price: 293000,
-        status: true,
-        parent_product_id: "65118dbdeb6baf6ff0fa1756",
-        product_name: "Áo Thun Cổ Tròn Ngắn Tay",
-        product_color: {
-          _id: "650eb0e8b30a24284036ead7",
-          status: true,
-          product_color_name: "Đen",
-          product_color_code: "#3d3d3d",
-          createdAt: "2023-09-23T09:33:28.915Z",
-          updatedAt: "2023-09-23T09:33:28.915Z",
-          __v: 0,
-        },
-        product_sizes: [
-          {
-            size_quantities: 1,
-            _id: "65118f075700f56d346034f0",
-            size_type: {
-              _id: "650ea84a828567aff85ca68f",
-              product_size_name: "XS",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f075700f56d346034f1",
-            size_type: {
-              _id: "650ea87a828567aff85ca690",
-              product_size_name: "S",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f075700f56d346034f2",
-            size_type: {
-              _id: "650ea88a828567aff85ca691",
-              product_size_name: "M",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f075700f56d346034f3",
-            size_type: {
-              _id: "650ea893828567aff85ca692",
-              product_size_name: "L",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f075700f56d346034f4",
-            size_type: {
-              _id: "650ea8a4828567aff85ca693",
-              product_size_name: "XL",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f075700f56d346034f5",
-            size_type: {
-              _id: "650ea8ae828567aff85ca694",
-              product_size_name: "XXL",
-            },
-          },
-        ],
-        product_description:
-          "Áo thun cổ tròn đơn giản bằng vải jersey dày dặn.- Vải jersey khô được dệt chặt có độ bền cao và vẫn giữ chất lượng cao sau mỗi lần giặt. - Thiết kế cổ tròn có dây buộc lấy cảm hứng từ đường viền cổ áo thun quân đội cổ điển. - Dây buộc giúp cổ áo giữ được hình dạng.- Kiểu dáng rộng rãi phù hợp với cả nam và nữ.",
-        createdAt: "2023-09-25T13:45:43.585Z",
-        updatedAt: "2023-09-25T13:45:43.585Z",
-        __v: 0,
-      },
-      {
-        _id: "65118f205700f56d346034f7",
-        product_categories: [
-          {
-            _id: "650ebe49baa58c5aece0d7ed",
-            status: true,
-            product_category_name: "Áo",
-            product_category_keyword: "tops",
-            createdAt: "2023-09-23T10:30:33.702Z",
-            updatedAt: "2023-09-23T10:30:33.702Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-          {
-            _id: "650ebeb5baa58c5aece0d7ef",
-            status: true,
-            product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-            product_category_name: "Áo Thun",
-            product_category_keyword: "t-shirts",
-            createdAt: "2023-09-23T10:32:21.726Z",
-            updatedAt: "2023-09-23T10:32:21.726Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-        ],
-        product_images: [
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/item/vngoods_13_422992.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub13.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub14.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub17.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub18.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub19.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub28.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub29.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub30.jpg?width=750",
-        ],
-        product_gender: "men",
-        product_original_price: 293000,
-        status: true,
-        parent_product_id: "65118dbdeb6baf6ff0fa1756",
-        product_name: "Áo Thun Cổ Tròn Ngắn Tay",
-        product_color: {
-          _id: "650eb110b30a24284036eadb",
-          status: true,
-          product_color_name: "Đỏ",
-          product_color_code: "#eb3417",
-          createdAt: "2023-09-23T09:34:08.925Z",
-          updatedAt: "2023-09-23T09:34:08.925Z",
-          __v: 0,
-        },
-        product_sizes: [
-          {
-            size_quantities: 1,
-            _id: "65118f205700f56d346034f8",
-            size_type: {
-              _id: "650ea84a828567aff85ca68f",
-              product_size_name: "XS",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f205700f56d346034f9",
-            size_type: {
-              _id: "650ea87a828567aff85ca690",
-              product_size_name: "S",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f205700f56d346034fa",
-            size_type: {
-              _id: "650ea88a828567aff85ca691",
-              product_size_name: "M",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f205700f56d346034fb",
-            size_type: {
-              _id: "650ea893828567aff85ca692",
-              product_size_name: "L",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f205700f56d346034fc",
-            size_type: {
-              _id: "650ea8a4828567aff85ca693",
-              product_size_name: "XL",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f205700f56d346034fd",
-            size_type: {
-              _id: "650ea8ae828567aff85ca694",
-              product_size_name: "XXL",
-            },
-          },
-        ],
-        product_description:
-          "Áo thun cổ tròn đơn giản bằng vải jersey dày dặn.- Vải jersey khô được dệt chặt có độ bền cao và vẫn giữ chất lượng cao sau mỗi lần giặt. - Thiết kế cổ tròn có dây buộc lấy cảm hứng từ đường viền cổ áo thun quân đội cổ điển. - Dây buộc giúp cổ áo giữ được hình dạng.- Kiểu dáng rộng rãi phù hợp với cả nam và nữ.",
-        createdAt: "2023-09-25T13:46:08.421Z",
-        updatedAt: "2023-09-25T13:46:08.421Z",
-        __v: 0,
-      },
-      {
-        _id: "65118f365700f56d346034ff",
-        product_categories: [
-          {
-            _id: "650ebe49baa58c5aece0d7ed",
-            status: true,
-            product_category_name: "Áo",
-            product_category_keyword: "tops",
-            createdAt: "2023-09-23T10:30:33.702Z",
-            updatedAt: "2023-09-23T10:30:33.702Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-          {
-            _id: "650ebeb5baa58c5aece0d7ef",
-            status: true,
-            product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-            product_category_name: "Áo Thun",
-            product_category_keyword: "t-shirts",
-            createdAt: "2023-09-23T10:32:21.726Z",
-            updatedAt: "2023-09-23T10:32:21.726Z",
-            __v: 0,
-            product_category_gender: "unisex",
-          },
-        ],
-        product_images: [
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/item/vngoods_22_422992.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub13.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub14.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub17.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub18.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/422992/sub/goods_422992_sub19.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub28.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub29.jpg?width=750",
-          "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/422992/sub/vngoods_422992_sub30.jpg?width=750",
-        ],
-        product_gender: "men",
-        product_original_price: 293000,
-        status: true,
-        parent_product_id: "65118dbdeb6baf6ff0fa1756",
-        product_name: "Áo Thun Cổ Tròn Ngắn Tay",
-        product_color: {
-          _id: "650eb11db30a24284036eadd",
-          status: true,
-          product_color_name: "Cam",
-          product_color_code: "#f3a72c",
-          createdAt: "2023-09-23T09:34:21.838Z",
-          updatedAt: "2023-09-23T09:34:21.838Z",
-          __v: 0,
-        },
-        product_sizes: [
-          {
-            size_quantities: 1,
-            _id: "65118f365700f56d34603500",
-            size_type: {
-              _id: "650ea84a828567aff85ca68f",
-              product_size_name: "XS",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f365700f56d34603501",
-            size_type: {
-              _id: "650ea87a828567aff85ca690",
-              product_size_name: "S",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f365700f56d34603502",
-            size_type: {
-              _id: "650ea88a828567aff85ca691",
-              product_size_name: "M",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f365700f56d34603503",
-            size_type: {
-              _id: "650ea893828567aff85ca692",
-              product_size_name: "L",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f365700f56d34603504",
-            size_type: {
-              _id: "650ea8a4828567aff85ca693",
-              product_size_name: "XL",
-            },
-          },
-          {
-            size_quantities: 1,
-            _id: "65118f365700f56d34603505",
-            size_type: {
-              _id: "650ea8ae828567aff85ca694",
-              product_size_name: "XXL",
-            },
-          },
-        ],
-        product_description:
-          "Áo thun cổ tròn đơn giản bằng vải jersey dày dặn.- Vải jersey khô được dệt chặt có độ bền cao và vẫn giữ chất lượng cao sau mỗi lần giặt. - Thiết kế cổ tròn có dây buộc lấy cảm hứng từ đường viền cổ áo thun quân đội cổ điển. - Dây buộc giúp cổ áo giữ được hình dạng.- Kiểu dáng rộng rãi phù hợp với cả nam và nữ.",
-        createdAt: "2023-09-25T13:46:30.931Z",
-        updatedAt: "2023-09-25T13:46:30.931Z",
-        __v: 0,
-      },
-    ],
-  },
-  {
-    _id: "651195025700f56d3460350f",
-    product_categories: [
-      {
-        _id: "650ebe49baa58c5aece0d7ed",
-        status: true,
-        product_category_name: "Áo",
-        product_category_keyword: "tops",
-        createdAt: "2023-09-23T10:30:33.702Z",
-        updatedAt: "2023-09-23T10:30:33.702Z",
-        __v: 0,
-        product_category_gender: "unisex",
-      },
-      {
-        _id: "650ebeb5baa58c5aece0d7ef",
-        status: true,
-        product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-        product_category_name: "Áo Thun",
-        product_category_keyword: "t-shirts",
-        createdAt: "2023-09-23T10:32:21.726Z",
-        updatedAt: "2023-09-23T10:32:21.726Z",
-        __v: 0,
-        product_category_gender: "unisex",
-      },
-    ],
-    product_images: [
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/427917/item/vngoods_00_427917.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/427917/sub/vngoods_427917_sub3.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub14.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub15.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub17.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub18.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub19.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub23.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/427917/sub/vngoods_427917_sub30.jpg?width=750",
-    ],
-    product_gender: "men",
-    product_original_price: 146000,
-    status: true,
-    parent_product_id: null,
-    product_name: "Áo Thun Dry Cổ Tròn Ngắn Tay",
-    product_color: {
-      _id: "650eb01246193f4ddcf7862c",
-      status: true,
-      product_color_name: "Trắng",
-      product_color_code: "#fff",
-      createdAt: "2023-09-23T09:29:54.327Z",
-      updatedAt: "2023-09-23T09:29:54.327Z",
-      __v: 0,
-    },
-    product_sizes: [
-      {
-        size_quantities: 1,
-        _id: "651195025700f56d34603510",
-        size_type: {
-          _id: "650ea84a828567aff85ca68f",
-          product_size_name: "XS",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195025700f56d34603511",
-        size_type: {
-          _id: "650ea87a828567aff85ca690",
-          product_size_name: "S",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195025700f56d34603512",
-        size_type: {
-          _id: "650ea88a828567aff85ca691",
-          product_size_name: "M",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195025700f56d34603513",
-        size_type: {
-          _id: "650ea893828567aff85ca692",
-          product_size_name: "L",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195025700f56d34603514",
-        size_type: {
-          _id: "650ea8a4828567aff85ca693",
-          product_size_name: "XL",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195025700f56d34603515",
-        size_type: {
-          _id: "650ea8ae828567aff85ca694",
-          product_size_name: "XXL",
-        },
-      },
-    ],
-    product_description:
-      "Chất liệu vải đa năng với mặt ngoài bằng cotton và lớp lót polyester tích hợp cùng công nghệ DRY. · Tuyệt vời cho mọi dịp từ thể thao năng động đến trang phục đi nghỉ mát. · Phong cách thiết kế cơ bản mà bạn có thể mặc riêng hoặc kết hợp với lớp khoác ngoài.",
-    createdAt: "2023-09-25T14:11:14.826Z",
-    updatedAt: "2023-09-25T14:11:14.826Z",
-    __v: 0,
-    child_products: [],
-  },
-  {
-    _id: "651195405700f56d34603517",
-    product_categories: [
-      {
-        _id: "650ebe49baa58c5aece0d7ed",
-        status: true,
-        product_category_name: "Áo",
-        product_category_keyword: "tops",
-        createdAt: "2023-09-23T10:30:33.702Z",
-        updatedAt: "2023-09-23T10:30:33.702Z",
-        __v: 0,
-        product_category_gender: "unisex",
-      },
-      {
-        _id: "650ebeb5baa58c5aece0d7ef",
-        status: true,
-        product_category_parent_id: "650ebe49baa58c5aece0d7ed",
-        product_category_name: "Áo Thun",
-        product_category_keyword: "t-shirts",
-        createdAt: "2023-09-23T10:32:21.726Z",
-        updatedAt: "2023-09-23T10:32:21.726Z",
-        __v: 0,
-        product_category_gender: "unisex",
-      },
-    ],
-    product_images: [
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/427917/item/vngoods_00_427917.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/427917/sub/vngoods_427917_sub3.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub14.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub15.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub17.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub18.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub19.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/427917/sub/goods_427917_sub23.jpg?width=750",
-      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/427917/sub/vngoods_427917_sub30.jpg?width=750",
-    ],
-    product_gender: "men",
-    product_original_price: 146000,
-    status: true,
-    parent_product_id: null,
-    product_name: "Áo Thun Dry Cổ Tròn Ngắn Tay",
-    product_color: {
-      _id: "650eb0d6b30a24284036ead1",
-      status: true,
-      product_color_name: "Xám",
-      product_color_code: "#dedede",
-      createdAt: "2023-09-23T09:33:10.260Z",
-      updatedAt: "2023-09-23T09:33:10.260Z",
-      __v: 0,
-    },
-    product_sizes: [
-      {
-        size_quantities: 1,
-        _id: "651195405700f56d34603518",
-        size_type: {
-          _id: "650ea84a828567aff85ca68f",
-          product_size_name: "XS",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195405700f56d34603519",
-        size_type: {
-          _id: "650ea87a828567aff85ca690",
-          product_size_name: "S",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195405700f56d3460351a",
-        size_type: {
-          _id: "650ea88a828567aff85ca691",
-          product_size_name: "M",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195405700f56d3460351b",
-        size_type: {
-          _id: "650ea893828567aff85ca692",
-          product_size_name: "L",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195405700f56d3460351c",
-        size_type: {
-          _id: "650ea8a4828567aff85ca693",
-          product_size_name: "XL",
-        },
-      },
-      {
-        size_quantities: 1,
-        _id: "651195405700f56d3460351d",
-        size_type: {
-          _id: "650ea8ae828567aff85ca694",
-          product_size_name: "XXL",
-        },
-      },
-    ],
-    product_description:
-      "Chất liệu vải đa năng với mặt ngoài bằng cotton và lớp lót polyester tích hợp cùng công nghệ DRY. · Tuyệt vời cho mọi dịp từ thể thao năng động đến trang phục đi nghỉ mát. · Phong cách thiết kế cơ bản mà bạn có thể mặc riêng hoặc kết hợp với lớp khoác ngoài.",
-    createdAt: "2023-09-25T14:12:16.592Z",
-    updatedAt: "2023-09-25T14:12:16.592Z",
-    __v: 0,
-    child_products: [],
-  },
-];
-const productsPerPage = 12;
-
+const ITEMS_OF_PAGE = 50;
 export default function Products() {
-  const [visibleProducts, setVisibleProducts] = useState(productsPerPage);
-  const loadMoreProducts = () => {
-    setVisibleProducts(visibleProducts + productsPerPage);
+  const searchParams = useSearchParams();
+  const searchColor = searchParams.get("color");
+  const searchSize = searchParams.get("size");
+  const searchCategory = searchParams.get("category");
+  const searchGender = searchParams.get("gender");
+  const [itemsPerPage, setItemsPerPage] = useState(ITEMS_OF_PAGE);
+
+  const [filterValue, setFilterValue] = useState({
+    category: "all",
+    color: "all",
+    size: "all",
+    gender: "unisex",
+  });
+
+  const getListProducts = async (pageParam) => {
+    const results = await axios.get(
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/products?category=${filterValue.category}&gender=${filterValue.gender}&size=${filterValue.size}&color=${filterValue.color}&page=${pageParam}&itemsOfPage=${itemsPerPage}`
+    );
+    return results.data;
   };
+
+  const getListQuery = useInfiniteQuery(
+    ["get-list-product", filterValue],
+    ({ pageParam = 1 }) => getListProducts(pageParam),
+    {
+      getNextPageParam: (_lastPage, pages) => {
+        if (pages[pages.length - 1].metadata.results === itemsPerPage) {
+          return pages.length + 1;
+        }
+        return undefined;
+      },
+    }
+  );
+  const {
+    data: dataProducts,
+    isLoading: isLoadingQuery,
+    isFetching,
+    isError: isErrorQuery,
+    error,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = getListQuery;
+  useEffect(() => {
+    if (isErrorQuery) {
+      throw error;
+    }
+  }, [isErrorQuery]);
+
+  useEffect(() => {
+    setFilterValue((value) => ({
+      ...value,
+      color: !searchColor ? "all" : searchColor,
+      size: !searchSize ? "all" : searchSize,
+      category: !searchCategory ? "all" : searchCategory,
+      gender: !searchGender ? "unisex" : searchGender,
+    }));
+  }, [searchColor, searchSize, searchCategory, searchGender]);
+
+  // handle merge child product to parent product
+  const products = dataProducts?.pages.flatMap((page) => page.data) || [];
+  const finalProducts = [];
+  const objMapProducts = _.keyBy(products, "_id");
+  for (const product of products) {
+    if (filterValue.color !== "all") {
+      finalProducts.push(product);
+    } else {
+      if (!product.parent_product_id) {
+        finalProducts.push(product);
+      } else {
+        // find Parent Product
+        const parentProduct = objMapProducts[product.parent_product_id];
+        if (parentProduct) {
+          if (!parentProduct.child_products) {
+            parentProduct.child_products = [];
+          } else {
+            parentProduct.child_products.push(product);
+          }
+          parentProduct.child_products = _.uniqBy(
+            parentProduct.child_products,
+            "_id"
+          );
+        }
+      }
+    }
+  }
+
   return (
     <div className="product-container">
       <div className="product-header">
@@ -768,11 +114,24 @@ export default function Products() {
             <Link underline="hover" color="inherit" href="/">
               Trang chủ
             </Link>
-            <Typography color="text.primary">Nam</Typography>
+            <Typography color="text.primary">
+              {searchGender === "men"
+                ? "Nam"
+                : searchGender === "women"
+                ? "Nữ"
+                : ""}{" "}
+            </Typography>
           </Breadcrumbs>
         </div>
         <div className="product-page-title">
-          <h1 className="product-page-title-text">Thời trang nam</h1>
+          <h1 className="product-page-title-text">
+            Thời trang{" "}
+            {searchGender === "men"
+              ? "Nam"
+              : searchGender === "women"
+              ? "Nữ"
+              : ""}{" "}
+          </h1>
         </div>
       </div>
       <div className="header-image-container">
@@ -790,19 +149,43 @@ export default function Products() {
         </div>
         <div className="product-item-container">
           <div className="products-page-header">
-            <span className="products-page-header-title">Tất cả sản phẩm</span>
+            <span className="products-page-header-title">
+              Danh sách sản phẩm
+            </span>
           </div>
           <Grid container className="products-item-wrap">
-            {PRODUCTS.slice(0, visibleProducts).map((product, i) => (
-              <AllProductItem product={product} key={product._id} />
+            {isLoadingQuery && !isFetchingNextPage && (
+              <Box
+                sx={{
+                  paddingTop: "5rem",
+                  width: "100%",
+                }}
+              >
+                <LoadingContent />
+              </Box>
+            )}
+
+            {finalProducts.map((product) => (
+              <AllProductItem key={product._id} product={product} />
             ))}
           </Grid>
-          {visibleProducts < PRODUCTS.length && (
-            <div className="viewmore">
-              <Button onClick={loadMoreProducts} className="viewmore-button">
-                Xem thêm
+
+          {/* <div className="viewmore">
+            <Button className="viewmore-button">Xem thêm</Button>
+          </div> */}
+
+          {isFetchingNextPage && <LoadingContent />}
+          {hasNextPage && !isFetchingNextPage && (
+            <Box
+              sx={{
+                paddingTop: "10px",
+                textAlign: "center",
+              }}
+            >
+              <Button variant="contained" onClick={() => fetchNextPage()}>
+                Tải thêm
               </Button>
-            </div>
+            </Box>
           )}
         </div>
       </Stack>
