@@ -85,6 +85,7 @@ export default function Home() {
               <SwiperSlide key={index} className="swiper-item">
                 <Link href="#" className="slider-image-container">
                   <Image
+                    alt=""
                     src={image}
                     className="slider-image"
                     width={2000}
@@ -112,6 +113,7 @@ export default function Home() {
                   className="male-products gender-products-item"
                 >
                   <Image
+                    alt=""
                     src="/male-products.jpg"
                     width={1000}
                     height={100}
@@ -126,6 +128,7 @@ export default function Home() {
                   className="female-products gender-products-item"
                 >
                   <Image
+                    alt=""
                     src="/female-products.jpg"
                     width={1300}
                     height={100}
@@ -160,9 +163,10 @@ export default function Home() {
           </Typography>
 
           <div className="home-product">
-            {Products.map((item) => {
+            {Products.map((item, i) => {
               return (
                 <Link
+                  key={i}
                   href={"/products/test"}
                   className="home-product__items"
                   style={{ position: "relative" }}
@@ -205,6 +209,7 @@ export default function Home() {
                       {ColorProducts.map((color) => {
                         return (
                           <div
+                            key={color}
                             style={{
                               width: "2rem",
                               height: "2rem",
@@ -281,9 +286,10 @@ export default function Home() {
             </Typography>
           </Link>
           <div className="home-product">
-            {Products.map((item) => {
+            {Products.map((item, i) => {
               return (
                 <Link
+                  key={i}
                   href={"/products/test"}
                   className="home-product__items"
                   style={{ position: "relative" }}
@@ -323,9 +329,10 @@ export default function Home() {
                       className="home-product__colors"
                       style={{ display: "flex" }}
                     >
-                      {ColorProducts.map((color) => {
+                      {ColorProducts.map((color, i) => {
                         return (
                           <div
+                            key={i}
                             style={{
                               width: "2rem",
                               height: "2rem",
