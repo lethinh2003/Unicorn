@@ -21,6 +21,12 @@ html {
   overflow: hidden !important;
   text-overflow: ellipsis;
 }
+.cut-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -999,7 +1005,7 @@ text {
   background-color: #eee;
   padding: 1rem;
   margin: 0.5rem;
-  width: 5rem;
+  min-width: 5rem;
   text-align: center;
   cursor: pointer;
 }
@@ -1048,7 +1054,8 @@ text {
 }
 .product-item-image {
   width: 100%;
-  height: auto;
+  object-fit: cover;
+  height: 25rem;
 }
 .product-details {
   display: flex;
@@ -1057,6 +1064,7 @@ text {
   padding: 1rem;
 }
 .product-item-name {
+  text-transform: capitalize;
   color: #000;
   height: 7rem;
   font-size: 2.3rem;
