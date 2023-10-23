@@ -1,7 +1,10 @@
 "use client";
+import { LoadingContent } from "@/components/generals/LoadingBox";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Box, Typography } from "@mui/material";
+import axios from "axios";
+import { useQuery } from "react-query";
 const DESC = [
   {
     title: "Tổng quan",
@@ -13,7 +16,36 @@ const DESC = [
   },
 ];
 
-export default function Description() {
+export default function Description({ productId }) {
+  const getDetailInformationProduct = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/products/${productId}`
+      );
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const {
+    data: dataProduct,
+    isLoading,
+    isError,
+  } = useQuery(["get-detail-information-product", productId], () =>
+    getDetailInformationProduct()
+  );
+
+  const convertTypeDescription = (type) => {
+    if (type === "overview") {
+      return "Tổng quan";
+    } else if (type === "material") {
+      return "Chất liệu";
+    }
+    return "";
+  };
+
   return (
     <>
       <Box>
@@ -39,9 +71,10 @@ export default function Description() {
             flexDirection: "column",
           }}
         >
-          {DESC.map((item) => (
+          {isLoading && <LoadingContent />}
+          {dataProduct?.product_description?.map((item) => (
             <Box
-              key={item.title}
+              key={item.type}
               sx={{
                 borderBottom: "1px solid",
                 padding: "1.5rem 0",
@@ -52,14 +85,14 @@ export default function Description() {
                   fontSize: "2rem",
                 }}
               >
-                {item.title}
+                {convertTypeDescription(item.type)}
               </Typography>
               <Typography
                 sx={{
                   paddingLeft: "1rem",
                 }}
               >
-                {item.desc}
+                {item.content}
               </Typography>
             </Box>
           ))}

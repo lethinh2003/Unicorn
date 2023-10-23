@@ -1,34 +1,18 @@
 "use client";
-import { Box, Breadcrumbs, Container, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box, Container } from "@mui/material";
 import Description from "./Description";
 import Infor from "./Infor";
 import ListSuggesting from "./ListSuggesting";
 import ListViewed from "./ListViewed";
 import Review from "./Review";
 
-export default function Home() {
+export default function Home({ params }) {
+  const { productId } = params;
+
   return (
     <>
       <Container>
-        <div className="redirect">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/">
-              <Typography underline="hover" color="inherit">
-                Trang chủ
-              </Typography>
-            </Link>
-            <Link href="/products">
-              <Typography underline="hover" color="inherit">
-                Sản phẩm
-              </Typography>
-            </Link>
-            <Typography color="text.primary">
-              Áo thun tay ngắn họa tiết
-            </Typography>
-          </Breadcrumbs>
-        </div>
-        <Infor />
+        <Infor productId={productId} />
         <Box
           sx={{
             display: "flex",
@@ -47,7 +31,7 @@ export default function Home() {
               flex: 1,
             }}
           >
-            <Description />
+            <Description productId={productId} />
           </Box>
         </Box>
 

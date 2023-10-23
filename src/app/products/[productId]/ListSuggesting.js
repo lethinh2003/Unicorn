@@ -1,5 +1,5 @@
 "use client";
-import { ProductItem } from "@/components/product/ProductItem";
+import { AllProductItem } from "@/components/product/ProductItem";
 import { Box, Typography } from "@mui/material";
 
 const PRODUCTS = [
@@ -779,7 +779,7 @@ export default function ListSuggesting() {
           }}
         >
           {PRODUCTS.map((item) => (
-            <ProductItem key={item._id} product={item} />
+            <AllProductItem key={item._id} product={item} />
           ))}
         </Box>
       </Box>

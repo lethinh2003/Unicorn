@@ -25,6 +25,7 @@ export default function Products() {
   const searchCategory = searchParams.get("category");
   const searchGender = searchParams.get("gender");
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_OF_PAGE);
+  const [scrollY, setScrollY] = useState(0);
 
   const [filterValue, setFilterValue] = useState({
     category: "all",
@@ -62,6 +63,7 @@ export default function Products() {
     isFetchingNextPage,
     fetchNextPage,
   } = getListQuery;
+
   useEffect(() => {
     if (isErrorQuery) {
       throw error;
