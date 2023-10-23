@@ -145,7 +145,7 @@ export default function BasicPopover() {
               handleCloseUserMenu;
             }}
           >
-            <Typography
+            <Box
               textAlign="center"
               sx={{
                 fontSize: "2rem",
@@ -170,7 +170,7 @@ export default function BasicPopover() {
               >
                 Đăng xuất
               </Typography>
-            </Typography>
+            </Box>
           </MenuItem>
         </Menu>
       )}

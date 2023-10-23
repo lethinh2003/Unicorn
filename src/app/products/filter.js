@@ -7,10 +7,8 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useQuery } from "react-query";
 
 const GENDER = "men";
 
@@ -23,7 +21,8 @@ const filterPrice = [
   "Trên 700.000 đ",
 ];
 
-export default function Filter() {
+export default function Filter({ filterData }) {
+  const [categories, colors, sizes] = filterData;
   const params = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -32,63 +31,7 @@ export default function Filter() {
   const searchGender = params.get("gender");
   const searchCategory = params.get("category");
 
-  const categoriesQuery = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=${searchGender}`
-      );
-      const data = response.data.data;
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const colorsQuery = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-colors`
-      );
-      return response.data.data;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const sizesQuery = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-sizes`
-      );
-      return response.data.data;
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  const {
-    data: categories,
-    error: categoriesError,
-    isError: isCategoriesError,
-    isLoading: isCategoriesLoading,
-  } = useQuery(["category", searchGender], () => categoriesQuery(GENDER));
-
-  const {
-    data: sizes,
-    error: sizesError,
-    isError: isSizesError,
-    isLoading: isSizesLoading,
-  } = useQuery(["sizes"], sizesQuery);
-  const {
-    data: colors,
-    error: colorsError,
-    isError: isColorsError,
-    isLoading: isColorsLoading,
-  } = useQuery(["colors"], colorsQuery);
-
   const [open, setOpen] = useState({});
-
-  if (isSizesLoading || isColorsLoading || isCategoriesLoading) return null;
 
   const handleToggle = (categoryId) => {
     setOpen((prevOpen) => ({
@@ -110,7 +53,12 @@ export default function Filter() {
   };
 
   return (
-    <div className="filter-container">
+    <Box
+      className="filter-container"
+      sx={{
+        width: { xs: "100%", md: "25rem" },
+      }}
+    >
       <List>
         <ListSubheader component="div" id="nested-list-subheader">
           Bộ lọc
@@ -183,8 +131,40 @@ export default function Filter() {
         </ListItemButton>
         <Collapse in={open["colors"]} timeout="auto" unmountOnExit>
           <div className="colors-filler-container">
+            <Stack
+              sx={{
+                border: "2px solid",
+                borderColor:
+                  searchColor === "all"
+                    ? (theme) => theme.palette.primary.main
+                    : "transparent",
+              }}
+              direction="row"
+              spacing={1}
+              className="color-selection"
+              onClick={() =>
+                handleClickFilter({
+                  type: "color",
+                  value: "all",
+                })
+              }
+            >
+              <div
+                className="color-point"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to bottom right, red, yellow)",
+                  width: 15,
+                  height: 15,
+                  borderRadius: "50%",
+                }}
+              ></div>
+              <span>Tất cả</span>
+            </Stack>
+
             {colors?.map((color) => (
               <Stack
+                key={color._id}
                 sx={{
                   border: "2px solid",
                   borderColor:
@@ -225,6 +205,25 @@ export default function Filter() {
         </ListItemButton>
         <Collapse in={open["sizes"]} timeout="auto" unmountOnExit>
           <div className="sizes-filter-container">
+            <Box
+              className="size-item"
+              sx={{
+                border: "2px solid",
+                borderColor:
+                  searchSize === "all"
+                    ? (theme) => theme.palette.primary.main
+                    : "transparent",
+              }}
+              onClick={() =>
+                handleClickFilter({
+                  type: "size",
+                  value: "all",
+                })
+              }
+            >
+              Tất cả
+            </Box>
+
             {sizes?.map((size) => (
               <Box
                 key={size.product_size_name}
@@ -267,6 +266,6 @@ export default function Filter() {
           </FormGroup>
         </Collapse> */}
       </List>
-    </div>
+    </Box>
   );
 }
