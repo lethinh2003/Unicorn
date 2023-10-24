@@ -1,9 +1,6 @@
-import Footer from "@/components/layouts/Footer";
-import Header from "@/components/layouts/Header";
-import MainContent from "@/components/layouts/MainContent";
 import ThemeLayout from "@/components/layouts/ThemeLayout";
-import ReactQueryProvider from "@/components/providers/ReactQuery";
 import NextAuthProvider from "@/components/providers/NextAuth";
+import ReactQueryProvider from "@/components/providers/ReactQuery";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.scss";
 
@@ -18,11 +15,7 @@ export default async function RootLayout({ children }) {
       <body>
         <ThemeLayout options={{ key: "mui" }}>
           <NextAuthProvider>
-            <ReactQueryProvider>
-              <Header />
-              <MainContent>{children}</MainContent>
-              <Footer />
-            </ReactQueryProvider>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
           </NextAuthProvider>
         </ThemeLayout>
       </body>
