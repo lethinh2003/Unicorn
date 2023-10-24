@@ -11,12 +11,24 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Stack, Typography, TextField, Box, InputBase } from "@mui/material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import {
+  Stack,
+  Typography,
+  InputBase,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import MainContent from "@/components/layouts/MainContent";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const navigationContents = [
   {
@@ -24,50 +36,195 @@ const navigationContents = [
     icon: <AutoGraphOutlinedIcon />,
     path: "/admin",
   },
+
   {
     titile: "Tài khoản",
     icon: <AccountCircleOutlinedIcon />,
-    path: "/admin/users",
+    path: "/admin/users/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/users/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/users/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/users/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/users/edit",
+      },
+    ],
   },
   {
     titile: "Danh mục",
     icon: <CategoryOutlinedIcon />,
-    path: "/admin/categories",
+    path: "/admin/categories/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/categories/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/categories/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/categories/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/categories/edit",
+      },
+    ],
   },
   {
     titile: "Đơn hàng",
     icon: <EventNoteOutlinedIcon />,
-    path: "/admin/...",
+    path: "/admin/oders/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/oders/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/oders/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/oders/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/oders/edit",
+      },
+    ],
   },
   {
     titile: "Sản phẩm",
     icon: <Inventory2OutlinedIcon />,
-    path: "/admin/products",
+    path: "/admin/products/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/products/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/products/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/products/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/products/edit",
+      },
+    ],
   },
   {
     titile: "Mã giảm",
     icon: <ConfirmationNumberOutlinedIcon />,
-    path: "/admin/vouchers",
+    path: "/admin/vouchers/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/vouchers/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/vouchers/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/vouchers/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/vouchers/edit",
+      },
+    ],
   },
   {
     titile: "Thông báo",
     icon: <NotificationsActiveOutlinedIcon />,
-    path: "/admin/notifications",
+    path: "/admin/notifications/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/notifications/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/notifications/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/notifications/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/notifications/edit",
+      },
+    ],
   },
   {
     titile: "Đánh giá",
     icon: <StarOutlineOutlinedIcon />,
-    path: "/admin/review",
+    path: "/admin/review/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/review/list",
+      },
+      {
+        titile: "Thêm",
+        path: "/admin/review/add",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/review/view",
+      },
+      {
+        titile: "Sửa",
+        path: "/admin/review/edit",
+      },
+    ],
   },
   {
     titile: "Hỗ trợ",
     icon: <SupportAgentOutlinedIcon />,
-    path: "/admin/support",
+    path: "/admin/support/list",
+    listItem: [
+      {
+        titile: "Danh sách",
+        path: "/admin/support/list",
+      },
+      {
+        titile: "Xem",
+        path: "/admin/support/view",
+      },
+    ],
   },
 ];
 
 export default function AdminLayout({ children }) {
   const pathName = usePathname();
+  const [openItems, setOpenItems] = useState({});
+
+  const toggleItem = (index) => {
+    setOpenItems((prevOpenItems) => ({
+      ...prevOpenItems,
+      [index]: !prevOpenItems[index],
+    }));
+  };
   return (
     <Stack direction="row" spacing={2} className="admin-layout-container">
       <div className="admin-layout-navigation">
@@ -97,10 +254,11 @@ export default function AdminLayout({ children }) {
           sx={{ width: "100%", textAlign: "start" }}
         >
           {navigationContents.map((item, index) => (
-            <Link href={item.path} key={index}>
+            <Link href="#" key={index}>
               <ToggleButton
                 aria-label="list"
                 className="admin-layout-nav-button"
+                onClick={() => toggleItem(index)}
                 sx={{
                   width: "100%",
                   border: "none",
@@ -122,7 +280,43 @@ export default function AdminLayout({ children }) {
                   {item.icon}
                   <span>{item.titile}</span>
                 </Stack>
+                {item.listItem ? (
+                  openItems[index] ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : null}
               </ToggleButton>
+              {item.listItem ? (
+                <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
+                  <ToggleButtonGroup
+                    sx={{ width: "100%", textAlign: "start" }}
+                    orientation="vertical"
+                    exclusive
+                  >
+                    {item.listItem.map((childItem, childIndex) => (
+                      <Link href={childItem.path} sx={{ width: "100%" }}>
+                        <ToggleButton
+                          aria-label="list"
+                          className="admin-layout-nav-button-child"
+                          sx={{
+                            width: "100%",
+                            border: "none",
+                            justifyContent: "flex-start",
+                            paddingLeft: "6rem",
+                            color: childItem.path === pathName ? "#38AC8F" : "",
+                          }}
+                        >
+                          <span style={{ textTransform: "none" }}>
+                            {childItem.titile}
+                          </span>
+                        </ToggleButton>
+                      </Link>
+                    ))}
+                  </ToggleButtonGroup>
+                </Collapse>
+              ) : null}
             </Link>
           ))}
         </ToggleButtonGroup>
@@ -130,18 +324,18 @@ export default function AdminLayout({ children }) {
       <div className="admin-layout-right-content">
         <div className="admin-layout-header">
           <div className="admin-layout-search">
-            <Stack direction='row' sx={{
-              border: '1px solid #ccc',
-              width:'60rem',
-              padding:'1rem',
-              borderRadius: '4px',
-              alignItems: 'center',
-            }}>
-              <SearchOutlinedIcon/>
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Tìm kiếm"
-              />
+            <Stack
+              direction="row"
+              sx={{
+                border: "1px solid #ccc",
+                width: "60rem",
+                padding: "1rem",
+                borderRadius: "4px",
+                alignItems: "center",
+              }}
+            >
+              <SearchOutlinedIcon />
+              <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Tìm kiếm" />
             </Stack>
           </div>
           <Stack
