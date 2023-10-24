@@ -780,10 +780,7 @@ export default function ListViewed() {
           }}
         >
           {PRODUCTS.map((item, i) => (
-            <>
-              <ProductItem key={i + 1} product={item} />
-              <ProductItem key={i + 2} product={item} />
-            </>
+            <ProductItem key={i + 1} product={item} />
           ))}
         </Box>
       </Box>

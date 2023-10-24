@@ -243,7 +243,7 @@ export default function Review() {
                       </div>
                     </div>
                     <div
-                      classname="detail"
+                      className="detail"
                       style={{
                         gap: "0.5rem",
                       }}
@@ -271,8 +271,9 @@ export default function Review() {
 
                       <div className="respone-image">
                         {review.image.length > 0 &&
-                          review.image.map((img) => (
+                          review.image.map((img, i) => (
                             <Image
+                              key={i}
                               className="respone-image"
                               width={135}
                               height={203}
@@ -283,7 +284,6 @@ export default function Review() {
                           ))}
                         ,
                       </div>
-
                     </div>
                   </div>
                 ))}

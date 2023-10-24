@@ -1,41 +1,12 @@
-"use client";
-import { LoadingContent } from "@/components/generals/LoadingBox";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Box, Typography } from "@mui/material";
-import axios from "axios";
-import { useQuery } from "react-query";
-const DESC = [
-  {
-    title: "Tổng quan",
-    desc: "- Smooth fleece lightly brushed for extra warmth.",
-  },
-  {
-    title: "Chất liệu",
-    desc: "Xin lưu ý mã số nhận diện của sản phẩm có thể có sự khác biệt, kể cả khi đó là cùng một mặt hàng.",
-  },
-];
+import { getDetailInformationProduct } from "./InforPage";
 
-export default function Description({ productId }) {
-  const getDetailInformationProduct = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/products/${productId}`
-      );
-      const data = response.data.data;
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const {
-    data: dataProduct,
-    isLoading,
-    isError,
-  } = useQuery(["get-detail-information-product", productId], () =>
-    getDetailInformationProduct()
-  );
+export default async function Description({ productId }) {
+  const dataProduct = await getDetailInformationProduct({
+    productId,
+  });
 
   const convertTypeDescription = (type) => {
     if (type === "overview") {
@@ -71,7 +42,6 @@ export default function Description({ productId }) {
             flexDirection: "column",
           }}
         >
-          {isLoading && <LoadingContent />}
           {dataProduct?.product_description?.map((item) => (
             <Box
               key={item.type}

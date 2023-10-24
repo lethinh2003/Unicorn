@@ -2,7 +2,7 @@ import { Box, Breadcrumbs, Typography } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import Filter from "./Filter";
+import Filter from "./Flter";
 import Products from "./Products";
 
 const getDataFilter = async ({ gender }) => {

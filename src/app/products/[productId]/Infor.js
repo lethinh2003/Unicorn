@@ -1,14 +1,11 @@
 "use client";
-import { LoadingContent } from "@/components/generals/LoadingBox";
 import { ConvertMoney } from "@/utils/convertMoney";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 const LIST_COLOR = [
   {
     name: "Đen",
@@ -32,7 +29,7 @@ const LIST_COLOR = [
   },
 ];
 
-export default function Infor({ productId }) {
+export default function Infor({ dataProduct }) {
   const [productData, setProductData] = useState({
     quantity: 1,
     color: "black",
@@ -41,26 +38,6 @@ export default function Infor({ productId }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeImage, setActiveImage] = useState(
     "https://i.imgur.com/yLTbVSD.png"
-  );
-
-  const getDetailInformationProduct = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/products/${productId}`
-      );
-      const data = response.data.data;
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const {
-    data: dataProduct,
-    isLoading,
-    isError,
-  } = useQuery(["get-detail-information-product", productId], () =>
-    getDetailInformationProduct()
   );
 
   useEffect(() => {
@@ -99,7 +76,6 @@ export default function Infor({ productId }) {
   };
   return (
     <>
-      {isLoading && <LoadingContent />}
       {dataProduct && (
         <>
           <div className="redirect">
@@ -119,7 +95,7 @@ export default function Infor({ productId }) {
               </Typography>
             </Breadcrumbs>
           </div>
-          <Box sx={{ maxWidth: "1500px", width: "100%", margin: "0 auto" }}>
+          <Box sx={{ width: "100%", margin: "0 auto" }}>
             <Box
               sx={{
                 display: "flex",
@@ -175,11 +151,13 @@ export default function Infor({ productId }) {
                           }}
                         >
                           <Image
+                            alt={dataProduct.product_name}
                             src={item}
-                            layout="fill"
-                            objectFit="contain"
+                            fill
+                            sizes="500"
                             style={{
                               maxWidth: "100%",
+                              objectFit: "contain",
                             }}
                           />
                         </Box>
@@ -196,7 +174,16 @@ export default function Infor({ productId }) {
                     position: "relative",
                   }}
                 >
-                  <Image src={activeImage} layout="fill" objectFit="contain" />
+                  <Image
+                    src={activeImage}
+                    alt={dataProduct.product_name}
+                    fill
+                    sizes="500"
+                    style={{
+                      maxWidth: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
                 </Box>
               </Box>
               <Box
