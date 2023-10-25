@@ -1323,3 +1323,8 @@ text {
   // letter-spacing: 1px;
   color: #38ac8f !important;
 }
+
+.disabled-button {
+  pointer-events: none;
+  opacity: 0.2;
+}

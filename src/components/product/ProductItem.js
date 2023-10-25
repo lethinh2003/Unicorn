@@ -4,16 +4,11 @@ import { Box, Checkbox, Skeleton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-export const AllProductItem = ({ product }) => {
+export const AllProductItem = ({ sx, product }) => {
   const [mainImage, setMainImage] = useState(product.product_images[0]);
   return (
     <>
-      <Stack
-        className="products-item"
-        sx={{
-          cursor: "default",
-        }}
-      >
+      <Stack className="products-item" sx={{ ...sx, cursor: "default" }}>
         <Checkbox
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite sx={{ color: "red" }} />}
@@ -92,12 +87,13 @@ export const AllProductItem = ({ product }) => {
     </>
   );
 };
-export const SkeletonAllProductItem = ({}) => {
+export const SkeletonAllProductItem = ({ sx }) => {
   return (
     <>
       <Stack
         className="products-item"
         sx={{
+          ...sx,
           cursor: "default",
 
           maxWidth: "30rem",

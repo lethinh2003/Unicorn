@@ -15,6 +15,7 @@ export default function Home({ params }) {
         sx={{
           display: "flex",
           gap: "2rem",
+          paddingTop: "4rem",
         }}
       >
         <Box
@@ -22,7 +23,7 @@ export default function Home({ params }) {
             width: "55%",
           }}
         >
-          <ListSuggesting />
+          <ListSuggesting productId={productId} />
         </Box>
         <Box
           sx={{

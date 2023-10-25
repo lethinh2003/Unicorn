@@ -5,40 +5,29 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-const LIST_COLOR = [
-  {
-    name: "Đen",
-    code: "#000",
-    key: "black",
-  },
-  {
-    name: "Xanh",
-    code: "#46E539",
-    key: "green",
-  },
-  {
-    name: "Đỏ",
-    code: "#F60C0C",
-    key: "red",
-  },
-  {
-    name: "Cam",
-    code: "#FE9142",
-    key: "orange",
-  },
-];
 
 export default function Infor({ dataProduct }) {
+  const router = useRouter();
   const [productData, setProductData] = useState({
+    stockSizeQuantities: dataProduct.product_sizes[0].size_quantities,
     quantity: 1,
-    color: "black",
-    size: "S",
+    color: dataProduct.product_color.product_color_code,
+    size: dataProduct.product_sizes[0].size_type.product_size_name,
   });
+  const [isAvailableProduct, setIsAvailableProduct] = useState(
+    productData.stockSizeQuantities >= productData.quantity
+  );
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeImage, setActiveImage] = useState(
     "https://i.imgur.com/yLTbVSD.png"
   );
+  useEffect(() => {
+    setIsAvailableProduct(
+      productData.stockSizeQuantities >= productData.quantity
+    );
+  }, [productData]);
 
   useEffect(() => {
     if (dataProduct) {
@@ -60,20 +49,16 @@ export default function Infor({ dataProduct }) {
         }));
       }
     } else if (type === "+") {
+      // if (productData.quantity >= productData.stockSizeQuantities) {
+      //   return;
+      // }
       setProductData((productData) => ({
         ...productData,
         quantity: productData.quantity + 1,
       }));
     }
   };
-  const findColorNameByKey = (key) => {
-    let name = "";
-    const findColor = LIST_COLOR.find((color) => color.key === key);
-    if (findColor) {
-      name = findColor.name;
-    }
-    return name;
-  };
+
   return (
     <>
       {dataProduct && (
@@ -95,7 +80,7 @@ export default function Infor({ dataProduct }) {
               </Typography>
             </Breadcrumbs>
           </div>
-          <Box sx={{ width: "100%", margin: "0 auto" }}>
+          <Box sx={{ width: "100%", margin: "0 auto", paddingTop: "4rem" }}>
             <Box
               sx={{
                 display: "flex",
@@ -170,7 +155,7 @@ export default function Infor({ dataProduct }) {
                     maxWidth: "50rem",
                     flex: 1,
                     height: "50rem",
-                    backgroundColor: "black",
+
                     position: "relative",
                   }}
                 >
@@ -235,7 +220,7 @@ export default function Infor({ dataProduct }) {
                         fontWeight: 600,
                       }}
                     >
-                      {findColorNameByKey(productData.color)}
+                      {dataProduct.product_color.product_color_name}
                     </Typography>
                   </Box>
                   <Box
@@ -244,23 +229,25 @@ export default function Infor({ dataProduct }) {
                       gap: "1rem",
                     }}
                   >
-                    {LIST_COLOR.map((item) => (
+                    {dataProduct?.relation_products?.map((relationProduct) => (
                       <Box
-                        key={item.key}
+                        key={relationProduct.product_color.product_color_code}
                         className={
-                          productData.color === item.key ? "active" : null
+                          productData.color ===
+                          relationProduct.product_color.product_color_code
+                            ? "active"
+                            : null
                         }
                         onClick={() =>
-                          setProductData((productData) => ({
-                            ...productData,
-                            color: item.key,
-                          }))
+                          router.push(`/products/${relationProduct._id}`)
                         }
                         sx={{
                           cursor: "pointer",
                           minWidth: "4.5rem",
                           height: "4.5rem",
-                          backgroundColor: item.code,
+                          backgroundColor:
+                            relationProduct.product_color.product_color_code,
+                          border: "2px solid",
                           "&.active": {
                             border: "4px solid #7A7272",
                           },
@@ -311,6 +298,7 @@ export default function Infor({ dataProduct }) {
                           setProductData((productData) => ({
                             ...productData,
                             size: item.size_type.product_size_name,
+                            stockSizeQuantities: item.size_quantities,
                           }))
                         }
                         sx={{
@@ -400,6 +388,14 @@ export default function Infor({ dataProduct }) {
                     />
                   )}
                 </Box>
+                <Typography
+                  sx={{
+                    color: "#7d7d7d",
+                  }}
+                >
+                  Trong kho còn {productData.stockSizeQuantities}
+                </Typography>
+
                 <Box
                   sx={{
                     display: "flex",
@@ -408,6 +404,7 @@ export default function Infor({ dataProduct }) {
                   }}
                 >
                   <Button
+                    className={!isAvailableProduct ? "disabled-button" : null}
                     sx={{
                       backgroundColor: "black",
                       "&:hover": {
@@ -417,7 +414,11 @@ export default function Infor({ dataProduct }) {
                   >
                     Thêm vào giỏ hàng
                   </Button>
-                  <Button>Mua ngay</Button>
+                  <Button
+                    className={!isAvailableProduct ? "disabled-button" : null}
+                  >
+                    Mua ngay
+                  </Button>
                 </Box>
               </Box>
             </Box>
