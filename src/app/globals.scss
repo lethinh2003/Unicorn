@@ -1323,3 +1323,35 @@ text {
   // letter-spacing: 1px;
   color: #38ac8f !important;
 }
+
+/////////////////////////////Admin layout////////////////
+.admin-layout-right-content{
+  width: 100% ;
+}
+.admin-layout-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  height: 7rem;
+  padding: 0 5rem;
+  box-shadow: 2px 2px 2px #dcdbdb;
+  border-left: 0.2px solid #e9e9e9;
+
+}
+.admin-layout-navigation{
+  width: 28rem;
+  height: 100%;
+  box-shadow: 2px 2px 2px  #dcdbdb;
+}
+.admin-layout-account-notifi{
+  background-color: #CBF9ED;
+  width: 16rem;
+  height: 5rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
+}
+.admin-layout-nav-button:hover{
+  color: #000 !important;
+}
