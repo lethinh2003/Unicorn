@@ -3,13 +3,55 @@ import { ConvertMoney } from "@/utils/convertMoney";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
+import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 export default function Infor({ dataProduct }) {
   const router = useRouter();
+  // Add to List Viewed
+  const [listViewed] = useLocalStorage("LIST_PRODUCTS_VIEWED", []);
+  useEffect(() => {
+    const updateListViewed = () => {
+      let checkIsValid = true;
+      let currentPosition = -1;
+      let countPosition = 0;
+      for (const itemListViewed of listViewed) {
+        // check list viewed has current product?
+        if (itemListViewed._id === dataProduct._id) {
+          checkIsValid = false;
+          currentPosition = countPosition;
+          break;
+        }
+        // check current product in relation list yet?
+        const check = itemListViewed.relation_products.find(
+          (relationProduct) => relationProduct._id === dataProduct._id
+        );
+        if (check) {
+          checkIsValid = false;
+          currentPosition = countPosition;
+          break;
+        }
+        countPosition++;
+      }
+      // if  exist -> remove and push current item to top list
+      if (!checkIsValid) {
+        const newListViewed = [...listViewed];
+        newListViewed.splice(currentPosition, 1);
+        newListViewed.unshift(dataProduct);
+
+        writeStorage("LIST_PRODUCTS_VIEWED", newListViewed);
+      }
+      // if not exist -> push current item to top list
+      else if (checkIsValid) {
+        const newListViewed = [...[dataProduct], ...listViewed];
+        writeStorage("LIST_PRODUCTS_VIEWED", newListViewed);
+      }
+    };
+    updateListViewed();
+  }, []);
+
   const [productData, setProductData] = useState({
     stockSizeQuantities: dataProduct.product_sizes[0].size_quantities,
     quantity: 1,

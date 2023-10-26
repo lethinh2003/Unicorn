@@ -5,6 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 export const AllProductItem = ({ sx, product }) => {
+  const [productData, setProductData] = useState({
+    _id: product._id,
+    product_original_price: product.product_original_price,
+  });
   const [mainImage, setMainImage] = useState(product.product_images[0]);
   return (
     <>
@@ -32,7 +36,7 @@ export const AllProductItem = ({ sx, product }) => {
             height: "20rem",
           }}
         >
-          <Link href={`/products/${product._id}`}>
+          <Link href={`/products/${productData._id}`}>
             <span
               title={product.product_name}
               className="product-item-name cut-text"
@@ -42,7 +46,7 @@ export const AllProductItem = ({ sx, product }) => {
           </Link>
 
           <span className="product-item-price">
-            {<ConvertMoney money={product.product_original_price} />}đ
+            {<ConvertMoney money={productData.product_original_price} />}đ
           </span>
           <Box
             className="home-product__colors"
@@ -52,7 +56,14 @@ export const AllProductItem = ({ sx, product }) => {
             }}
           >
             <div
-              onClick={() => setMainImage(product.product_images[0])}
+              onClick={() => {
+                setMainImage(product.product_images[0]);
+                setProductData((prev) => ({
+                  ...prev,
+                  _id: product._id,
+                  product_original_price: product.product_original_price,
+                }));
+              }}
               style={{
                 cursor: "pointer",
                 border: "1px solid",
@@ -67,7 +78,98 @@ export const AllProductItem = ({ sx, product }) => {
               return (
                 <div
                   key={childProduct._id}
-                  onClick={() => setMainImage(childProduct.product_images[0])}
+                  onClick={() => {
+                    setMainImage(childProduct.product_images[0]);
+                    setProductData((prev) => ({
+                      ...prev,
+                      _id: childProduct._id,
+                      product_original_price:
+                        childProduct.product_original_price,
+                    }));
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    border: "1px solid",
+                    width: "2rem",
+                    height: "2rem",
+                    marginRight: "1rem",
+                    marginTop: "1rem",
+                    backgroundColor:
+                      childProduct?.product_color.product_color_code,
+                  }}
+                ></div>
+              );
+            })}
+          </Box>
+        </div>
+      </Stack>
+    </>
+  );
+};
+export const ViewedProductItem = ({ sx, product }) => {
+  const [productData, setProductData] = useState({
+    _id: product._id,
+    product_original_price: product.product_original_price,
+  });
+  const [mainImage, setMainImage] = useState(product.product_images[0]);
+  return (
+    <>
+      <Stack className="products-item" sx={{ ...sx, cursor: "default" }}>
+        <Checkbox
+          icon={<FavoriteBorder />}
+          checkedIcon={<Favorite sx={{ color: "red" }} />}
+          sx={{
+            position: "absolute",
+            color: "#fff",
+            right: 0,
+          }}
+        />
+        <Image
+          src={mainImage}
+          alt={product.product_name}
+          width={500}
+          height={500}
+          className="product-item-image"
+        />
+        <div
+          className="product-details"
+          style={{
+            gap: "1rem",
+            height: "20rem",
+          }}
+        >
+          <Link href={`/products/${productData._id}`}>
+            <span
+              title={product.product_name}
+              className="product-item-name cut-text"
+            >
+              {product.product_name}
+            </span>
+          </Link>
+
+          <span className="product-item-price">
+            {<ConvertMoney money={productData.product_original_price} />}đ
+          </span>
+          <Box
+            className="home-product__colors"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            {product?.relation_products?.map((childProduct) => {
+              return (
+                <div
+                  key={childProduct._id}
+                  onClick={() => {
+                    setMainImage(childProduct.product_images[0]);
+                    setProductData((prev) => ({
+                      ...prev,
+                      _id: childProduct._id,
+                      product_original_price:
+                        childProduct.product_original_price,
+                    }));
+                  }}
                   style={{
                     cursor: "pointer",
                     border: "1px solid",

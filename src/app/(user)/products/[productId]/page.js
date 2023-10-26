@@ -3,7 +3,7 @@ import Description from "./Description";
 import InforPage from "./InforPage";
 import ListSuggesting from "./ListSuggesting";
 import ListViewed from "./ListViewed";
-import Review from "./Review";
+import ReviewPage from "./ReviewPage";
 export default function Home({ params }) {
   const { productId } = params;
 
@@ -34,7 +34,7 @@ export default function Home({ params }) {
         </Box>
       </Box>
 
-      <Review />
+      <ReviewPage productId={productId} />
 
       <ListViewed />
     </>

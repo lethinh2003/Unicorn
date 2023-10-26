@@ -1,5 +1,4 @@
 import Infor from "./Infor";
-
 export const getDetailInformationProduct = async ({ productId }) => {
   try {
     const response = await fetch(
