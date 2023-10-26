@@ -71,6 +71,7 @@ function SignUp() {
     reset,
     formState: { errors },
   } = useForm(formOptions);
+  
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -194,7 +195,7 @@ function SignUp() {
                       id="Email"
                       inputRef={ref}
                       {...field}
-                      error={!!errors.email} // Hiển thị lỗi nếu có
+                      error={!!errors.email}
                       endAdornment={
                         <InputAdornment position="end">
                           <EmailOutlinedIcon
