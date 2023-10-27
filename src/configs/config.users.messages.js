@@ -10,5 +10,8 @@ const USER_MESSAGES = {
   CONFIRM_PASSWORD_MISSING: "Vui lòng nhập lại mật khẩu",
   USER_AUTHENTICATED: "Bạn đã đăng nhập rồi",
   USER_UNAUTHENTICATED: "Bạn chưa đăng nhập",
+  PHONE_NUMBER_MISSING: "Vui lòng nhập số điện thoại",
+  PHONE_NUMBER_INVALID: "Số điện thoại không hợp lệ",
+  BIRTHDAY_INVALID: "Định dạng ngày sinh không hợp lệ"
 };
 export default USER_MESSAGES;
