@@ -71,22 +71,23 @@ export default async function ReviewPage({ productId }) {
         >
           Đánh giá
         </Typography>
-        <div
+        <Box
           className="review-containner"
-          style={{
+          sx={{
             width: "100%",
           }}
         >
-          <div
+          <Box
             className="overall-review"
-            style={{
+            sx={{
               width: "100%",
               gap: "2rem",
+              flexDirection: { xs: "column", md: "row" },
             }}
           >
-            <div
+            <Box
               className="overall-rating"
-              style={{
+              sx={{
                 width: "55%",
                 marginLeft: "unset",
               }}
@@ -116,7 +117,7 @@ export default async function ReviewPage({ productId }) {
               >
                 Viết đánh giá
               </Button>
-            </div>
+            </Box>
 
             <div
               className="rating-area"
@@ -130,12 +131,12 @@ export default async function ReviewPage({ productId }) {
                 }}
               >
                 {DATA_RATING.map((star, index) => (
-                  <div
+                  <Box
                     key={index}
                     className="review-star"
-                    style={{
+                    sx={{
                       marginRight: "unset",
-                      justifyContent: "flex-start",
+                      justifyContent: { xs: "center", md: "flex-start" },
                     }}
                   >
                     <div className="name-star"> {star.star} sao</div>
@@ -147,13 +148,13 @@ export default async function ReviewPage({ productId }) {
                       className="img-star"
                     />
                     <div className="number-of-review">({star.number})</div>
-                  </div>
+                  </Box>
                 ))}
               </Stack>
             </div>
-          </div>
+          </Box>
           <Review productId={productId} countReviews={count_reviews} />
-        </div>
+        </Box>
       </Box>
     </>
   );

@@ -16,11 +16,12 @@ export default function Home({ params }) {
           display: "flex",
           gap: "2rem",
           paddingTop: "4rem",
+          flexDirection: { xs: "column-reverse", md: "row" },
         }}
       >
         <Box
           sx={{
-            width: "55%",
+            width: { xs: "100%", md: "55%" },
           }}
         >
           <ListSuggesting productId={productId} />

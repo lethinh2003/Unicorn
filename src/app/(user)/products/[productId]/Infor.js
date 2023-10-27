@@ -128,13 +128,14 @@ export default function Infor({ dataProduct }) {
                 display: "flex",
                 marginTop: "1rem",
                 gap: "2rem",
+                flexDirection: { xs: "column", md: "row" },
               }}
             >
               <Box
                 sx={{
                   display: "flex",
                   gap: "1rem",
-                  width: "55%",
+                  width: { xs: "100%", md: "55%" },
                 }}
               >
                 <Box
@@ -194,7 +195,7 @@ export default function Infor({ dataProduct }) {
                 </Box>
                 <Box
                   sx={{
-                    maxWidth: "50rem",
+                    maxWidth: { xs: "100%", md: "50rem" },
                     flex: 1,
                     height: "50rem",
 
