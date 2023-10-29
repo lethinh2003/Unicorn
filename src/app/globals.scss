@@ -1329,7 +1329,11 @@ text {
   pointer-events: none;
   opacity: 0.2;
 }
-.admin-layout-header, .admin-user-add{
+/////////////////////////////Admin layout////////////////
+.admin-layout-right-content {
+  width: 100%;
+}
+.admin-layout-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1358,14 +1362,19 @@ text {
 .admin-layout-nav-button:hover {
   color: #000 !important;
 }
+////////////////////////add user ///////////////////////////
 .admin-user-add{
-  box-shadow: 2px 2px 2px 2px #dcdbdb;
+  margin-left: -1rem;
   height:auto;
   padding: 1.4rem 2.4rem;
   display:flex;
   flex-direction: column;
   align-items: flex-start;
   gap:2rem;
+  background-color: #fff;
+}
+.admin-user-add-form{
+  width: 95rem;
 }
 
 .admin-users-header{
@@ -1392,4 +1401,15 @@ text {
 .admin-users-add-other{
   width:100%;
 }
-
+//////////////////////////////Component header////////////////
+.admin-header-title{
+  margin: -9rem 0 1rem -1rem ;
+  background-color: #fff;
+  height: 10rem;
+}
+.admin-header-title-text{
+  
+  font-size: 4.5rem;
+  font-weight: 500;
+  padding: 2rem 0 1rem 2rem;
+}
