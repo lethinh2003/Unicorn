@@ -226,7 +226,9 @@ export default function AdminLayout({ children }) {
     }));
   };
   return (
-    <Stack direction="row" spacing={2} className="admin-layout-container">
+    <Stack direction="row" spacing={2} className="admin-layout-container"
+      sx={{background:'#EEF2F6'}}
+    >
       <div className="admin-layout-navigation">
         <Stack
           direction="row"
