@@ -226,131 +226,132 @@ export default function AdminLayout({ children }) {
     }));
   };
   return (
-    <Stack direction="row" spacing={2} className="admin-layout-container"
-      sx={{background:'#EEF2F6'}}
-    >
-      <div className="admin-layout-navigation">
-        <Stack
-          direction="row"
-          sx={{
-            width: "100%",
-            height: "7rem",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image src="/logo.png" alt="me" width="40" height="40" />
-          <Typography
-            sx={{
-              fontSize: "3rem",
-              color: "#FF9EAA",
-              fontWeight: "600",
-            }}
-          >
-            Unicorn
-          </Typography>
-        </Stack>
-        <ToggleButtonGroup
-          orientation="vertical"
-          exclusive
-          sx={{ width: "100%", textAlign: "start" }}
-        >
-          {navigationContents.map((item, index) => (
-            <Link href="#" key={index}>
-              <ToggleButton
-                aria-label="list"
-                className="admin-layout-nav-button"
-                onClick={() => toggleItem(index)}
-                sx={{
-                  width: "100%",
-                  border: "none",
-                  height: "7rem",
-                  justifyContent: "flex-start",
-                  paddingLeft: "5rem",
-                  backgroundColor: item.path === pathName ? "#38AC8F" : "",
-                  color: item.path === pathName ? "#fff" : "",
-                }}
-              >
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  sx={{
-                    textAlign: "start",
-                    fontSize: "1.5rem",
-                  }}
-                >
-                  {item.icon}
-                  <span>{item.titile}</span>
-                </Stack>
-                {item.listItem ? (
-                  openItems[index] ? (
-                    <ExpandLess />
-                  ) : (
-                    <ExpandMore />
-                  )
-                ) : null}
-              </ToggleButton>
-              {item.listItem ? (
-                <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
-                  <ToggleButtonGroup
-                    sx={{ width: "100%", textAlign: "start" }}
-                    orientation="vertical"
-                    exclusive
-                  >
-                    {item.listItem.map((childItem, childIndex) => (
-                      <Link href={childItem.path} sx={{ width: "100%" }}>
-                        <ToggleButton
-                          aria-label="list"
-                          className="admin-layout-nav-button-child"
-                          sx={{
-                            width: "100%",
-                            border: "none",
-                            justifyContent: "flex-start",
-                            paddingLeft: "6rem",
-                            color: childItem.path === pathName ? "#38AC8F" : "",
-                          }}
-                        >
-                          <span style={{ textTransform: "none" }}>
-                            {childItem.titile}
-                          </span>
-                        </ToggleButton>
-                      </Link>
-                    ))}
-                  </ToggleButtonGroup>
-                </Collapse>
-              ) : null}
-            </Link>
-          ))}
-        </ToggleButtonGroup>
-      </div>
-      <div className="admin-layout-right-content">
-        <div className="admin-layout-header">
-          <div className="admin-layout-search">
-            <Stack
-              direction="row"
-              sx={{
-                border: "1px solid #ccc",
-                width: "60rem",
-                padding: "1rem",
-                borderRadius: "4px",
-                alignItems: "center",
-              }}
-            >
-              <SearchOutlinedIcon />
-              <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Tìm kiếm" />
-            </Stack>
-          </div>
+    <div className="admin-container">
+      <Stack direction="row" spacing={2} className="admin-layout-container">
+        <div className="admin-layout-navigation">
           <Stack
             direction="row"
-            spacing={3}
-            className="admin-layout-account-notifi"
+            sx={{
+              width: "100%",
+              height: "7rem",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <NotificationsActiveOutlinedIcon sx={{ fontSize: "3rem" }} />
-            <Image alt="" src="/avatar.png" width={30} height={30} />
+            <Image src="/logo.png" alt="me" width="40" height="40" />
+            <Typography
+              sx={{
+                fontSize: "3rem",
+                color: "#FF9EAA",
+                fontWeight: "600",
+              }}
+            >
+              Unicorn
+            </Typography>
           </Stack>
+          <ToggleButtonGroup
+            orientation="vertical"
+            exclusive
+            sx={{ width: "100%", textAlign: "start" }}
+          >
+            {navigationContents.map((item, index) => (
+              <Link href="#" key={index}>
+                <ToggleButton
+                  aria-label="list"
+                  className="admin-layout-nav-button"
+                  onClick={() => toggleItem(index)}
+                  sx={{
+                    width: "100%",
+                    border: "none",
+                    height: "7rem",
+                    justifyContent: "flex-start",
+                    paddingLeft: "5rem",
+                    backgroundColor: item.path === pathName ? "#38AC8F" : "",
+                    color: item.path === pathName ? "#fff" : "",
+                  }}
+                >
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{
+                      textAlign: "start",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    {item.icon}
+                    <span>{item.titile}</span>
+                  </Stack>
+                  {item.listItem ? (
+                    openItems[index] ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    )
+                  ) : null}
+                </ToggleButton>
+                {item.listItem ? (
+                  <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
+                    <ToggleButtonGroup
+                      sx={{ width: "100%", textAlign: "start" }}
+                      orientation="vertical"
+                      exclusive
+                    >
+                      {item.listItem.map((childItem, childIndex) => (
+                        <Link href={childItem.path} sx={{ width: "100%" }}>
+                          <ToggleButton
+                            aria-label="list"
+                            className="admin-layout-nav-button-child"
+                            sx={{
+                              width: "100%",
+                              border: "none",
+                              justifyContent: "flex-start",
+                              paddingLeft: "6rem",
+                              color:
+                                childItem.path === pathName ? "#38AC8F" : "",
+                            }}
+                          >
+                            <span style={{ textTransform: "none" }}>
+                              {childItem.titile}
+                            </span>
+                          </ToggleButton>
+                        </Link>
+                      ))}
+                    </ToggleButtonGroup>
+                  </Collapse>
+                ) : null}
+              </Link>
+            ))}
+          </ToggleButtonGroup>
         </div>
-        <MainContent>{children}</MainContent>
-      </div>
-    </Stack>
+        <div className="admin-layout-right-content">
+          <div className="admin-layout-header">
+            <div className="admin-layout-search">
+              <Stack
+                direction="row"
+                sx={{
+                  border: "1px solid #ccc",
+                  width: "60rem",
+                  padding: "1rem",
+                  borderRadius: "4px",
+                  alignItems: "center",
+                }}
+              >
+                <SearchOutlinedIcon />
+                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Tìm kiếm" />
+              </Stack>
+            </div>
+            <Stack
+              direction="row"
+              spacing={3}
+              className="admin-layout-account-notifi"
+            >
+              <NotificationsActiveOutlinedIcon sx={{ fontSize: "3rem" }} />
+              <Image alt="" src="/avatar.png" width={30} height={30} />
+            </Stack>
+          </div>
+          <MainContent>{children}</MainContent>
+        </div>
+      </Stack>
+    </div>
   );
 }
