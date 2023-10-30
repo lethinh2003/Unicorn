@@ -132,6 +132,7 @@ export default function Notifies() {
               >
                 {Array.from({ length: 3 }).map((_item, i) => (
                   <Box
+                    key={i}
                     sx={{
                       width: "100%",
 

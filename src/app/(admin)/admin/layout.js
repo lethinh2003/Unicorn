@@ -1,32 +1,22 @@
 "use client";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import AutoGraphOutlinedIcon from "@mui/icons-material/AutoGraphOutlined";
+import MainContent from "@/components/layouts/MainContent";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import AutoGraphOutlinedIcon from "@mui/icons-material/AutoGraphOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
-import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
-import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import {
-  Stack,
-  Typography,
-  InputBase,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Collapse,
-} from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
-import MainContent from "@/components/layouts/MainContent";
-import Link from "next/link";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+import { Collapse, InputBase, Stack, Typography } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -297,7 +287,11 @@ export default function AdminLayout({ children }) {
                       exclusive
                     >
                       {item.listItem.map((childItem, childIndex) => (
-                        <Link href={childItem.path} sx={{ width: "100%" }}>
+                        <Link
+                          key={childIndex}
+                          href={childItem.path}
+                          sx={{ width: "100%" }}
+                        >
                           <ToggleButton
                             aria-label="list"
                             className="admin-layout-nav-button-child"

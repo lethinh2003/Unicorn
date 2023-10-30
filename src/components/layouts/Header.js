@@ -1,41 +1,17 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileOption from "./ProfileOption";
-import SearchBarHeader from "./SearchBarHeader";
 
-import { useState } from "react";
+import HeaderMobileNavigation from "./HeaderMobileNavigation";
 import HeaderNavigation from "./HeaderNavigation";
+import SearchProducts from "./SearchProducts";
 
 const Header = () => {
-  const [isMenHover, setIsMenHover] = useState(false);
-  const [isWomenHover, setIsWomenHover] = useState(false);
-
-  const [showSearchBar, setShowSearchBar] = useState(false);
-
-  const handleShowSearchBar = () => setShowSearchBar(true);
-
-  const handleMenMouseEnter = () => {
-    setIsMenHover(true);
-  };
-
-  const handleMenMouseLeave = () => {
-    setIsMenHover(false);
-  };
-
-  const handleWomenMouseEnter = () => {
-    setIsWomenHover(true);
-  };
-
-  const handleWomenMouseLeave = () => {
-    setIsWomenHover(false);
-  };
-
   return (
     <>
       <Box
@@ -81,66 +57,7 @@ const Header = () => {
               </Typography>
             </Box>
           </Link>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              textTransform: "uppercase",
-              fontSize: "1.8rem",
-              marginTop: "0.5rem",
-              gap: "2rem",
-              flex: 1,
-            }}
-          >
-            <Box
-              sx={{
-                paddingLeft: "2rem",
-                cursor: "pointer",
-              }}
-              onMouseEnter={handleMenMouseEnter}
-              onMouseLeave={handleMenMouseLeave}
-            >
-              <Stack>
-                <Link href="/products?gender=men">
-                  <span className="category-gender-button">Nam</span>
-                </Link>
-                <div className="header-men-categories">
-                  {isMenHover && <HeaderNavigation GENDER="men" />}
-                </div>
-              </Stack>
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: "3rem",
-                cursor: "pointer",
-              }}
-              onMouseEnter={handleWomenMouseEnter}
-              onMouseLeave={handleWomenMouseLeave}
-            >
-              <Link href="/products?gender=women">
-                <span className="category-gender-button">Nữ</span>
-              </Link>
-              <div className="header-women-categories">
-                {isWomenHover && <HeaderNavigation GENDER="women" />}
-              </div>
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: "3rem",
-                color: "primary.main",
-              }}
-            >
-              Best Saller
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: "3rem",
-                color: "primary.main",
-              }}
-            >
-              Sale
-            </Box>
-          </Box>
+          <HeaderNavigation />
         </Box>
         <Box
           sx={{
@@ -152,24 +69,12 @@ const Header = () => {
           <Box
             sx={{
               display: "flex",
-              gap: "1rem",
-            }}
-          >
-            <SearchIcon
-              sx={{
-                fontSize: "3rem",
-                cursor: "pointer",
-              }}
-              onClick={() => handleShowSearchBar()}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
               alignItems: "center",
               gap: "1rem",
             }}
           >
+            <HeaderMobileNavigation />
+            <SearchProducts />
             <Link href={ROUTERS_PATH.FAVORITE_PRODUCT}>
               <FavoriteBorderIcon
                 sx={{
@@ -190,11 +95,6 @@ const Header = () => {
           </Box>
         </Box>
       </Box>
-
-      <SearchBarHeader
-        showSearchBar={showSearchBar}
-        setShowSearchBar={setShowSearchBar}
-      />
     </>
   );
 };
