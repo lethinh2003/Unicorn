@@ -6,32 +6,122 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
-const getCategories = async (gender) => {
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=${gender}`
-    );
-    const data = response.data.data;
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
+export default function HeaderNavigation() {
+  const [isMenHover, setIsMenHover] = useState(false);
+  const [isWomenHover, setIsWomenHover] = useState(false);
 
-export default function HeaderNavigation({ GENDER }) {
+  const handleMenMouseEnter = () => {
+    setIsMenHover(true);
+  };
+
+  const handleMenMouseLeave = () => {
+    setIsMenHover(false);
+  };
+
+  const handleWomenMouseEnter = () => {
+    setIsWomenHover(true);
+  };
+
+  const handleWomenMouseLeave = () => {
+    setIsWomenHover(false);
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: { xs: "none", md: "flex" },
+          alignItems: "center",
+          textTransform: "uppercase",
+          fontSize: "1.8rem",
+          marginTop: "0.5rem",
+          gap: "2rem",
+          flex: 1,
+        }}
+      >
+        <Box
+          sx={{
+            paddingLeft: "2rem",
+            cursor: "pointer",
+          }}
+          onMouseEnter={handleMenMouseEnter}
+          onMouseLeave={handleMenMouseLeave}
+        >
+          <Stack>
+            <Link href="/products?gender=men">
+              <span className="category-gender-button">Nam</span>
+            </Link>
+            <div className="header-men-categories">
+              {isMenHover && <HeaderNavigationItem GENDER="men" />}
+            </div>
+          </Stack>
+        </Box>
+        <Box
+          sx={{
+            paddingLeft: "3rem",
+            cursor: "pointer",
+          }}
+          onMouseEnter={handleWomenMouseEnter}
+          onMouseLeave={handleWomenMouseLeave}
+        >
+          <Link href="/products?gender=women">
+            <span className="category-gender-button">Nữ</span>
+          </Link>
+          <div className="header-women-categories">
+            {isWomenHover && <HeaderNavigationItem GENDER="women" />}
+          </div>
+        </Box>
+        <Box
+          sx={{
+            paddingLeft: "3rem",
+            color: "primary.main",
+          }}
+        >
+          Best Seller
+        </Box>
+        <Box
+          sx={{
+            paddingLeft: "3rem",
+            color: "primary.main",
+          }}
+        >
+          Sale
+        </Box>
+      </Box>
+    </>
+  );
+}
+function HeaderNavigationItem({ GENDER }) {
   const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const getCategories = async (gender) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=${gender}`
+      );
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const handleMouseLeave = () => {
     setIsModalOpen(false);
   };
-  const { data, isLoading, isError } = useQuery(["categories", GENDER], () =>
-    getCategories(GENDER)
+  const { data, isLoading, isError } = useQuery(
+    ["categories", GENDER],
+    () => getCategories(GENDER),
+    {
+      staleTime: Infinity,
+    }
   );
 
   if (isLoading)

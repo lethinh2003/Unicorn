@@ -1,3 +1,4 @@
+"use client";
 import { ConvertMoney } from "@/utils/convertMoney";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { Box, Checkbox, Skeleton, Stack, Typography } from "@mui/material";

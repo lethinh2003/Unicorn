@@ -58,7 +58,7 @@ const Footer = () => {
           sx={{
             position: "relative",
             width: "100%",
-            marginBottom: "4rem",
+            marginBottom: "8rem",
             padding: "0 1rem",
           }}
         >
@@ -93,6 +93,8 @@ const Footer = () => {
             justifyContent: "space-around",
             maxWidth: "1100px",
             padding: "0 1rem",
+            flexDirection: { xs: "column", md: "row" },
+            gap: "1rem",
           }}
         >
           {data.map((item, i) => (
@@ -102,6 +104,7 @@ const Footer = () => {
                 display: "flex",
                 flexDirection: "column",
                 paddingBottom: "1rem",
+                gap: "1rem",
               }}
             >
               <Typography
@@ -114,13 +117,24 @@ const Footer = () => {
                 {item.title}
               </Typography>
               {item?.contents?.map((childItem) => (
-                <Typography key={childItem.title}>{childItem.title}</Typography>
+                <Typography
+                  key={childItem.title}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {childItem.title}
+                </Typography>
               ))}
             </Box>
           ))}
         </Box>
         <Box
           sx={{
+            marginTop: "2rem",
             width: "100%",
             height: "300px",
             background:
