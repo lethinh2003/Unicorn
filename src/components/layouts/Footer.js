@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 const Footer = () => {
   const data = [
     {
@@ -86,13 +86,13 @@ const Footer = () => {
             Contact us
           </Typography>
         </Box>
-        <Box
+        <Container
           sx={{
             display: "flex",
             width: "100%",
             justifyContent: "space-around",
             maxWidth: "1100px",
-            padding: "0 1rem",
+
             flexDirection: { xs: "column", md: "row" },
             gap: "1rem",
           }}
@@ -131,7 +131,7 @@ const Footer = () => {
               ))}
             </Box>
           ))}
-        </Box>
+        </Container>
         <Box
           sx={{
             marginTop: "2rem",

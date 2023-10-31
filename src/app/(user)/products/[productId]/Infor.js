@@ -1,13 +1,12 @@
 "use client";
 import { ConvertMoney } from "@/utils/convertMoney";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import FavoriteProduct from "./FavoriteProduct";
 export default function Infor({ dataProduct }) {
   const router = useRouter();
   // Add to List Viewed
@@ -61,7 +60,6 @@ export default function Infor({ dataProduct }) {
   const [isAvailableProduct, setIsAvailableProduct] = useState(
     productData.stockSizeQuantities >= productData.quantity
   );
-  const [isFavorite, setIsFavorite] = useState(false);
   const [activeImage, setActiveImage] = useState(
     "https://i.imgur.com/yLTbVSD.png"
   );
@@ -411,25 +409,7 @@ export default function Infor({ dataProduct }) {
                       +
                     </Box>
                   </Box>
-                  {!isFavorite && (
-                    <FavoriteBorderOutlinedIcon
-                      onClick={() => setIsFavorite(!isFavorite)}
-                      sx={{
-                        cursor: "pointer",
-                        fontSize: "3rem",
-                      }}
-                    />
-                  )}
-                  {isFavorite && (
-                    <FavoriteIcon
-                      onClick={() => setIsFavorite(!isFavorite)}
-                      sx={{
-                        cursor: "pointer",
-                        color: "#f44336",
-                        fontSize: "3rem",
-                      }}
-                    />
-                  )}
+                  <FavoriteProduct dataProduct={dataProduct} />
                 </Box>
                 <Typography
                   sx={{

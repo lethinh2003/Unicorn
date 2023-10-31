@@ -1,6 +1,7 @@
 import ThemeLayout from "@/components/layouts/ThemeLayout";
 import NextAuthProvider from "@/components/providers/NextAuth";
 import ReactQueryProvider from "@/components/providers/ReactQuery";
+import ReduxProvider from "@/components/providers/Redux";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.scss";
 
@@ -15,7 +16,9 @@ export default async function RootLayout({ children }) {
       <body>
         <ThemeLayout options={{ key: "mui" }}>
           <NextAuthProvider>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ReactQueryProvider>
+              <ReduxProvider>{children}</ReduxProvider>
+            </ReactQueryProvider>
           </NextAuthProvider>
         </ThemeLayout>
       </body>
