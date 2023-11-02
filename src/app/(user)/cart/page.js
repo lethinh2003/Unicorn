@@ -3,6 +3,7 @@ import LoadingBox from "@/components/generals/LoadingBox";
 import USER_MESSAGES from "@/configs/config.users.messages";
 import useAuth from "@/customHooks/useAuth";
 import {
+  Box,
   Breadcrumbs,
   Button,
   Container,
@@ -147,22 +148,31 @@ function Cart() {
           position: "relative",
           display: "flex",
           justifyContent: "space-between",
-          marginTop: "9rem",
         }}
       >
-        <div className="redirect-title-container">
-          <div className="redirect">
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" href="/">
-                Trang chủ
-              </Link>
-              <Typography color="text.primary">Giỏ hàng</Typography>
-            </Breadcrumbs>
-          </div>
+        <div className="redirect">
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/">
+              Trang chủ
+            </Link>
+            <Typography color="text.primary">Giỏ hàng</Typography>
+          </Breadcrumbs>
         </div>
       </div>
-      <div className="cart-container">
-        <div className="cart-left-panel">
+      <Box
+        className="cart-container"
+        sx={{
+          marginTop: "2rem",
+          flexDirection: { xs: "column", md: "row" },
+          height: "auto",
+        }}
+      >
+        <Box
+          className="cart-left-panel"
+          sx={{
+            width: { xs: "100%", md: "65%" },
+          }}
+        >
           <div className="cart-left-panel-header">
             <div className="cart-left-panel-title">Giỏ hàng</div>
             <div className="cart-left-panel-quantity">
@@ -337,8 +347,14 @@ function Cart() {
               </TableContainer>
             )}
           </div>
-        </div>
-        <div className="cart-right-panel">
+        </Box>
+        <Box
+          className="cart-right-panel"
+          sx={{
+            width: "100%",
+            flex: 1,
+          }}
+        >
           <div className="cart-right-panel-header">
             <div className="cart-right-panel-title" style={{ color: "#fff" }}>
               Tổng đơn
@@ -424,8 +440,8 @@ function Cart() {
               Tiếp tục
             </Button>
           </div>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </Container>
   );
 }
