@@ -14,5 +14,9 @@ const USER_MESSAGES = {
   PHONE_NUMBER_MISSING: "Vui lòng nhập số điện thoại",
   PHONE_NUMBER_INVALID: "Số điện thoại không hợp lệ",
   BIRTHDAY_INVALID: "Định dạng ngày sinh không hợp lệ",
+  PROVINE_MISSING: "Vui lòng chọn tỉnh/thành",
+  DISTRICT_MISSING: "Vui lòng chọn quận/huyện",
+  WARD_MISSING: "Vui lòng chọn phường xã",
+  ADDRESS_MISSING: "Vui lòng nhập địa chỉ"
 };
 export default USER_MESSAGES;
