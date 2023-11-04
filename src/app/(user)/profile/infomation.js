@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { useRouter } from 'next/navigation'
 const getInformationUser = async () => {
   try {
     const response = await axios.get(
@@ -40,6 +41,7 @@ export default function Infomation() {
     }
   }, [isError]);
 
+  const Router = useRouter();
   return (
     <div className="infomation-container">
       <div className="redirect-title-container">
@@ -58,7 +60,7 @@ export default function Infomation() {
       <div className="user-desc-container">
         <div className="user-desc-header">
           <span className="user-desc-text">Thông tin cá nhân</span>
-          <Button className="edit-infomation-button">Sửa thông tin</Button>
+          <Button onClick={() => Router.push('/profile/edit')} className="edit-infomation-button">Sửa thông tin</Button>
         </div>
         <div className="user-desc-body">
           {isLoading && (
@@ -76,9 +78,9 @@ export default function Infomation() {
               <div className="user-title">
                 <span className="user-title-item">Họ và tên:</span>
                 <span className="user-title-item">Email:</span>
-                <span className="user-title-item">Ngày sinh</span>
-                <span className="user-title-item">Giới tính</span>
-                <span className="user-title-item">Số điện thoại</span>
+                <span className="user-title-item">Ngày sinh:</span>
+                <span className="user-title-item">Giới tính:</span>
+                <span className="user-title-item">Số điện thoại:</span>
               </div>
               <div className="user-desc-value">
                 <span className="user-desc-value-item">

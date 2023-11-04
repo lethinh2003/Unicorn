@@ -1,19 +1,22 @@
-"use client";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Box, Typography } from "@mui/material";
-const DESC = [
-  {
-    title: "Tổng quan",
-    desc: "- Smooth fleece lightly brushed for extra warmth.",
-  },
-  {
-    title: "Chất liệu",
-    desc: "Xin lưu ý mã số nhận diện của sản phẩm có thể có sự khác biệt, kể cả khi đó là cùng một mặt hàng.",
-  },
-];
+import { getDetailInformationProduct } from "./InforPage";
 
-export default function Description() {
+export default async function Description({ productId }) {
+  const dataProduct = await getDetailInformationProduct({
+    productId,
+  });
+
+  const convertTypeDescription = (type) => {
+    if (type === "overview") {
+      return "Tổng quan";
+    } else if (type === "material") {
+      return "Chất liệu";
+    }
+    return "";
+  };
+
   return (
     <>
       <Box>
@@ -39,9 +42,9 @@ export default function Description() {
             flexDirection: "column",
           }}
         >
-          {DESC.map((item) => (
+          {dataProduct?.product_description?.map((item) => (
             <Box
-              key={item.title}
+              key={item.type}
               sx={{
                 borderBottom: "1px solid",
                 padding: "1.5rem 0",
@@ -52,14 +55,14 @@ export default function Description() {
                   fontSize: "2rem",
                 }}
               >
-                {item.title}
+                {convertTypeDescription(item.type)}
               </Typography>
               <Typography
                 sx={{
                   paddingLeft: "1rem",
                 }}
               >
-                {item.desc}
+                {item.content}
               </Typography>
             </Box>
           ))}

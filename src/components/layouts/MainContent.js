@@ -21,7 +21,7 @@ const MainContent = ({ children }) => {
       <Box
         sx={{
           padding: "0 1rem",
-          paddingTop: "10rem",
+          paddingTop: "12rem",
         }}
       >
         {children}

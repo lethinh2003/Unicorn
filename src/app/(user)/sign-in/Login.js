@@ -90,7 +90,6 @@ function Login() {
       router.push(ROUTERS_PATH.HOME_PAGE);
     } catch (err) {
       setIsLoading(false);
-      console.log(err);
       toast.error(err?.message);
     }
   };

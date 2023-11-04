@@ -1,60 +1,43 @@
-"use client";
-import { Box, Breadcrumbs, Container, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box } from "@mui/material";
 import Description from "./Description";
-import Infor from "./Infor";
+import InforPage from "./InforPage";
 import ListSuggesting from "./ListSuggesting";
 import ListViewed from "./ListViewed";
-import Review from "./Review";
+import ReviewPage from "./ReviewPage";
+export default function Home({ params }) {
+  const { productId } = params;
 
-export default function Home() {
   return (
     <>
-      <Container>
-        <div className="redirect">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/">
-              <Typography underline="hover" color="inherit">
-                Trang chủ
-              </Typography>
-            </Link>
-            <Link href="/products">
-              <Typography underline="hover" color="inherit">
-                Sản phẩm
-              </Typography>
-            </Link>
-            <Typography color="text.primary">
-              Áo thun tay ngắn họa tiết
-            </Typography>
-          </Breadcrumbs>
-        </div>
-        <Infor />
+      <InforPage productId={productId} />
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: "2rem",
+          paddingTop: "4rem",
+          flexDirection: { xs: "column-reverse", md: "row" },
+        }}
+      >
         <Box
           sx={{
-            display: "flex",
-            gap: "2rem",
+            width: { xs: "100%", md: "55%" },
           }}
         >
-          <Box
-            sx={{
-              width: "55%",
-            }}
-          >
-            <ListSuggesting />
-          </Box>
-          <Box
-            sx={{
-              flex: 1,
-            }}
-          >
-            <Description />
-          </Box>
+          <ListSuggesting productId={productId} />
         </Box>
+        <Box
+          sx={{
+            flex: 1,
+          }}
+        >
+          <Description productId={productId} />
+        </Box>
+      </Box>
 
-        <Review />
+      <ReviewPage productId={productId} />
 
-        <ListViewed />
-      </Container>
+      <ListViewed />
     </>
   );
 }
