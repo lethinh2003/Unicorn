@@ -1,7 +1,8 @@
 "use client";
-import LoadingBox from "@/components/generals/LoadingBox";
-import USER_MESSAGES from "@/configs/config.users.messages";
+import LoadingBox, { LoadingContent } from "@/components/generals/LoadingBox";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import useAuth from "@/customHooks/useAuth";
+import { ConvertMoney } from "@/utils/convertMoney";
 import {
   Box,
   Breadcrumbs,
@@ -17,10 +18,14 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import useGetListCart from "./useGetListCart";
 //fake data san pham
 const PRODUCTS_CART = [
   {
@@ -49,7 +54,7 @@ const PRODUCTS_CART = [
     product_color: "Đen",
     product_size: "L",
     product_quantities: 2,
-    product_price: 100000,
+    product_price: 102000.89,
     product_image:
       "https://tse2.mm.bing.net/th?id=OIP.jvlty0y7lA8IR-8vKV57ygHaJQ&pid=Api&P=0&h=220",
   },
@@ -76,69 +81,20 @@ const PRODUCTS_CART = [
 ];
 
 function Cart() {
-  const { isAuthenticated } = useAuth();
-
   const [products, setProducts] = useState(PRODUCTS_CART);
   const [isLoading, setIsLoading] = useState(false);
+
   const Router = useRouter();
-  const handleContinue = () => {
-    // Check if user doesn not login -> require login
-    if (!isAuthenticated) {
-      toast.error(USER_MESSAGES.USER_UNAUTHENTICATED);
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-    Router.push("/cart/payment");
-  };
-
-  const handleChangeQuantity = (value = 0, product_id = 0) => {
-    const newProducts = [...products];
-    if (value <= 0 && value !== "") {
-      newProducts.forEach((item) => {
-        if (item.product_id === product_id) {
-          setProducts(
-            newProducts.filter((item) => item.product_id !== product_id)
-          );
-        }
-      });
-    } else {
-      newProducts.forEach((item) => {
-        if (item.product_id === product_id) {
-          item.product_quantities = value;
-        }
-      });
-      setProducts(newProducts);
-    }
-  };
-
-  const handleIncrease = (product_id) => {
-    const newProducts = [...products];
-    newProducts.forEach((item) => {
-      if (item.product_id === product_id) {
-        item.product_quantities++;
-      }
-    });
-    setProducts(newProducts);
-  };
-
-  const handleDecrease = (product_id) => {
-    const newProducts = [...products];
-    newProducts.forEach((item) => {
-      if (item.product_id === product_id) {
-        if (item.product_quantities > 1) {
-          item.product_quantities--;
-          setProducts(newProducts);
-        } else {
-          setProducts(
-            newProducts.filter((item) => item.product_id !== product_id)
-          );
-        }
-      }
-    });
-  };
+  const {
+    session,
+    data: dataListCartItems,
+    isLoading: isLoadingGetListCartItems,
+    isFetching,
+    isError,
+    error,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetListCart();
 
   return (
     <Container sx={{ display: "block" }}>
@@ -174,178 +130,85 @@ function Cart() {
           }}
         >
           <div className="cart-left-panel-header">
-            <div className="cart-left-panel-title">Giỏ hàng</div>
+            <h1>Giỏ hàng</h1>
             <div className="cart-left-panel-quantity">
-              {products.length} sản phẩm
+              {dataListCartItems.length} sản phẩm
             </div>
           </div>
           <div className="cart-left-panel-body">
-            {products.length === 0 ? (
-              <div className="cart-empty">
-                <img src="./emptyCart.png" />
-                <p>Giỏ hàng của bạn đang trống</p>
-                <Button
-                  sx={{
-                    backgroundColor: "#FFFFFF",
-                    color: "#FFFFFF",
-                    backgroundColor: "#BFBBBB",
-                    padding: "0.5rem 5rem",
-                    "&:hover": {
-                      color: "#FFFFFF",
-                      backgroundColor: "#BFBBBB",
-                      opacity: ".5",
-                    },
-                  }}
-                  onClick={() => Router.push("/")}
-                >
-                  Mua ngay
-                </Button>
-              </div>
-            ) : (
-              <TableContainer
+            {isLoadingGetListCartItems && (
+              <Box
                 sx={{
-                  overflowY: "scroll",
-                  maxHeight: "40rem",
-                  "&::-webkit-scrollbar": {
-                    display: "none",
-                  },
+                  marginTop: "1rem",
                 }}
               >
-                <Table>
-                  <TableHead>
-                    <TableRow
-                      sx={{
-                        position: "sticky",
-                        top: 0,
-                        backgroundColor: "#f5f5f5",
-                        boxShadow: "1px 0 2px var(--Black-Color)",
-                        zIndex: 1,
-                      }}
-                    >
-                      <TableCell>Sản phẩm</TableCell>
-                      <TableCell align="center">Số lượng</TableCell>
-                      <TableCell align="center">Đơn giá</TableCell>
-                      <TableCell align="center" sx={{ width: "15rem" }}>
-                        Tổng
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {products.map((item) => {
-                      return (
-                        <TableRow key={item.product_id}>
-                          <TableCell>
-                            <Stack direction="row" spacing={2}>
-                              <img
-                                src={item.product_image}
-                                style={{
-                                  width: "10rem",
-                                  height: "10rem",
-                                  objectFit: "fill",
-                                }}
-                              />
-                              <Stack spacing={3}>
-                                <span
-                                  style={{
-                                    fontSize: "1.5rem",
-                                    fontWeight: 600,
-                                  }}
-                                >
-                                  {item.product_name}
-                                </span>
-                                <span style={{ fontSize: "1.3rem" }}>
-                                  Màu: {item.product_color}
-                                </span>
-                                <span style={{ fontSize: "1.3rem" }}>
-                                  Kích thước: {item.product_size}
-                                </span>
-                              </Stack>
-                            </Stack>
-                          </TableCell>
-                          <TableCell align="center">
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Button
-                                sx={{
-                                  border: ".1rem solid #787474",
-                                  minWidth: "1rem",
-                                  minHeight: "1rem",
-                                  height: "3rem",
-                                  width: "3rem",
-                                  backgroundColor: "#D9D9D9",
-                                  color: "#787474",
-                                  "&:hover": {
-                                    backgroundColor: "#D9D9D9",
-                                    opacity: ".5",
-                                  },
-                                }}
-                                onClick={() => handleDecrease(item.product_id)}
-                              >
-                                -
-                              </Button>
-                              <input
-                                type="number"
-                                onChange={(e) =>
-                                  handleChangeQuantity(
-                                    e.target.value,
-                                    item.product_id
-                                  )
-                                }
-                                disableUnderline={true}
-                                style={{
-                                  backgroundColor: "#D9D9D9",
-                                  border: ".1rem solid #787474",
-                                  minWidth: "3rem",
-                                  minHeight: "3rem",
-                                  height: "3rem",
-                                  width: "5rem",
-                                  padding: "0 .5rem",
-                                  fontWeight: 800,
-                                  textAlign: "center",
-                                  color: "#787474",
-                                }}
-                                value={item.product_quantities}
-                              ></input>
-                              <Button
-                                sx={{
-                                  border: ".1rem solid #787474",
-                                  minWidth: "3rem",
-                                  minHeight: "3rem",
-                                  height: "3rem",
-                                  width: "3rem",
-                                  backgroundColor: "#D9D9D9",
-                                  color: "#787474",
-                                  "&:hover": {
-                                    backgroundColor: "#D9D9D9",
-                                    opacity: ".5",
-                                  },
-                                }}
-                                onClick={() => handleIncrease(item.product_id)}
-                              >
-                                +
-                              </Button>
-                            </div>
-                          </TableCell>
-                          <TableCell align="center" sx={{ width: "10rem" }}>
-                            {item.product_price.toLocaleString("vi-VN")}đ
-                          </TableCell>
-                          <TableCell align="center" sx={{ width: "15rem" }}>
-                            {(
-                              item.product_price * item.product_quantities
-                            ).toLocaleString("vi-VN")}
-                            đ
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                <LoadingContent />
+              </Box>
             )}
+            {!isLoadingGetListCartItems &&
+              session &&
+              dataListCartItems.length === 0 && (
+                <div className="cart-empty">
+                  <img src="./emptyCart.png" />
+                  <p>Giỏ hàng của bạn đang trống</p>
+                  <Button
+                    sx={{
+                      backgroundColor: "#FFFFFF",
+                      color: "#FFFFFF",
+                      backgroundColor: "#BFBBBB",
+                      padding: "0.5rem 5rem",
+                      "&:hover": {
+                        color: "#FFFFFF",
+                        backgroundColor: "#BFBBBB",
+                        opacity: ".5",
+                      },
+                    }}
+                    onClick={() => Router.push(ROUTERS_PATH.HOME_PRODUCT)}
+                  >
+                    Mua ngay
+                  </Button>
+                </div>
+              )}
+            {!isLoadingGetListCartItems &&
+              session &&
+              dataListCartItems.length != 0 && (
+                <TableContainer
+                  sx={{
+                    overflowY: "scroll",
+                    maxHeight: "40rem",
+                    "&::-webkit-scrollbar": {
+                      display: "none",
+                    },
+                  }}
+                >
+                  <Table>
+                    <TableHead>
+                      <TableRow
+                        sx={{
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "#f5f5f5",
+                          boxShadow: "1px 0 2px var(--Black-Color)",
+                          zIndex: 1,
+                        }}
+                      >
+                        <TableCell>Sản phẩm</TableCell>
+                        <TableCell align="center">Số lượng</TableCell>
+                        <TableCell align="center">Đơn giá</TableCell>
+                        <TableCell align="center" sx={{ width: "15rem" }}>
+                          Tổng
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                      {dataListCartItems.map((item) => {
+                        return <CartItem item={item} key={item._id} />;
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
           </div>
         </Box>
         <Box
@@ -356,9 +219,12 @@ function Cart() {
           }}
         >
           <div className="cart-right-panel-header">
-            <div className="cart-right-panel-title" style={{ color: "#fff" }}>
+            <Box
+              className="cart-right-panel-title"
+              sx={{ color: "#fff", fontSize: "3rem" }}
+            >
               Tổng đơn
-            </div>
+            </Box>
           </div>
           <div
             className="cart-right-panel-body"
@@ -372,10 +238,12 @@ function Cart() {
               <div className="cart-right-panel-price">
                 {(() => {
                   let totalPrice = 0;
-                  products.forEach((item) => {
-                    totalPrice += item.product_price * item.product_quantities;
+                  dataListCartItems.forEach((item) => {
+                    totalPrice +=
+                      item.data.product.product_original_price *
+                      item.data.quantities;
                   });
-                  return totalPrice.toLocaleString("vi-VN");
+                  return <ConvertMoney money={totalPrice} />;
                 })()}{" "}
                 đ
               </div>
@@ -435,7 +303,6 @@ function Cart() {
                   filter: "brightness(1.5)",
                 },
               }}
-              onClick={() => handleContinue()}
             >
               Tiếp tục
             </Button>
@@ -447,3 +314,351 @@ function Cart() {
 }
 
 export default Cart;
+
+const CartItem = ({ item }) => {
+  const { session } = useAuth();
+  const queryClient = useQueryClient();
+  const inputTimeoutRef = useRef();
+  const [quantityInput, setQuantityInput] = useState(item.data.quantities);
+  const countInStock = item.data.product.product_sizes.find(
+    (e) => e.size_type === item.data.size._id
+  ).size_quantities;
+
+  useEffect(() => {
+    setQuantityInput(item.data.quantities);
+    return () => {
+      clearTimeout(inputTimeoutRef.current);
+    };
+  }, [item]);
+
+  const updateQuanties = async ({
+    cartItemId,
+    productQuantitiesUpdate,
+    data,
+  }) => {
+    const results = await axios.post(
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/carts/cart-items/update-quantities`,
+      {
+        cartItemId,
+        productQuantitiesUpdate,
+      }
+    );
+    return results.data;
+  };
+  const mutationUpdateQuantities = useMutation({
+    mutationFn: ({ type, quantities }) =>
+      updateQuanties({
+        cartItemId: item._id,
+        productQuantitiesUpdate:
+          type === "increase"
+            ? item.data.quantities + 1
+            : type === "decrease"
+            ? item.data.quantities - 1
+            : type === "input"
+            ? quantities
+            : item.data.quantities,
+      }),
+    onMutate: () => {
+      const previousData = queryClient.getQueryData([
+        "get-list-cart-items",
+        session?.user?._id,
+      ]);
+
+      return { previousData };
+    },
+    onSuccess: (data, { type, quantities }) => {
+      queryClient.setQueryData(
+        ["get-list-cart-items", session?.user?._id],
+        (oldData) => {
+          if (oldData) {
+            const getListCartItemsOld = oldData?.data || [];
+            const updateListCartItems = getListCartItemsOld.map((e) => {
+              if (e._id === item._id) {
+                return {
+                  ...e,
+                  data: {
+                    ...e.data,
+                    quantities:
+                      type === "increase"
+                        ? e.data.quantities + 1
+                        : type === "decrease"
+                        ? e.data.quantities - 1
+                        : type === "input"
+                        ? quantities
+                        : e.data.quantities,
+                  },
+                };
+              } else {
+                return e;
+              }
+            });
+            return { ...oldData, data: updateListCartItems };
+          } else {
+            return oldData;
+          }
+        }
+      );
+    },
+    onError: (err, _, context) => {
+      const { data } = context.previousData;
+      const findCurrentCartItem = data?.find((e) => e._id === item._id);
+      setQuantityInput(findCurrentCartItem.data.quantities);
+      queryClient.setQueryData(
+        ["get-list-cart-items", session?.user?._id],
+        context.previousData
+      );
+      toast.error(err?.response?.data?.message);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["get-list-cart-items", session?.user?._id],
+      });
+    },
+  });
+
+  const removeCartItem = async ({ cartItemId }) => {
+    const results = await axios.post(
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/carts/cart-items/delete`,
+      {
+        cartItemId,
+      }
+    );
+    return results.data;
+  };
+  const mutationRemoveCartItem = useMutation({
+    mutationFn: () =>
+      removeCartItem({
+        cartItemId: item._id,
+      }),
+    onMutate: () => {
+      const previousData = queryClient.getQueryData([
+        "get-list-cart-items",
+        session?.user?._id,
+      ]);
+      return { previousData };
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        ["get-list-cart-items", session?.user?._id],
+        (oldData) => {
+          if (oldData) {
+            const getListCartItemsOld = oldData?.data || [];
+            const updateListCartItems = getListCartItemsOld.filter(
+              (e) => e._id !== item._id
+            );
+
+            return { ...oldData, data: updateListCartItems };
+          } else {
+            return oldData;
+          }
+        }
+      );
+    },
+    onError: (err, _, context) => {
+      const { data } = context.previousData;
+      queryClient.setQueryData(
+        ["get-list-cart-items", session?.user?._id],
+        context.previousData
+      );
+      toast.error(err?.response?.data?.message);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["get-list-cart-items", session?.user?._id],
+      });
+    },
+  });
+
+  const handleIncreaseQuantity = () => {
+    mutationUpdateQuantities.mutate({
+      type: "increase",
+    });
+  };
+  const handleDecreaseQuantity = () => {
+    if (quantityInput === 1) {
+      handleRemoveCartItem();
+      return;
+    }
+    mutationUpdateQuantities.mutate({
+      type: "decrease",
+    });
+  };
+  const handleUpdateQuantity = (value) => {
+    clearTimeout(inputTimeoutRef.current);
+    setQuantityInput(value);
+    inputTimeoutRef.current = setTimeout(() => {
+      if (!value || value == 0) {
+        handleRemoveCartItem();
+        return;
+      }
+      mutationUpdateQuantities.mutate({
+        type: "input",
+        quantities: value,
+      });
+    }, 500);
+  };
+
+  const handleRemoveCartItem = () => {
+    mutationRemoveCartItem.mutate();
+  };
+
+  return (
+    <>
+      {mutationUpdateQuantities.isLoading && (
+        <LoadingBox isLoading={mutationUpdateQuantities.isLoading} />
+      )}
+      {mutationRemoveCartItem.isLoading && (
+        <LoadingBox isLoading={mutationRemoveCartItem.isLoading} />
+      )}
+      <TableRow>
+        <TableCell>
+          <Stack direction="row" spacing={2}>
+            <Box
+              sx={{
+                position: "relative",
+                width: "10rem",
+                height: "10rem",
+              }}
+            >
+              <Image
+                src={item.data.product.product_images[0]}
+                alt={item.data.product.product_name}
+                width={1000}
+                height={200}
+                style={{
+                  width: "100%",
+                  objectFit: "contain",
+                  height: "100%",
+                }}
+              />
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
+            >
+              <Link
+                href={ROUTERS_PATH.DETAIL_PRODUCT.replace(
+                  "{productId}",
+                  item.data.product._id
+                )}
+              >
+                <span
+                  className="three-dots"
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 600,
+                  }}
+                  title={item.data.product.product_name}
+                >
+                  {item.data.product.product_name}
+                </span>
+              </Link>
+              <span style={{ fontSize: "1.3rem" }}>
+                Màu: {item.data.product.product_color.product_color_name}
+              </span>
+              <span style={{ fontSize: "1.3rem" }}>
+                Kích thước: {item.data.size.product_size_name}
+              </span>
+              <Typography
+                sx={{
+                  fontSize: "1.3rem",
+                  cursor: "pointer",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={handleRemoveCartItem}
+              >
+                [Xoá]
+              </Typography>
+            </Box>
+          </Stack>
+        </TableCell>
+        <TableCell align="center">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              sx={{
+                border: ".1rem solid #787474",
+                minWidth: "1rem",
+                minHeight: "1rem",
+                height: "3rem",
+                width: "3rem",
+                backgroundColor: "#D9D9D9",
+                color: "#787474",
+                "&:hover": {
+                  backgroundColor: "#D9D9D9",
+                  opacity: ".5",
+                },
+              }}
+              onClick={() => handleDecreaseQuantity()}
+            >
+              -
+            </Button>
+            <input
+              type="number"
+              onChange={(e) => handleUpdateQuantity(e.target.value)}
+              style={{
+                backgroundColor: "#D9D9D9",
+                border: ".1rem solid #787474",
+                minWidth: "3rem",
+                minHeight: "3rem",
+                height: "3rem",
+                width: "5rem",
+                padding: "0 .5rem",
+                fontWeight: 800,
+                textAlign: "center",
+                color: "#787474",
+              }}
+              value={quantityInput}
+            ></input>
+            <Button
+              sx={{
+                border: ".1rem solid #787474",
+                minWidth: "3rem",
+                minHeight: "3rem",
+                height: "3rem",
+                width: "3rem",
+                backgroundColor: "#D9D9D9",
+                color: "#787474",
+                "&:hover": {
+                  backgroundColor: "#D9D9D9",
+                  opacity: ".5",
+                },
+              }}
+              onClick={() => handleIncreaseQuantity()}
+            >
+              +
+            </Button>
+          </div>
+          <Typography
+            sx={{
+              fontSize: "1.3rem",
+            }}
+          >
+            Trong kho còn {countInStock}
+          </Typography>
+        </TableCell>
+        <TableCell align="center" sx={{ width: "10rem" }}>
+          <ConvertMoney money={item.data.product.product_original_price} /> đ
+        </TableCell>
+        <TableCell align="center" sx={{ width: "15rem" }}>
+          <ConvertMoney
+            money={
+              item.data.product.product_original_price * item.data.quantities
+            }
+          />{" "}
+          đ
+        </TableCell>
+      </TableRow>
+    </>
+  );
+};

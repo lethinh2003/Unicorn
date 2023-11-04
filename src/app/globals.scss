@@ -1126,7 +1126,6 @@ text {
   text-align: center;
   padding: 6rem 4rem;
   width: 35%;
-  height: 100%;
 }
 
 .cart-left-panel-header,
@@ -1147,7 +1146,7 @@ text {
 .cart-left-panel-quantity {
   font-size: 2.5rem;
   font-weight: 600;
-  transform: translateY(25%);
+  // transform: translateY(25%);
   height: 100%;
 }
 
@@ -1187,6 +1186,7 @@ text {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .cart-right-panel-sale-off-price,
@@ -1195,7 +1195,7 @@ text {
 .cart-right-panel-sale-off,
 .cart-right-panel-price,
 .cart-right-panel-total {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
   transform: translateY(25%);
   height: 100%;
@@ -1330,13 +1330,13 @@ text {
   opacity: 0.2;
 }
 /////////////////////////////Admin layout////////////////
-.admin-container{
+.admin-container {
   background: #eef2f6;
 }
 .admin-layout-right-content {
   width: 100%;
 }
-.admin-layout-header{
+.admin-layout-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1345,14 +1345,13 @@ text {
   padding: 0 5rem;
   box-shadow: 2px 2px 2px #dcdbdb;
   border-left: 0.2px solid #e9e9e9;
-  background:#fff;
-
+  background: #fff;
 }
 .admin-layout-navigation {
   width: 28rem;
   height: 100%;
-  box-shadow: 2px 2px 2px  #dcdbdb;
-  background:#fff;
+  box-shadow: 2px 2px 2px #dcdbdb;
+  background: #fff;
 }
 .admin-layout-account-notifi {
   background-color: #cbf9ed;
@@ -1366,21 +1365,21 @@ text {
   color: #000 !important;
 }
 ////////////////////////add user ///////////////////////////
-.admin-user-add{
+.admin-user-add {
   margin-left: -1rem;
-  height:auto;
+  height: auto;
   padding: 1.4rem 2.4rem;
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap:2rem;
+  gap: 2rem;
   background-color: #fff;
 }
-.admin-user-add-form{
+.admin-user-add-form {
   width: 95rem;
 }
 
-.admin-users-header{
+.admin-users-header {
   color: #000;
   font-size: 5rem;
   font-style: normal;
@@ -1388,30 +1387,28 @@ text {
   line-height: normal;
 }
 
-.admin-users-add-basicInformation
-{
+.admin-users-add-basicInformation {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   gap: 2rem;
-  width:100%;
+  width: 100%;
 }
-.admin-users-add-title{
+.admin-users-add-title {
   font-size: 2.6rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
-.admin-users-add-other{
-  width:100%;
+.admin-users-add-other {
+  width: 100%;
 }
 //////////////////////////////Component header////////////////
-.admin-header-title{
-  margin: -9rem 0 1rem -1rem ;
+.admin-header-title {
+  margin: -9rem 0 1rem -1rem;
   background-color: #fff;
   height: 10rem;
 }
-.admin-header-title-text{
-  
+.admin-header-title-text {
   font-size: 4.5rem;
   font-weight: 500;
   padding: 2rem 0 1rem 2rem;
