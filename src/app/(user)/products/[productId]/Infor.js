@@ -1,14 +1,22 @@
 "use client";
+import LoadingBox from "@/components/generals/LoadingBox";
+import useAuth from "@/customHooks/useAuth";
 import { ConvertMoney } from "@/utils/convertMoney";
 import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import FavoriteProduct from "./FavoriteProduct";
 export default function Infor({ dataProduct }) {
+  const queryClient = useQueryClient();
+  const { session } = useAuth();
   const router = useRouter();
+
   // Add to List Viewed
   const [listViewed] = useLocalStorage("LIST_PRODUCTS_VIEWED", []);
   useEffect(() => {
@@ -56,6 +64,7 @@ export default function Infor({ dataProduct }) {
     quantity: 1,
     color: dataProduct.product_color.product_color_code,
     size: dataProduct.product_sizes[0].size_type.product_size_name,
+    sizeId: dataProduct.product_sizes[0].size_type._id,
   });
   const [isAvailableProduct, setIsAvailableProduct] = useState(
     productData.stockSizeQuantities >= productData.quantity
@@ -75,7 +84,6 @@ export default function Infor({ dataProduct }) {
         setActiveImage(dataProduct?.product_images[0]);
       }
     }
-    console.log({ dataProduct });
   }, [dataProduct]);
 
   const handleSetQuantity = (type) => {
@@ -89,9 +97,6 @@ export default function Infor({ dataProduct }) {
         }));
       }
     } else if (type === "+") {
-      // if (productData.quantity >= productData.stockSizeQuantities) {
-      //   return;
-      // }
       setProductData((productData) => ({
         ...productData,
         quantity: productData.quantity + 1,
@@ -99,8 +104,70 @@ export default function Infor({ dataProduct }) {
     }
   };
 
+  const addProductToCart = async ({
+    productId,
+    productQuantities,
+    productSize,
+  }) => {
+    const results = await axios.post(
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/carts/cart-items`,
+      {
+        productId,
+        productQuantities,
+        productSize,
+      }
+    );
+    return results.data;
+  };
+  const mutationAddToCart = useMutation({
+    mutationFn: () =>
+      addProductToCart({
+        productId: dataProduct._id,
+        productQuantities: productData.quantity,
+        productSize: productData.sizeId,
+      }),
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        ["get-list-cart-items", session?.user?._id],
+        (oldData) => {
+          if (oldData) {
+            const getListCartItemsOld = oldData?.data || [];
+            const updateListCartItems = [
+              ...getListCartItemsOld,
+              ...[
+                {
+                  user_id: session?.user?._id,
+                },
+              ],
+            ];
+
+            return { ...oldData, data: updateListCartItems };
+          } else {
+            return oldData;
+          }
+        }
+      );
+      toast.success(data?.message);
+    },
+    onError: (err, _, context) => {
+      toast.error(err?.response?.data?.message);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["get-list-cart-items", session?.user?._id],
+      });
+    },
+  });
+
+  const handleAddToCart = () => {
+    mutationAddToCart.mutate();
+  };
+
   return (
     <>
+      {mutationAddToCart.isLoading && (
+        <LoadingBox isLoading={mutationAddToCart.isLoading} />
+      )}
       {dataProduct && (
         <>
           <div className="redirect">
@@ -339,6 +406,7 @@ export default function Infor({ dataProduct }) {
                           setProductData((productData) => ({
                             ...productData,
                             size: item.size_type.product_size_name,
+                            sizeId: item.size_type._id,
                             stockSizeQuantities: item.size_quantities,
                           }))
                         }
@@ -434,6 +502,7 @@ export default function Infor({ dataProduct }) {
                         backgroundColor: "black",
                       },
                     }}
+                    onClick={() => handleAddToCart()}
                   >
                     Thêm vào giỏ hàng
                   </Button>

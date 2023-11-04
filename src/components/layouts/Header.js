@@ -1,9 +1,9 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import Cart from "./Cart";
 import FavoriteProducts from "./FavoriteProducts";
 import HeaderMobileNavigation from "./HeaderMobileNavigation";
 import HeaderNavigation from "./HeaderNavigation";
@@ -75,15 +75,7 @@ const Header = () => {
             <HeaderMobileNavigation />
             <SearchProducts />
             <FavoriteProducts />
-
-            <Link href={ROUTERS_PATH.CART}>
-              <ShoppingBagOutlinedIcon
-                sx={{
-                  fontSize: "2.5rem",
-                }}
-              ></ShoppingBagOutlinedIcon>
-            </Link>
-
+            <Cart />
             <ProfileOption />
           </Box>
         </Box>
