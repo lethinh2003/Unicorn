@@ -25,7 +25,6 @@ export default function ListSuggesting({ productId }) {
 
   const { data, error, isLoading, isError } = useQuery(
     ["get-suggesting-products", productId],
-
     () => getListSuggesProducts(),
     {
       cacheTime: 0,

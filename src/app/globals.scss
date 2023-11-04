@@ -1126,7 +1126,6 @@ text {
   text-align: center;
   padding: 6rem 4rem;
   width: 35%;
-  height: 100%;
 }
 
 .cart-left-panel-header,
@@ -1147,7 +1146,7 @@ text {
 .cart-left-panel-quantity {
   font-size: 2.5rem;
   font-weight: 600;
-  transform: translateY(25%);
+  // transform: translateY(25%);
   height: 100%;
 }
 
@@ -1187,6 +1186,7 @@ text {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .cart-right-panel-sale-off-price,
@@ -1195,7 +1195,7 @@ text {
 .cart-right-panel-sale-off,
 .cart-right-panel-price,
 .cart-right-panel-total {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
   transform: translateY(25%);
   height: 100%;
@@ -1329,7 +1329,6 @@ text {
   pointer-events: none;
   opacity: 0.2;
 }
-
 /////////////////////////////Admin layout////////////////
 .admin-container {
   background: #eef2f6;
@@ -1366,30 +1365,29 @@ text {
   color: #000 !important;
 }
 //////////////////////////////Component header////////////////
-.admin-header-title{
-  margin: -9rem 0 1rem -1rem ;
+.admin-header-title {
+  margin: -9rem 0 1rem -1rem;
   background-color: #fff;
   height: 10rem;
 }
-.admin-header-title-text{
-  
+.admin-header-title-text {
   font-size: 4.5rem;
   font-weight: 500;
   padding: 2rem 0 1rem 2rem;
 }
 //////////////////////////////add products///////////////////
-.add-product-container{
+.add-product-container {
   margin-left: -1rem;
   background-color: #fff;
 }
-.add-product-image{
+.add-product-image {
   width: 30%;
   text-align: center;
 }
-.add-product-infomation{
+.add-product-infomation {
   padding: 0 5rem;
 }
-.button-upload-image{
+.button-upload-image {
   align-items: center !important;
   border: 1px solid #5b5b5b !important;
   max-width: 7rem !important;
@@ -1400,21 +1398,21 @@ text {
   background-color: transparent !important;
   color: #000 !important;
 }
-.selected-images{
+.selected-images {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem 0 0 0;
 }
-.product-selected-image{
+.product-selected-image {
   width: 10rem;
   height: auto;
 }
-.add-product-pt{
+.add-product-pt {
   padding-top: 1rem;
 }
-.cancle-add-product{
+.cancle-add-product {
   background-color: #ffffff !important;
   color: #000 !important;
   border: 1px solid #ccc !important;

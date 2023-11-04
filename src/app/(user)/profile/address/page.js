@@ -1,5 +1,5 @@
 "use client";
-import LoadingBox, { LoadingContent } from "@/components/generals/LoadingBox";
+
 import {
   Box,
   Breadcrumbs,
@@ -10,9 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { Fragment, useEffect, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
+import LoadingBox, { LoadingContent } from "@/components/generals/LoadingBox";
+import { useRouter } from 'next/navigation'
+
 export default function Address() {
   const [itemsPerPage, setItemsPerPage] = useState(2 || 10);
 
@@ -51,6 +54,8 @@ export default function Address() {
     }
   }, [isErrorQuery]);
 
+  const Router = useRouter()
+
   return (
     <>
       <div className="redirect-title-container">
@@ -72,7 +77,9 @@ export default function Address() {
       <div className="user-desc-container">
         <div className="user-desc-header">
           <span className="user-desc-text">Địa chỉ</span>
-          <Button className="edit-infomation-button">Thêm địa chỉ</Button>
+          <Button
+            onClick={() => Router.push('address/new')}
+            className="edit-infomation-button">Thêm địa chỉ</Button>
         </div>
         <div className="user-desc-body">
           {isLoadingQuery && !isFetchingNextPage && <LoadingContent />}
@@ -143,7 +150,8 @@ const ItemAddress = ({ address }) => {
       setIsLoading(false);
     }
   };
-  const handleDeleteAddress = async ({}) => {
+  const handleDeleteAddress = async ({ }) => {
+
     try {
       setIsLoading(true);
       const res = await axios.post(
@@ -165,7 +173,7 @@ const ItemAddress = ({ address }) => {
       setIsLoading(false);
     }
   };
-
+  const Router = useRouter()
   return (
     <>
       {isLoading && <LoadingBox isLoading={isLoading} />}
@@ -192,7 +200,9 @@ const ItemAddress = ({ address }) => {
               >
                 Xóa
               </Button>
-              <Button className="edit-address-button">Sửa thông tin</Button>
+              <Button className="edit-address-button"
+                onClick={() => Router.push(`address/${address._id}`)}
+              >Sửa thông tin</Button>
             </Stack>
             <div>
               <Radio

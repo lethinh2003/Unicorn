@@ -10,6 +10,8 @@ const ROUTERS_PATH = {
   PROFILE_ORDER: "/profile/orders",
   CART: "/cart",
   FAVORITE_PRODUCT: "/products/favorite",
+  HOME_PRODUCT: "/products",
+  DETAIL_PRODUCT: "/products/{productId}",
 };
 
 export default ROUTERS_PATH;

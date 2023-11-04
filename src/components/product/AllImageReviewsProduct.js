@@ -48,7 +48,7 @@ export default function AllImageReviewsProducts({ productId, filter }) {
         {isLoadingQuery && !isFetchingNextPage && (
           <>
             {Array.from({ length: 5 }).map((_item, i) => (
-              <ReviewItemLoading />
+              <ReviewItemLoading key={i} />
             ))}
           </>
         )}
@@ -62,7 +62,7 @@ export default function AllImageReviewsProducts({ productId, filter }) {
         {isFetchingNextPage && (
           <>
             {Array.from({ length: 5 }).map((_item, i) => (
-              <ReviewItemLoading />
+              <ReviewItemLoading key={i} />
             ))}
           </>
         )}
