@@ -11,9 +11,9 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import { useRouter } from 'next/navigation'
 const getInformationUser = async () => {
   try {
     const response = await axios.get(
@@ -43,7 +43,12 @@ export default function Infomation() {
 
   const Router = useRouter();
   return (
-    <div className="infomation-container">
+    <Box
+      className="infomation-container"
+      sx={{
+        flex: 1,
+      }}
+    >
       <div className="redirect-title-container">
         <div className="redirect">
           <Breadcrumbs aria-label="breadcrumb">
@@ -57,10 +62,21 @@ export default function Infomation() {
           <h1>Thông tin tài khoản</h1>
         </div>
       </div>
-      <div className="user-desc-container">
+      <Box
+        className="user-desc-container"
+        sx={{
+          flex: 1,
+          width: "100%",
+        }}
+      >
         <div className="user-desc-header">
           <span className="user-desc-text">Thông tin cá nhân</span>
-          <Button onClick={() => Router.push('/profile/edit')} className="edit-infomation-button">Sửa thông tin</Button>
+          <Button
+            onClick={() => Router.push("/profile/edit")}
+            className="edit-infomation-button"
+          >
+            Sửa thông tin
+          </Button>
         </div>
         <div className="user-desc-body">
           {isLoading && (
@@ -102,7 +118,7 @@ export default function Infomation() {
             </>
           )}
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

@@ -1,20 +1,20 @@
 "use client";
-import { useState, useEffect } from "react";
 import HeaderTitle from "@/app/(admin)/adminComponent/headerTitle";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import Image from "next/image";
-import { styled } from "@mui/material/styles";
-import { Stack, Button, TextField, Box, Checkbox } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Box, Button, Checkbox, Stack, TextField } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useQuery } from "react-query";
+import { styled } from "@mui/material/styles";
 import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
+import { useQuery } from "react-query";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -101,7 +101,7 @@ export default function AddProduct() {
     updatedImages.splice(index, 1);
     setSelectedImages(updatedImages);
   };
-  
+
   return (
     <>
       <HeaderTitle></HeaderTitle>
@@ -223,8 +223,8 @@ export default function AddProduct() {
                         key={category._id}
                         label={category.product_category_name}
                       >
-                        {category.child_categories?.map((child_category) => (
-                          <option>
+                        {category.child_categories?.map((child_category, i) => (
+                          <option key={i}>
                             {child_category.product_category_name}
                           </option>
                         ))}

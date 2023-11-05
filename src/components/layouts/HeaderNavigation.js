@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
@@ -100,7 +101,7 @@ export default function HeaderNavigation() {
 }
 function HeaderNavigationItem({ GENDER }) {
   const [isModalOpen, setIsModalOpen] = useState(true);
-
+  const router = useRouter();
   const getCategories = async (gender) => {
     try {
       const response = await axios.get(
@@ -157,27 +158,40 @@ function HeaderNavigationItem({ GENDER }) {
         <Grid container spacing={1}>
           {data?.map((category) => (
             <Grid item xs={12} sm={6} md={4} key={category._id}>
-              <List className="category-item">
-                <Link
-                  href={`/products?gender=${GENDER}&category=${category._id}`}
+              <List>
+                <span
+                  className="category-name"
+                  onClick={() => {
+                    router.push(
+                      `/products?gender=${GENDER}&category=${category._id}`
+                    );
+                  }}
                 >
-                  <span className="category-name">
-                    {category.product_category_name}
-                  </span>
-                </Link>
+                  {category.product_category_name}
+                </span>
+
                 {category.child_categories?.map((child_categories) => (
-                  <ListItemButton key={child_categories._id}>
-                    <Link
-                      href={`/products?gender=${GENDER}&category=${child_categories._id}`}
-                    >
-                      <ListItemText
-                        primary={child_categories.product_category_name}
-                        sx={{
-                          textTransform: "none",
-                        }}
-                        className="child-category-name"
-                      />
-                    </Link>
+                  <ListItemButton
+                    sx={{
+                      "&:hover > .child-category-name": {
+                        color: "#38ac8f",
+                      },
+                    }}
+                    key={child_categories._id}
+                    onClick={() => {
+                      router.push(
+                        `/products?gender=${GENDER}&category=${child_categories._id}`
+                      );
+                    }}
+                  >
+                    <ListItemText
+                      primary={child_categories.product_category_name}
+                      sx={{
+                        textTransform: "none",
+                        width: "100%",
+                      }}
+                      className="child-category-name"
+                    />
                   </ListItemButton>
                 ))}
               </List>

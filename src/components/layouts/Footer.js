@@ -132,13 +132,13 @@ const Footer = () => {
             </Box>
           ))}
         </Container>
+
         <Box
           sx={{
             marginTop: "2rem",
             width: "100%",
             height: "300px",
-            background:
-              "url(/footer_background.webp) no-repeat center center fixed",
+            background: "url(/footer.jpg) no-repeat center center fixed",
             backgroundSize: "cover",
           }}
         ></Box>

@@ -1,14 +1,20 @@
+import { Box, Container } from "@mui/material";
 import ProfileNav from "./nav";
-import { Container } from "@mui/material";
 
 export default function LayoutProfile({ children }) {
   return (
     <>
       <Container>
-        <div className="profile-infomation-container">
+        <Box
+          className="profile-infomation-container"
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+            gap: "1rem",
+          }}
+        >
           <ProfileNav></ProfileNav>
           {children}
-        </div>
+        </Box>
       </Container>
     </>
   );

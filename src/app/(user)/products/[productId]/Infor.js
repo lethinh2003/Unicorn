@@ -163,6 +163,12 @@ export default function Infor({ dataProduct }) {
     mutationAddToCart.mutate();
   };
 
+  const imageLoader = ({ src, width, quality }) => {
+    const url = new URL(src);
+    url.searchParams.set("width", width.toString());
+    return url.href;
+  };
+
   return (
     <>
       {mutationAddToCart.isLoading && (
@@ -177,11 +183,21 @@ export default function Infor({ dataProduct }) {
                   Trang chủ
                 </Typography>
               </Link>
-              <Link href="/products">
+              <Link href={`/products?gender=${dataProduct.product_gender}`}>
                 <Typography underline="hover" color="inherit">
                   Sản phẩm
                 </Typography>
               </Link>
+              {dataProduct.product_categories.map((item, i) => (
+                <Link
+                  key={item._id}
+                  href={`/products?gender=${dataProduct.product_gender}&category=${item._id}`}
+                >
+                  <Typography underline="hover" color="inherit">
+                    {item.product_category_name}
+                  </Typography>
+                </Link>
+              ))}
               <Typography color="text.primary">
                 {dataProduct?.product_name}
               </Typography>
@@ -249,6 +265,7 @@ export default function Infor({ dataProduct }) {
                             fill
                             sizes="500"
                             style={{
+                              width: "100%",
                               maxWidth: "100%",
                               objectFit: "contain",
                             }}
@@ -263,17 +280,20 @@ export default function Infor({ dataProduct }) {
                     maxWidth: { xs: "100%", md: "50rem" },
                     flex: 1,
                     height: "50rem",
+                    width: "100%",
 
                     position: "relative",
                   }}
                 >
                   <Image
                     src={activeImage}
+                    loader={(props) => imageLoader({ ...props, width: 750 })}
                     alt={dataProduct.product_name}
                     fill
-                    sizes="500"
+                    sizes="1000"
                     style={{
                       maxWidth: "100%",
+                      height: "100%",
                       objectFit: "contain",
                     }}
                   />
@@ -298,7 +318,8 @@ export default function Infor({ dataProduct }) {
                 <Typography
                   sx={{
                     color: "#FF0000",
-                    fontSize: "2rem",
+                    fontSize: "2.3rem",
+                    fontWeight: 500,
                   }}
                 >
                   {ConvertMoney({

@@ -13,6 +13,11 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
+export const metadata = {
+  title: "Quần áo thời trang online | Unicorn",
+  description: "Quần áo thời trang online",
+};
+
 export default function Home() {
   //style Title
   const TitleStyle = {

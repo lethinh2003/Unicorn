@@ -1,10 +1,11 @@
 "use client";
+import useAuth from "@/customHooks/useAuth";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { signOut } from "next-auth/react";
@@ -47,6 +48,7 @@ const IconArray = [
 
 export default function ProfileNav() {
   const [view, setView] = useState("list");
+  const { session } = useAuth();
   const pathName = usePathname();
   const handleClickSignOut = async () => {
     signOut();
@@ -54,8 +56,18 @@ export default function ProfileNav() {
 
   return (
     <div className="container">
-      <div className="user-nav-container">
-        <div className="user-nav">
+      <Box
+        className="user-nav-container"
+        sx={{
+          width: { xs: "100%", md: "40rem" },
+        }}
+      >
+        <Box
+          className="user-nav"
+          sx={{
+            width: "100%",
+          }}
+        >
           <div className="user-avt-logout">
             <Image
               src="/icons8-user-48.png"
@@ -64,7 +76,7 @@ export default function ProfileNav() {
               height="40"
               className="user-avt"
             ></Image>
-            <span className="user-name">Na</span>
+            <span className="user-name">{session?.user?.email}</span>
             <Button className="logout-button" onClick={handleClickSignOut}>
               Đăng xuất
             </Button>
@@ -100,8 +112,8 @@ export default function ProfileNav() {
               ))}
             </ToggleButtonGroup>
           </div>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </div>
   );
 }

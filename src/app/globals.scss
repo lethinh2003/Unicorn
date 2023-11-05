@@ -343,9 +343,9 @@ input[type="number"] {
 }
 .user-desc-container,
 .user-voucher-container {
-  width: 74.7rem;
   min-height: 70rem;
-  margin-left: 1.25rem;
+  flex: 1;
+
   background-color: #eee;
 }
 .user-desc-body,
@@ -421,9 +421,11 @@ input[type="number"] {
 }
 
 .user-voucher-container {
-  width: 82rem;
   height: auto;
   margin-right: 4.3rem;
+}
+.infomation-container {
+  flex: 1;
 }
 
 .voucher-item {

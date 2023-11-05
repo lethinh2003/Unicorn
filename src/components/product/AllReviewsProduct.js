@@ -1,7 +1,7 @@
 "use client";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 import ReviewItem, { ReviewItemLoading } from "./ReviewItem";
 const ITEMS_OF_PAGE = 10;
@@ -42,6 +42,9 @@ export default function AllReviewsProducts({ productId, filter }) {
     }
   }, [isErrorQuery]);
 
+  const dataReviewsProduct =
+    dataReviews?.pages?.flatMap((item) => item.data) || [];
+
   return (
     <>
       <Stack>
@@ -52,13 +55,14 @@ export default function AllReviewsProducts({ productId, filter }) {
             ))}
           </>
         )}
-        {dataReviews?.pages.map((group, i) => (
-          <Fragment key={i}>
-            {group.data.map((review) => (
-              <ReviewItem key={review._id} review={review} />
-            ))}
-          </Fragment>
+
+        {!isLoadingQuery && dataReviewsProduct.length === 0 && (
+          <Typography> Chưa có review nào</Typography>
+        )}
+        {dataReviewsProduct.map((review) => (
+          <ReviewItem key={review._id} review={review} />
         ))}
+
         {isFetchingNextPage && (
           <>
             {Array.from({ length: 5 }).map((_item, i) => (

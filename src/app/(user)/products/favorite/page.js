@@ -21,7 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import { useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useGetListFavoriteProducts from "./useGetListFavoriteProducts";
 
@@ -38,6 +38,10 @@ export default function FavoriteProducts() {
     fetchNextPage,
   } = useGetListFavoriteProducts();
 
+  const { data: dataFavoriteProducts } = useSelector(
+    (state) => state.favoriteProducts
+  );
+
   return (
     <div className="favorite-container">
       <Box>
@@ -47,7 +51,7 @@ export default function FavoriteProducts() {
               <Link underline="hover" color="inherit" href="/">
                 Trang chủ
               </Link>
-              <Link underline="hover" color="inherit" href="/product">
+              <Link underline="hover" color="inherit" href="/products">
                 Sản phẩm
               </Link>
               <Typography color="text.primary">Sản phẩm yêu thích</Typography>
@@ -61,8 +65,8 @@ export default function FavoriteProducts() {
         <div className="favorite-content">
           <div className="favorite-content-header">
             <span className="favorite-products-quantity">
-              {countProducts !== 0
-                ? countProducts + " sản phẩm"
+              {dataFavoriteProducts.length !== 0
+                ? dataFavoriteProducts.length + " sản phẩm"
                 : "Không có sản phẩm nào"}
             </span>
           </div>

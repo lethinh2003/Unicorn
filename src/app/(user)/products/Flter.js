@@ -8,7 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const GENDER = "men";
 
@@ -21,7 +21,7 @@ const filterPrice = [
   "Trên 700.000 đ",
 ];
 
-export default function Filter({ filterData }) {
+export default function Filter({ filterData, category, color, size }) {
   const [categories, colors, sizes] = filterData;
   const params = useSearchParams();
   const pathname = usePathname();
@@ -32,6 +32,57 @@ export default function Filter({ filterData }) {
   const searchCategory = params.get("category");
 
   const [open, setOpen] = useState({});
+
+  useEffect(() => {
+    setOpen({});
+  }, [searchGender]);
+  useEffect(() => {
+    if (category) {
+      const findParentCategory = categories.find((item) => {
+        if (item._id === category) {
+          return true;
+        }
+        const findChildCategory = item.child_categories.find(
+          (child) => child._id === category
+        );
+        if (findChildCategory) {
+          return true;
+        }
+        return false;
+      });
+      if (findParentCategory) {
+        setOpen((prevOpen) => ({
+          ...prevOpen,
+          [findParentCategory._id]: true,
+        }));
+      } else {
+        setOpen((prevOpen) => ({
+          ...prevOpen,
+          [findParentCategory._id]: false,
+        }));
+      }
+    }
+  }, [category]);
+  useEffect(() => {
+    if (color) {
+      setOpen((prevOpen) => ({
+        ...prevOpen,
+        ["colors"]: true,
+      }));
+    }
+  }, [color]);
+  useEffect(() => {
+    if (size) {
+      setOpen((prevOpen) => ({
+        ...prevOpen,
+        ["sizes"]: true,
+      }));
+    }
+  }, [size]);
+
+  useEffect(() => {
+    console.log({ open });
+  }, [open]);
 
   const handleToggle = (categoryId) => {
     setOpen((prevOpen) => ({

@@ -27,7 +27,7 @@ export default function ListSuggesting({ productId }) {
     ["get-suggesting-products", productId],
     () => getListSuggesProducts(),
     {
-      cacheTime: 0,
+      staleTime: Infinity,
     }
   );
 

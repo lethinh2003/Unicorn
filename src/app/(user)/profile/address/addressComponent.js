@@ -21,6 +21,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
@@ -36,6 +37,8 @@ export default function Address({
   },
   endPoint = "/api/v1/users/addresses",
 }) {
+  const queryClient = useQueryClient();
+
   const Router = useRouter();
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const validationSchema = Yup.object().shape({
@@ -82,7 +85,17 @@ export default function Address({
         }
       );
       toast.success(result.data.message);
-      reset();
+      queryClient.refetchQueries({
+        queryKey: ["get-list-addresses-user"],
+      });
+      if (!props.addressid) {
+        reset();
+      } else {
+        // revalidate
+        queryClient.invalidateQueries({
+          queryKey: ["addressid", props.addressid],
+        });
+      }
     } catch (err) {
       if (err && err.response) {
         toast.error(`Message: ${err.response.data.message}`);

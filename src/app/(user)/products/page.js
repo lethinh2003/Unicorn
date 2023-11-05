@@ -2,8 +2,14 @@ import { Box, Breadcrumbs, Typography } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import Filter from "./Flter";
 import Products from "./Products";
+
+export const metadata = {
+  title: "Danh sách sản phẩm",
+  description: "Danh sách sản phẩm",
+};
 
 const getDataFilter = async ({ gender }) => {
   try {
@@ -34,6 +40,10 @@ const getDataFilter = async ({ gender }) => {
 
 export default async function ProductsPage({ searchParams }) {
   const { gender, category, color, size } = searchParams;
+
+  if (!gender) {
+    redirect("?gender=men");
+  }
   const filterData = await getDataFilter({
     gender,
   });
@@ -59,8 +69,8 @@ export default async function ProductsPage({ searchParams }) {
       </div>
       <div className="header-image-container">
         <Image
-          alt=""
-          src="/maleProduct.jpg"
+          alt="Danh sách sản phẩm"
+          src={gender === "men" ? "/maleProduct.jpg" : "/femaleProduct.png"}
           width={1000}
           height={500}
           className="header-image"
@@ -80,7 +90,12 @@ export default async function ProductsPage({ searchParams }) {
             left: 0,
           }}
         >
-          <Filter filterData={filterData} />
+          <Filter
+            filterData={filterData}
+            category={category}
+            color={color}
+            size={size}
+          />
         </Box>
 
         <Products />

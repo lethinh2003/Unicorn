@@ -79,10 +79,14 @@ export const AllProductItem = ({ sx, product }) => {
       setIsLoading(false);
     }
   };
+
   return (
     <>
-      <LoadingBox isLoading={isLoading} />
-      <Stack className="products-item" sx={{ ...sx, cursor: "default" }}>
+      {isLoading && <LoadingBox isLoading={isLoading} />}
+      <Stack
+        className="products-item"
+        sx={{ ...sx, cursor: "default", transition: "all 0.25s linear" }}
+      >
         <Checkbox
           checked={!!isLiked}
           icon={<FavoriteBorder />}
@@ -98,10 +102,12 @@ export const AllProductItem = ({ sx, product }) => {
         />
         <Image
           src={mainImage}
+          loader={(props) => imageLoader({ ...props })}
           alt={product.product_name}
-          width={500}
-          height={500}
+          width={320}
+          height={320}
           className="product-item-image"
+          loading="lazy"
         />
         <div
           className="product-details"
@@ -145,7 +151,8 @@ export const AllProductItem = ({ sx, product }) => {
               }}
               style={{
                 cursor: "pointer",
-                border: "1px solid",
+                border:
+                  productData._id === product._id ? "2px solid" : "1px solid",
                 width: "2rem",
                 height: "2rem",
                 marginRight: "1rem",
@@ -168,7 +175,10 @@ export const AllProductItem = ({ sx, product }) => {
                   }}
                   style={{
                     cursor: "pointer",
-                    border: "1px solid",
+                    border:
+                      productData._id === childProduct._id
+                        ? "2px solid"
+                        : "1px solid",
                     width: "2rem",
                     height: "2rem",
                     marginRight: "1rem",
@@ -184,6 +194,12 @@ export const AllProductItem = ({ sx, product }) => {
       </Stack>
     </>
   );
+};
+
+const imageLoader = ({ src, width, quality }) => {
+  const url = new URL(src);
+  url.searchParams.set("width", width.toString());
+  return url.href;
 };
 export const ViewedProductItem = ({ sx, product }) => {
   const dispatch = useDispatch();
@@ -252,7 +268,10 @@ export const ViewedProductItem = ({ sx, product }) => {
     <>
       <LoadingBox isLoading={isLoading} />
 
-      <Stack className="products-item" sx={{ ...sx, cursor: "default" }}>
+      <Stack
+        className="products-item"
+        sx={{ ...sx, cursor: "default", transition: "all 0.25s linear" }}
+      >
         <Checkbox
           checked={!!isLiked}
           icon={<FavoriteBorder />}
@@ -268,9 +287,10 @@ export const ViewedProductItem = ({ sx, product }) => {
         />
         <Image
           src={mainImage}
+          loader={imageLoader}
           alt={product.product_name}
-          width={500}
-          height={500}
+          width={320}
+          height={320}
           className="product-item-image"
         />
         <div
