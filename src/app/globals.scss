@@ -53,7 +53,7 @@ input[type="number"] {
 .forgot-password-container,
 .register-container {
   display: flex;
-  height: 80rem;
+  max-height: fit-content;
   background-color: #f5f5f5;
   border-radius: 1rem;
   box-shadow: 1px 0 2px var(--Black-Color);
@@ -106,15 +106,22 @@ input[type="number"] {
   flex-direction: column;
 }
 
-.login-right-panel,
 .register-left-panel {
-  width: 52rem;
-  background-image: url("../figmaa/loginBackground.jpg");
+  width: 50%;
+  background-image: url();
+  background: url("../figmaa/loginBackground.jpg") top center/cover no-repeat;
   padding: 29rem 6.5rem 23rem 6.5rem;
   color: #fff;
   text-align: center;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
+  border-radius: 1rem 0 0 1rem;
+}
+.login-right-panel {
+  width: 50%;
+  background: url("../figmaa/loginBackground.jpg") top center/cover no-repeat;
+  padding: 29rem 6.5rem 23rem 6.5rem;
+  color: #fff;
+  text-align: center;
+  border-radius: 0 1rem 1rem 0;
 }
 
 .login-right-panel span,

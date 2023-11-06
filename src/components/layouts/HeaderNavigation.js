@@ -9,7 +9,6 @@ import {
   Stack,
 } from "@mui/material";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -17,7 +16,7 @@ import { useQuery } from "react-query";
 export default function HeaderNavigation() {
   const [isMenHover, setIsMenHover] = useState(false);
   const [isWomenHover, setIsWomenHover] = useState(false);
-
+  const router = useRouter();
   const handleMenMouseEnter = () => {
     setIsMenHover(true);
   };
@@ -56,9 +55,15 @@ export default function HeaderNavigation() {
           onMouseLeave={handleMenMouseLeave}
         >
           <Stack>
-            <Link href="/products?gender=men">
-              <span className="category-gender-button">Nam</span>
-            </Link>
+            <span
+              onClick={() => {
+                router.push("/products?gender=men");
+              }}
+              className="category-gender-button"
+            >
+              Nam
+            </span>
+
             <div className="header-men-categories">
               {isMenHover && <HeaderNavigationItem GENDER="men" />}
             </div>
@@ -72,9 +77,15 @@ export default function HeaderNavigation() {
           onMouseEnter={handleWomenMouseEnter}
           onMouseLeave={handleWomenMouseLeave}
         >
-          <Link href="/products?gender=women">
-            <span className="category-gender-button">Nữ</span>
-          </Link>
+          <span
+            onClick={() => {
+              router.push("/products?gender=women");
+            }}
+            className="category-gender-button"
+          >
+            Nữ
+          </span>
+
           <div className="header-women-categories">
             {isWomenHover && <HeaderNavigationItem GENDER="women" />}
           </div>

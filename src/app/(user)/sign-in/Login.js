@@ -205,7 +205,7 @@ function Login() {
                 margin: "3rem 0",
                 display: "inline-block",
                 padding: "0 0.4rem",
-                width: "45%",
+                width: "50%",
                 position: "relative",
                 transform: "translateX(-50%)",
                 left: "50%",
