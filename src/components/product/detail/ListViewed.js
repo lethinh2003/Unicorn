@@ -1,28 +1,20 @@
 "use client";
 import {
-  SkeletonAllProductItem,
-  ViewedProductItem,
+  ProductItem,
+  ProductItemLoading,
 } from "@/components/product/ProductItem";
+import { TYPE_PRODUCT_ITEM_DISPLAY } from "@/configs/config.products";
 import { Box, Typography } from "@mui/material";
 import { useLocalStorage } from "@rehooks/local-storage";
 import { useEffect, useRef, useState } from "react";
 export default function ListViewed() {
   const [listViewed] = useLocalStorage("LIST_PRODUCTS_VIEWED", []);
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    timeoutRef.current = setTimeout(() => {
-      setIsLoading(false);
-      setData(listViewed);
-    }, 100);
-
-    return () => {
-      clearTimeout(timeoutRef.current);
-    };
+    setData(listViewed);
   }, [listViewed]);
   return (
     <>
@@ -53,7 +45,7 @@ export default function ListViewed() {
           {isLoading && (
             <>
               {Array.from({ length: 5 }).map((_item, i) => (
-                <SkeletonAllProductItem
+                <ProductItemLoading
                   sx={{
                     minWidth: "25rem",
                   }}
@@ -64,12 +56,13 @@ export default function ListViewed() {
           )}
           {!isLoading &&
             data?.slice(0, 10)?.map((item, i) => (
-              <ViewedProductItem
+              <ProductItem
                 key={item._id}
-                product={item}
+                product={{ ...item, child_products: item.relation_products }}
                 sx={{
                   minWidth: "25rem",
                 }}
+                type={TYPE_PRODUCT_ITEM_DISPLAY.VIEWED}
               />
             ))}
         </Box>

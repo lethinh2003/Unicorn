@@ -12,6 +12,7 @@ const ROUTERS_PATH = {
   FAVORITE_PRODUCT: "/products/favorite",
   HOME_PRODUCT: "/products",
   DETAIL_PRODUCT: "/products/{productId}",
+  GENDER_PRODUCT: "/products?gender={gender}",
 };
 
 export default ROUTERS_PATH;

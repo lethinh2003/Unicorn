@@ -1,7 +1,7 @@
 "use client";
 import {
-  AllProductItem,
-  SkeletonAllProductItem,
+  ProductItem,
+  ProductItemLoading,
 } from "@/components/product/ProductItem";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
@@ -64,7 +64,7 @@ export default function ListSuggesting({ productId }) {
           {isLoading && (
             <>
               {Array.from({ length: 5 }).map((_item, i) => (
-                <SkeletonAllProductItem
+                <ProductItemLoading
                   sx={{
                     minWidth: "25rem",
                   }}
@@ -74,7 +74,7 @@ export default function ListSuggesting({ productId }) {
             </>
           )}
           {data?.map((item) => (
-            <AllProductItem
+            <ProductItem
               key={item._id}
               product={item}
               sx={{

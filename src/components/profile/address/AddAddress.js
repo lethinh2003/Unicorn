@@ -1,8 +1,8 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
-import LoadingBox from "@/components/generals/LoadingBox";
 import LIST_ADDRESSES_VN from "@/configs/config.address.vn";
 import USER_MESSAGES from "@/configs/config.users.messages";
+import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Breadcrumbs,
@@ -21,11 +21,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useQueryClient } from "react-query";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
-export default function Address({
+export default function AddAddress({
   props = {
     fullName: "",
     phoneNumber: "",
@@ -38,9 +39,9 @@ export default function Address({
   endPoint = "/api/v1/users/addresses",
 }) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
-  const Router = useRouter();
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const router = useRouter();
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .required(USER_MESSAGES.NAME_MISSING)
@@ -70,7 +71,7 @@ export default function Address({
 
   const onSubmit = async (data) => {
     try {
-      setIsLoadingSubmit(true);
+      dispatch(setIsLoading(true));
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}${endPoint}`,
         {
@@ -97,11 +98,9 @@ export default function Address({
         });
       }
     } catch (err) {
-      if (err && err.response) {
-        toast.error(`Message: ${err.response.data.message}`);
-      }
+      toast.error(`${err.response?.data?.message}`);
     } finally {
-      setIsLoadingSubmit(false);
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -112,7 +111,6 @@ export default function Address({
 
   return (
     <>
-      <LoadingBox isLoading={isLoadingSubmit} />
       <div className="infomation-container">
         <div className="redirect-title-container">
           <div className="redirect">
@@ -137,7 +135,7 @@ export default function Address({
             <span className="user-desc-text">Thông tin cá nhân</span>
             {props?.addressid != undefined ? (
               <Button
-                onClick={() => Router.push("new")}
+                onClick={() => router.push("new")}
                 className="edit-infomation-button"
               >
                 Thêm địa chỉ

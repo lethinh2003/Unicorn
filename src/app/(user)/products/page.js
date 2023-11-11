@@ -1,11 +1,11 @@
-import { Box, Breadcrumbs, Typography } from "@mui/material";
+import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
+import AllProducts from "@/components/product/AllProducts";
+import Filter from "@/components/product/Flter";
+import ROUTERS_PATH from "@/configs/config.routers.path";
+import { Box } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import Filter from "./Flter";
-import Products from "./Products";
-
 export const metadata = {
   title: "Danh sách sản phẩm",
   description: "Danh sách sản phẩm",
@@ -47,19 +47,22 @@ export default async function ProductsPage({ searchParams }) {
   const filterData = await getDataFilter({
     gender,
   });
+
+  const DATA_BREADCRUMB = [
+    {
+      title: "Sản phẩm",
+      link: ROUTERS_PATH.HOME_PRODUCT,
+    },
+    {
+      title: gender === "men" ? "Nam" : gender === "women" ? "Nữ" : "",
+      link: `${ROUTERS_PATH.HOME_PRODUCT}?gender=${gender}`,
+    },
+  ];
+
   return (
     <div className="product-container">
       <div className="product-header">
-        <div className="redirect">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              Trang chủ
-            </Link>
-            <Typography color="text.primary">
-              {gender === "men" ? "Nam" : gender === "women" ? "Nữ" : ""}{" "}
-            </Typography>
-          </Breadcrumbs>
-        </div>
+        <BreadcrumbBar data={DATA_BREADCRUMB} />
         <div className="product-page-title">
           <h1 className="product-page-title-text">
             Thời trang{" "}
@@ -98,7 +101,7 @@ export default async function ProductsPage({ searchParams }) {
           />
         </Box>
 
-        <Products />
+        <AllProducts />
       </Box>
     </div>
   );

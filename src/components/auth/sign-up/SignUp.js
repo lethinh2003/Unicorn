@@ -1,10 +1,10 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
-import LoadingBox from "@/components/generals/LoadingBox";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import USER_MESSAGES from "@/configs/config.users.messages";
 import useAuth from "@/customHooks/useAuth";
+import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -25,12 +25,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
 function SignUp() {
   const { isAuthenticated } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
@@ -71,10 +72,9 @@ function SignUp() {
     reset,
     formState: { errors },
   } = useForm(formOptions);
-  
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users`,
@@ -85,14 +85,12 @@ function SignUp() {
         }
       );
 
-      toast.success(result.data.message);
+      toast.success(result.data?.message);
       reset();
     } catch (err) {
-      if (err && err.response) {
-        toast.error(`Message: ${err.response.data.message}`);
-      }
+      toast.error(`${err.response?.data?.message}`);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -106,7 +104,6 @@ function SignUp() {
 
   return (
     <Container>
-      <LoadingBox isLoading={isLoading} />
       <div className="register-container">
         <div className="register-left-panel">
           <span>Hello, Friend!</span>

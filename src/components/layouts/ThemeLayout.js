@@ -5,8 +5,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useServerInsertedHTML } from "next/navigation";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import { createGlobalStyle } from "styled-components";
+import BackToTop from "./BackToTop";
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.palette.background.default};
@@ -39,6 +41,16 @@ const getDesignTokens = (mode) => ({
             opacity: 0.8,
           },
         }),
+      },
+    },
+    MuiListItemButton: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
+    },
+    MuiToggleButton: {
+      defaultProps: {
+        disableTouchRipple: true,
       },
     },
   },
@@ -136,6 +148,8 @@ const ThemeLayout = (props) => {
           <GlobalStyle theme={theme} />
 
           {children}
+          <BackToTop />
+          <Toaster position="top-center" reverseOrder={false} />
 
           <ToastContainer
             position="top-center"

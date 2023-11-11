@@ -222,12 +222,11 @@ input[type="number"] {
   position: relative;
   display: flex;
   justify-content: space-between;
-  margin-top: 9rem;
 }
 .redirect-title-container {
   position: absolute;
   z-index: 1;
-  top: -10rem;
+  top: -5rem;
   left: 0rem;
 }
 
@@ -282,6 +281,7 @@ input[type="number"] {
   border-radius: 2rem !important;
   flex-shrink: 0 !important;
   padding: 0 !important;
+  text-transform: capitalize !important;
 }
 
 .nav-toggle-content {
@@ -292,9 +292,9 @@ input[type="number"] {
   justify-content: start;
 }
 .toggle-button-text {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: normal;
   text-transform: none !important;
 }
@@ -370,10 +370,8 @@ input[type="number"] {
 }
 
 .user-title {
-  display: flex;
-  flex-direction: column;
 }
-.user-title .user-title-item {
+.user-title-item {
   padding: 1.5rem 0;
   color: #747474;
   font-size: 1.7rem;
@@ -386,13 +384,15 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
 }
-.user-desc-value .user-desc-value-item {
+.user-desc-value-item {
   padding: 1.5rem 0;
   color: var(--Black-Color);
   font-size: 1.7rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 100%;
+  word-wrap: break-word;
 }
 .address-operation {
   display: flex;
@@ -400,7 +400,6 @@ input[type="number"] {
   justify-content: center !important;
   align-items: center !important;
   text-align: end !important;
-  margin-left: 5rem;
 }
 .address-operation .edit-address-button {
   width: 2.5rem !important;
@@ -409,6 +408,7 @@ input[type="number"] {
   border-radius: 0.5rem;
   color: var(--Black-Color);
   background-color: #fff !important;
+  text-transform: capitalize !important;
 }
 .address-operation .delete-address-button {
   width: 2rem !important;
@@ -416,6 +416,7 @@ input[type="number"] {
   font-size: 0.9rem !important;
   border-radius: 0.5rem;
   background-color: #e74040e5 !important;
+  text-transform: capitalize !important;
 }
 .operation-stack {
   display: flex !important;
@@ -825,7 +826,6 @@ text {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-right: 1.2rem;
 }
 
 .rate {
@@ -1056,7 +1056,6 @@ text {
   flex-basis: 30%;
   margin: 4rem 0 0 0;
   position: relative;
-  padding: 1rem 0;
   cursor: pointer;
 }
 .products-item:hover {

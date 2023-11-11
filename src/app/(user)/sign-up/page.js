@@ -1,8 +1,8 @@
+import SignUp from "@/components/auth/sign-up/SignUp";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import isAuthenticated from "@/utils/checkAuthenticated";
 import { Container } from "@mui/material/";
 import { redirect } from "next/navigation";
-import SignUp from "./SignUp";
 
 async function RegisterPage() {
   // Check is user was already login -> redirect to home

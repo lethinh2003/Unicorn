@@ -2,9 +2,8 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
-
-export default function useGetListFavoriteProducts() {
-  const ITEMS_OF_PAGE = 10;
+const ITEMS_OF_PAGE = 10;
+const useGetListFavoriteProducts = () => {
   const getListFavoriteProducts = async (pageParam) => {
     const results = await axios.get(
       `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/favorite-products?page=${pageParam}&itemsOfPage=${ITEMS_OF_PAGE}`
@@ -40,10 +39,10 @@ export default function useGetListFavoriteProducts() {
     }
   }, [isError]);
 
-  const countProducts = data?.pages?.flatMap((item) => item.data)?.length || 0;
+  const countAllProducts = data?.pages?.[0]?.metadata?.countAll || 0;
 
   return {
-    countProducts,
+    countAllProducts,
     data,
     isLoading,
     isFetching,
@@ -53,4 +52,5 @@ export default function useGetListFavoriteProducts() {
     isFetchingNextPage,
     fetchNextPage,
   };
-}
+};
+export default useGetListFavoriteProducts;

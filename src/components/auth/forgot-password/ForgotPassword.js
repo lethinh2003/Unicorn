@@ -1,7 +1,7 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
-import LoadingBox from "@/components/generals/LoadingBox";
 import USER_MESSAGES from "@/configs/config.users.messages";
+import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
@@ -14,11 +14,12 @@ import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
 function ForgotPassword() {
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [emailValue, setEmailValue] = useState("");
   const [isEmailValid, setIsEmailValid] = useState("");
 
@@ -49,7 +50,7 @@ function ForgotPassword() {
       return;
     }
 
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users/send-reset-password-otp`,
@@ -59,11 +60,9 @@ function ForgotPassword() {
       );
       toast.success(result.data.message);
     } catch (err) {
-      if (err && err.response) {
-        toast.error(`Message: ${err.response.data.message}`);
-      }
+      toast.error(`${err.response?.data?.message}`);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
   const onSubmit = async (data) => {
@@ -78,7 +77,7 @@ function ForgotPassword() {
       return;
     }
 
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users/reset-password`,
@@ -91,17 +90,14 @@ function ForgotPassword() {
       toast.success(result.data.message);
       reset();
     } catch (err) {
-      if (err && err.response) {
-        toast.error(`Message: ${err.response.data.message}`);
-      }
+      toast.error(`Message: ${err.response?.data?.message}`);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 
   return (
     <>
-      <LoadingBox isLoading={isLoading} />
       <div className="forgot-password-container">
         <div className="forgot-password-panel">
           <div className="forgot-password-panel-header">

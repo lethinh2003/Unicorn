@@ -4,6 +4,7 @@ const USER_MESSAGES = {
   EMAIL_MISSING: "Vui lòng nhập email",
   EMAIL_INVALID: "Email không hợp lệ",
   INPUT_MISSING: "Vui lòng nhập đầy đủ thông tin",
+  OLD_PASSWORD_MISSING: "Vui lòng nhập mật khẩu hiện tại",
   PASSWORD_MISSING: "Vui lòng nhập mật khẩu",
   PASSWORD_INVALID: "Mật khẩu không hợp lệ",
   PASSWORD_CONFIRM: "Mật khẩu nhập lại không khớp",
@@ -17,6 +18,6 @@ const USER_MESSAGES = {
   PROVINE_MISSING: "Vui lòng chọn tỉnh/thành",
   DISTRICT_MISSING: "Vui lòng chọn quận/huyện",
   WARD_MISSING: "Vui lòng chọn phường xã",
-  ADDRESS_MISSING: "Vui lòng nhập địa chỉ"
+  ADDRESS_MISSING: "Vui lòng nhập địa chỉ",
 };
 export default USER_MESSAGES;

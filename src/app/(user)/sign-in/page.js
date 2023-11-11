@@ -1,8 +1,8 @@
+import Login from "@/components/auth/sign-in/Login";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import isAuthenticated from "@/utils/checkAuthenticated";
 import { Container } from "@mui/material/";
 import { redirect } from "next/navigation";
-import Login from "./Login";
 export default async function Home() {
   // Check is user was already login -> redirect to home
   const isLogged = await isAuthenticated();

@@ -1,4 +1,4 @@
-import { AllProductItem } from "@/components/product/ProductItem";
+import { ProductItem } from "@/components/product/ProductItem";
 import { Box, Button, Typography } from "@mui/material";
 import Link from "next/link";
 const PAGE = 1;
@@ -69,7 +69,7 @@ const LatestProducts = async () => {
           }}
         >
           {dataLatestProducts?.map((item, i) => (
-            <AllProductItem
+            <ProductItem
               key={i}
               product={item}
               sx={{

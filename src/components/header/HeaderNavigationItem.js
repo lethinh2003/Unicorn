@@ -1,4 +1,5 @@
 "use client";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import {
   Box,
   CircularProgress,
@@ -6,111 +7,13 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Stack,
 } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
-export default function HeaderNavigation() {
-  const [isMenHover, setIsMenHover] = useState(false);
-  const [isWomenHover, setIsWomenHover] = useState(false);
-  const router = useRouter();
-  const handleMenMouseEnter = () => {
-    setIsMenHover(true);
-  };
-
-  const handleMenMouseLeave = () => {
-    setIsMenHover(false);
-  };
-
-  const handleWomenMouseEnter = () => {
-    setIsWomenHover(true);
-  };
-
-  const handleWomenMouseLeave = () => {
-    setIsWomenHover(false);
-  };
-
-  return (
-    <>
-      <Box
-        sx={{
-          display: { xs: "none", md: "flex" },
-          alignItems: "center",
-          textTransform: "uppercase",
-          fontSize: "1.8rem",
-          marginTop: "0.5rem",
-          gap: "2rem",
-          flex: 1,
-        }}
-      >
-        <Box
-          sx={{
-            paddingLeft: "2rem",
-            cursor: "pointer",
-          }}
-          onMouseEnter={handleMenMouseEnter}
-          onMouseLeave={handleMenMouseLeave}
-        >
-          <Stack>
-            <span
-              onClick={() => {
-                router.push("/products?gender=men");
-              }}
-              className="category-gender-button"
-            >
-              Nam
-            </span>
-
-            <div className="header-men-categories">
-              {isMenHover && <HeaderNavigationItem GENDER="men" />}
-            </div>
-          </Stack>
-        </Box>
-        <Box
-          sx={{
-            paddingLeft: "3rem",
-            cursor: "pointer",
-          }}
-          onMouseEnter={handleWomenMouseEnter}
-          onMouseLeave={handleWomenMouseLeave}
-        >
-          <span
-            onClick={() => {
-              router.push("/products?gender=women");
-            }}
-            className="category-gender-button"
-          >
-            Nữ
-          </span>
-
-          <div className="header-women-categories">
-            {isWomenHover && <HeaderNavigationItem GENDER="women" />}
-          </div>
-        </Box>
-        <Box
-          sx={{
-            paddingLeft: "3rem",
-            color: "primary.main",
-          }}
-        >
-          Best Seller
-        </Box>
-        <Box
-          sx={{
-            paddingLeft: "3rem",
-            color: "primary.main",
-          }}
-        >
-          Sale
-        </Box>
-      </Box>
-    </>
-  );
-}
-function HeaderNavigationItem({ GENDER }) {
+const HeaderNavigationItem = ({ GENDER }) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const router = useRouter();
   const getCategories = async (gender) => {
@@ -174,7 +77,7 @@ function HeaderNavigationItem({ GENDER }) {
                   className="category-name"
                   onClick={() => {
                     router.push(
-                      `/products?gender=${GENDER}&category=${category._id}`
+                      `${ROUTERS_PATH.HOME_PRODUCT}?gender=${GENDER}&category=${category._id}`
                     );
                   }}
                 >
@@ -191,7 +94,7 @@ function HeaderNavigationItem({ GENDER }) {
                     key={child_categories._id}
                     onClick={() => {
                       router.push(
-                        `/products?gender=${GENDER}&category=${child_categories._id}`
+                        `${ROUTERS_PATH.HOME_PRODUCT}?gender=${GENDER}&category=${child_categories._id}`
                       );
                     }}
                   >
@@ -212,4 +115,5 @@ function HeaderNavigationItem({ GENDER }) {
       </Box>
     </div>
   );
-}
+};
+export default HeaderNavigationItem;

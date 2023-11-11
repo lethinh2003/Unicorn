@@ -1,33 +1,16 @@
 "use client";
-import LoadingBox from "@/components/generals/LoadingBox";
+import LoadMoreButton from "@/components/button/LoadMoreButton";
+import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
+import FavoriteItem, {
+  FavoriteItemLoading,
+} from "@/components/product/favorite/FavoriteItem";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import {
-  addFavoriteProduct,
-  removeFavoriteProduct,
-} from "@/redux/actions/favoriteProducts";
-import { ConvertMoney } from "@/utils/convertMoney";
-import Favorite from "@mui/icons-material/Favorite";
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Checkbox,
-  Skeleton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment, useState } from "react";
-import { useQueryClient } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useGetListFavoriteProducts from "./useGetListFavoriteProducts";
-
+import useGetListFavoriteProducts from "@/customHooks/useGetListFavoriteProducts";
+import { Box, Stack } from "@mui/material";
+import { Fragment } from "react";
 export default function FavoriteProducts() {
   const {
-    countProducts,
+    countAllProducts,
     data: dataProducts,
     isLoading: isLoadingQuery,
     isFetching,
@@ -38,25 +21,21 @@ export default function FavoriteProducts() {
     fetchNextPage,
   } = useGetListFavoriteProducts();
 
-  const { data: dataFavoriteProducts } = useSelector(
-    (state) => state.favoriteProducts
-  );
+  const DATA_BREADCRUMB = [
+    {
+      title: "Sản phẩm",
+      link: ROUTERS_PATH.HOME_PRODUCT,
+    },
+    {
+      title: "Sản phẩm yêu thích",
+    },
+  ];
 
   return (
     <div className="favorite-container">
       <Box>
         <div className="favorite-header">
-          <div className="redirect">
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" href="/">
-                Trang chủ
-              </Link>
-              <Link underline="hover" color="inherit" href="/products">
-                Sản phẩm
-              </Link>
-              <Typography color="text.primary">Sản phẩm yêu thích</Typography>
-            </Breadcrumbs>
-          </div>
+          <BreadcrumbBar data={DATA_BREADCRUMB} />
           <div className="favorite-page-header-title">
             <h1>Yêu thích</h1>
           </div>
@@ -65,8 +44,8 @@ export default function FavoriteProducts() {
         <div className="favorite-content">
           <div className="favorite-content-header">
             <span className="favorite-products-quantity">
-              {dataFavoriteProducts.length !== 0
-                ? dataFavoriteProducts.length + " sản phẩm"
+              {countAllProducts !== 0
+                ? countAllProducts + " sản phẩm"
                 : "Không có sản phẩm nào"}
             </span>
           </div>
@@ -74,216 +53,26 @@ export default function FavoriteProducts() {
             {isLoadingQuery && !isFetchingNextPage && (
               <>
                 {Array.from({ length: 5 }).map((_item, i) => (
-                  <ItemFavoriteProductLoading key={i} />
+                  <FavoriteItemLoading key={i} />
                 ))}
               </>
             )}
             {dataProducts?.pages.map((group, i) => (
               <Fragment key={i}>
                 {group.data.map((item) => (
-                  <ItemFavoriteProduct
-                    key={item._id}
-                    product={item.product_id}
-                  />
+                  <FavoriteItem key={item._id} product={item.product_id} />
                 ))}
               </Fragment>
             ))}
-            {isFetchingNextPage && (
-              <>
-                {Array.from({ length: 5 }).map((_item, i) => (
-                  <ItemFavoriteProductLoading key={i} />
-                ))}
-              </>
-            )}
           </Stack>
         </div>
-        {hasNextPage && !isFetchingNextPage && (
-          <Box
-            sx={{
-              paddingTop: "10px",
-              textAlign: "center",
-            }}
-          >
-            <Button variant="contained" onClick={() => fetchNextPage()}>
-              Tải thêm
-            </Button>
-          </Box>
+        {hasNextPage && (
+          <LoadMoreButton
+            isLoading={isFetchingNextPage}
+            onClick={fetchNextPage}
+          />
         )}
       </Box>
     </div>
   );
 }
-
-const ItemFavoriteProduct = ({ product }) => {
-  const queryClient = useQueryClient();
-  const dispatch = useDispatch();
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleClickFavoriteProduct = async ({ type = "like" }) => {
-    try {
-      setIsLoading(true);
-      let res;
-      if (type === "like") {
-        res = await axios.post(
-          `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/favorite-products`,
-          {
-            productId: product._id,
-          }
-        );
-        dispatch(
-          addFavoriteProduct({
-            product: { _id: product._id },
-          })
-        );
-      } else if (type === "unlike") {
-        res = await axios.post(
-          `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/favorite-products/unlike`,
-          {
-            productId: product._id,
-          }
-        );
-        dispatch(
-          removeFavoriteProduct({
-            product: { _id: product._id },
-          })
-        );
-      }
-      await queryClient.invalidateQueries({
-        queryKey: ["get-list-favorite-products"],
-      });
-      toast.success(res.data.message);
-    } catch (err) {
-      if (err && err.response) {
-        toast.error(`Message: ${err.response?.data?.message}`);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <>
-      <LoadingBox isLoading={isLoading} />
-      <Box
-        className="favorite-producs-item"
-        sx={{
-          flexDirection: { xs: "column", sm: "row" },
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            flexDirection: { xs: "column", sm: "row" },
-            alignItems: { xs: "center", sm: "flex-start" },
-            width: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              position: "relative",
-              width: { xs: "100%", sm: "18.4375rem" },
-            }}
-          >
-            <Image
-              src={product.product_images[0]}
-              alt={product.product_name}
-              width={1000}
-              height={200}
-              style={{
-                width: "100%",
-                objectFit: "contain",
-                height: "100%",
-              }}
-            />
-          </Box>
-          <Stack spacing={2} className="favorite-product-desc">
-            <Link
-              href={ROUTERS_PATH.DETAIL_PRODUCT.replace(
-                "{productId}",
-                product._id
-              )}
-            >
-              <Typography
-                sx={{
-                  fontSize: "2.1875rem",
-                  fontStyle: "normal",
-                  fontWeight: "700",
-                }}
-                className="cut-text"
-                title={product.product_name}
-              >
-                {product.product_name}
-              </Typography>
-            </Link>
-            <span className="favorite-product-color">
-              Màu sắc: {product.product_color.product_color_name}
-            </span>
-
-            <span className="favorite-product-price">
-              <ConvertMoney money={product.product_original_price} />đ
-            </span>
-          </Stack>
-        </Box>
-        <div className="favorite-control">
-          <Checkbox
-            checked
-            checkedIcon={<Favorite sx={{ color: "#f44336", fontSize: 40 }} />}
-            onClick={() => handleClickFavoriteProduct({ type: "unlike" })}
-          />
-        </div>
-      </Box>
-    </>
-  );
-};
-const ItemFavoriteProductLoading = () => {
-  return (
-    <>
-      <Box
-        className="favorite-producs-item"
-        sx={{
-          flexDirection: { xs: "column", sm: "row" },
-          alignItems: "center",
-          gap: "2rem",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            flexDirection: { xs: "column", sm: "row" },
-            alignItems: { xs: "center", sm: "flex-start" },
-            width: "100%",
-          }}
-        >
-          <Skeleton
-            variant="rectangular"
-            className="favorite-product-image"
-            width={163}
-            height={163}
-          />
-
-          <Stack
-            spacing={2}
-            className="favorite-product-desc"
-            sx={{
-              width: "100%",
-            }}
-          >
-            <Skeleton
-              variant="text"
-              sx={{ fontSize: "2.1875rem", width: "60%" }}
-            />
-            <Skeleton variant="text" sx={{ fontSize: "2.1875rem" }} />
-            <Skeleton variant="text" sx={{ fontSize: "2.1875rem" }} />
-          </Stack>
-        </Box>
-        <div className="favorite-control">
-          <Skeleton variant="circular" width={40} height={40} />
-        </div>
-      </Box>
-    </>
-  );
-};

@@ -1,9 +1,11 @@
+import Description from "@/components/product/detail/Description";
+import InforPage, {
+  getDetailInformationProduct,
+} from "@/components/product/detail/InforPage";
+import ListSuggesting from "@/components/product/detail/ListSuggesting";
+import ListViewed from "@/components/product/detail/ListViewed";
+import ReviewPage from "@/components/product/detail/ReviewPage";
 import { Box } from "@mui/material";
-import Description from "./Description";
-import InforPage, { getDetailInformationProduct } from "./InforPage";
-import ListSuggesting from "./ListSuggesting";
-import ListViewed from "./ListViewed";
-import ReviewPage from "./ReviewPage";
 export default function Home({ params, searchParams }) {
   const { productId } = params;
 

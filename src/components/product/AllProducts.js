@@ -1,15 +1,17 @@
 "use client";
+import LoadMoreButton from "@/components/button/LoadMoreButton";
 import {
-  AllProductItem,
-  SkeletonAllProductItem,
+  ProductItem,
+  ProductItemLoading,
 } from "@/components/product/ProductItem";
-import { Box, Button, Grid } from "@mui/material";
+import { LIMIT_PRODUCT_ITEMS_PER_PAGE } from "@/configs/config.products";
+import { Grid } from "@mui/material";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
-const ITEMS_OF_PAGE = 20;
-export default function Products() {
+const ITEMS_OF_PAGE = LIMIT_PRODUCT_ITEMS_PER_PAGE;
+export default function AllProducts() {
   const searchParams = useSearchParams();
   const searchColor = searchParams.get("color");
   const searchSize = searchParams.get("size");
@@ -96,37 +98,31 @@ export default function Products() {
         {isLoadingQuery && !isFetchingNextPage && (
           <>
             {Array.from({ length: 5 }).map((_item, i) => (
-              <SkeletonAllProductItem key={i} />
+              <ProductItemLoading key={i} />
             ))}
           </>
         )}
         {dataProducts?.pages.map((group, i) => (
           <Fragment key={i}>
             {group.data.map((product) => (
-              <AllProductItem key={product._id} product={product} />
+              <ProductItem key={product._id} product={product} />
             ))}
           </Fragment>
         ))}
-        {isFetchingNextPage && (
+        {/* {isFetchingNextPage && (
           <>
             {Array.from({ length: 5 }).map((_item, i) => (
-              <SkeletonAllProductItem key={i} />
+              <ProductItemLoading key={i} />
             ))}
           </>
-        )}
+        )} */}
       </Grid>
 
-      {hasNextPage && !isFetchingNextPage && (
-        <Box
-          sx={{
-            paddingTop: "10px",
-            textAlign: "center",
-          }}
-        >
-          <Button variant="contained" onClick={() => fetchNextPage()}>
-            Tải thêm
-          </Button>
-        </Box>
+      {hasNextPage && (
+        <LoadMoreButton
+          isLoading={isFetchingNextPage}
+          onClick={() => fetchNextPage()}
+        />
       )}
     </div>
   );

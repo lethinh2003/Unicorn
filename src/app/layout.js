@@ -3,8 +3,9 @@ import NextAuthProvider from "@/components/providers/NextAuth";
 import ReactQueryProvider from "@/components/providers/ReactQuery";
 import ReduxProvider from "@/components/providers/Redux";
 import "react-toastify/dist/ReactToastify.css";
-import "./globals.scss";
 
+import "./global_taiwind.css";
+import "./globals.scss";
 export const metadata = {
   title: "Unicorn",
   description: "Unicorn",

@@ -1,10 +1,10 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
-import LoadingBox from "@/components/generals/LoadingBox";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import USER_MESSAGES from "@/configs/config.users.messages";
 import useAuth from "@/customHooks/useAuth";
+import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -24,18 +24,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 function Login() {
   const { data: session, status } = useSession();
 
   const { isAuthenticated } = useAuth();
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     // If user is authenticated then redirect to home page
     if (isAuthenticated) {
@@ -76,21 +76,23 @@ function Login() {
       if (status === "authenticated") {
         throw new Error(USER_MESSAGES.USER_AUTHENTICATED);
       }
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       const { email, password } = data;
       const loginAccount = await signIn("login", {
         email,
         password,
         redirect: false,
       });
-      setIsLoading(false);
       if (loginAccount?.status !== 200) {
         throw new Error(loginAccount?.error);
       }
+
+      toast.success(loginAccount?.message || "Đăng nhập thành công");
       router.push(ROUTERS_PATH.HOME_PAGE);
     } catch (err) {
-      setIsLoading(false);
       toast.error(err?.message);
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
   const handleRegisterNav = () => {
@@ -101,7 +103,6 @@ function Login() {
 
   return (
     <>
-      <LoadingBox isLoading={isLoading} />
       <div className="login-container">
         <div className="login-left-panel">
           <div className="login-left-panel-header">

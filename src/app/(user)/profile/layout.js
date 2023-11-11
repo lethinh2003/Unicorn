@@ -1,18 +1,19 @@
+import ProfileNavigation from "@/components/profile/ProfileNavigation";
 import { Box, Container } from "@mui/material";
-import ProfileNav from "./nav";
 
 export default function LayoutProfile({ children }) {
   return (
     <>
-      <Container>
+      <Container className="pt-[5rem]">
         <Box
           className="profile-infomation-container"
           sx={{
             flexDirection: { xs: "column", md: "row" },
-            gap: "1rem",
+            gap: "2rem",
+            paddingBottom: "2rem",
           }}
         >
-          <ProfileNav></ProfileNav>
+          <ProfileNavigation></ProfileNavigation>
           {children}
         </Box>
       </Container>

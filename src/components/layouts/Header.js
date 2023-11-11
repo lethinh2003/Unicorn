@@ -3,12 +3,12 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import Cart from "./Cart";
-import FavoriteProducts from "./FavoriteProducts";
-import HeaderMobileNavigation from "./HeaderMobileNavigation";
-import HeaderNavigation from "./HeaderNavigation";
-import ProfileOption from "./ProfileOption";
-import SearchProducts from "./SearchProducts";
+import Cart from "../header/Cart";
+import FavoriteProducts from "../header/FavoriteProducts";
+import HeaderMobileNavigation from "../header/HeaderMobileNavigation";
+import HeaderNavigation from "../header/HeaderNavigation";
+import ProfileOption from "../header/ProfileOption";
+import SearchProducts from "../header/SearchProducts";
 
 const Header = () => {
   return (

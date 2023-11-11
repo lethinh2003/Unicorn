@@ -1,21 +1,25 @@
 "use client";
-import LoadingBox from "@/components/generals/LoadingBox";
 import useAuth from "@/customHooks/useAuth";
 import { ConvertMoney } from "@/utils/convertMoney";
-import { Box, Breadcrumbs, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
 import FavoriteProduct from "./FavoriteProduct";
+
+import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
+import ROUTERS_PATH from "@/configs/config.routers.path";
+import { setIsLoading } from "@/redux/actions/loadingBox";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 export default function Infor({ dataProduct }) {
   const queryClient = useQueryClient();
   const { session } = useAuth();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   // Add to List Viewed
   const [listViewed] = useLocalStorage("LIST_PRODUCTS_VIEWED", []);
@@ -126,6 +130,9 @@ export default function Infor({ dataProduct }) {
         productQuantities: productData.quantity,
         productSize: productData.sizeId,
       }),
+    onMutate: () => {
+      dispatch(setIsLoading(true));
+    },
     onSuccess: (data) => {
       queryClient.setQueryData(
         ["get-list-cart-items", session?.user?._id],
@@ -153,6 +160,8 @@ export default function Infor({ dataProduct }) {
       toast.error(err?.response?.data?.message);
     },
     onSettled: () => {
+      dispatch(setIsLoading(false));
+
       queryClient.invalidateQueries({
         queryKey: ["get-list-cart-items", session?.user?._id],
       });
@@ -169,40 +178,37 @@ export default function Infor({ dataProduct }) {
     return url.href;
   };
 
+  const DATA_BREADCRUMB = [
+    {
+      title: "Sản phẩm",
+      link: ROUTERS_PATH.HOME_PRODUCT,
+    },
+    {
+      title:
+        dataProduct.product_gender === "men"
+          ? "Nam"
+          : dataProduct.product_gender === "women"
+          ? "Nữ"
+          : "",
+      link: `${ROUTERS_PATH.HOME_PRODUCT}?gender=${dataProduct.product_gender}`,
+    },
+  ];
+
+  const NEW_DATA_BREADCRUMB = DATA_BREADCRUMB.concat(
+    dataProduct.product_categories.map((item) => ({
+      title: item.product_category_name,
+      link: `${ROUTERS_PATH.HOME_PRODUCT}?gender=${dataProduct.product_gender}&category=${item._id}`,
+    })),
+    {
+      title: dataProduct.product_name,
+    }
+  );
+
   return (
     <>
-      {mutationAddToCart.isLoading && (
-        <LoadingBox isLoading={mutationAddToCart.isLoading} />
-      )}
       {dataProduct && (
         <>
-          <div className="redirect">
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link href="/">
-                <Typography underline="hover" color="inherit">
-                  Trang chủ
-                </Typography>
-              </Link>
-              <Link href={`/products?gender=${dataProduct.product_gender}`}>
-                <Typography underline="hover" color="inherit">
-                  Sản phẩm
-                </Typography>
-              </Link>
-              {dataProduct.product_categories.map((item, i) => (
-                <Link
-                  key={item._id}
-                  href={`/products?gender=${dataProduct.product_gender}&category=${item._id}`}
-                >
-                  <Typography underline="hover" color="inherit">
-                    {item.product_category_name}
-                  </Typography>
-                </Link>
-              ))}
-              <Typography color="text.primary">
-                {dataProduct?.product_name}
-              </Typography>
-            </Breadcrumbs>
-          </div>
+          <BreadcrumbBar data={NEW_DATA_BREADCRUMB} />
           <Box sx={{ width: "100%", margin: "0 auto", paddingTop: "4rem" }}>
             <Box
               sx={{
@@ -361,12 +367,14 @@ export default function Infor({ dataProduct }) {
                     {dataProduct?.relation_products?.map((relationProduct) => (
                       <Box
                         key={relationProduct.product_color.product_color_code}
-                        className={
-                          productData.color ===
-                          relationProduct.product_color.product_color_code
-                            ? "active"
-                            : null
-                        }
+                        className={`transition duration-300 ease-in 
+                          ${
+                            productData.color ===
+                            relationProduct.product_color.product_color_code
+                              ? "active"
+                              : ""
+                          }
+                            `}
                         onClick={() =>
                           router.push(`/products/${relationProduct._id}`)
                         }

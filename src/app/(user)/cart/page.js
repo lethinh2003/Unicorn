@@ -1,7 +1,8 @@
 "use client";
-import LoadingBox, { LoadingContent } from "@/components/generals/LoadingBox";
+import { LoadingContent } from "@/components/generals/LoadingBox";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import useAuth from "@/customHooks/useAuth";
+import { setIsLoading } from "@/redux/actions/loadingBox";
 import { ConvertMoney } from "@/utils/convertMoney";
 import {
   Box,
@@ -23,8 +24,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import useGetListCart from "./useGetListCart";
 //fake data san pham
 const PRODUCTS_CART = [
@@ -81,9 +83,6 @@ const PRODUCTS_CART = [
 ];
 
 function Cart() {
-  const [products, setProducts] = useState(PRODUCTS_CART);
-  const [isLoading, setIsLoading] = useState(false);
-
   const Router = useRouter();
   const {
     session,
@@ -98,7 +97,6 @@ function Cart() {
 
   return (
     <Container sx={{ display: "block" }}>
-      <LoadingBox isLoading={isLoading} />
       <div
         style={{
           position: "relative",
@@ -316,6 +314,7 @@ function Cart() {
 export default Cart;
 
 const CartItem = ({ item }) => {
+  const dispatch = useDispatch();
   const { session } = useAuth();
   const queryClient = useQueryClient();
   const inputTimeoutRef = useRef();
@@ -359,6 +358,7 @@ const CartItem = ({ item }) => {
             : item.data.quantities,
       }),
     onMutate: () => {
+      dispatch(setIsLoading(true));
       const previousData = queryClient.getQueryData([
         "get-list-cart-items",
         session?.user?._id,
@@ -410,6 +410,8 @@ const CartItem = ({ item }) => {
       toast.error(err?.response?.data?.message);
     },
     onSettled: () => {
+      dispatch(setIsLoading(false));
+
       queryClient.invalidateQueries({
         queryKey: ["get-list-cart-items", session?.user?._id],
       });
@@ -431,6 +433,8 @@ const CartItem = ({ item }) => {
         cartItemId: item._id,
       }),
     onMutate: () => {
+      dispatch(setIsLoading(true));
+
       const previousData = queryClient.getQueryData([
         "get-list-cart-items",
         session?.user?._id,
@@ -463,6 +467,8 @@ const CartItem = ({ item }) => {
       toast.error(err?.response?.data?.message);
     },
     onSettled: () => {
+      dispatch(setIsLoading(false));
+
       queryClient.invalidateQueries({
         queryKey: ["get-list-cart-items", session?.user?._id],
       });
@@ -504,12 +510,6 @@ const CartItem = ({ item }) => {
 
   return (
     <>
-      {mutationUpdateQuantities.isLoading && (
-        <LoadingBox isLoading={mutationUpdateQuantities.isLoading} />
-      )}
-      {mutationRemoveCartItem.isLoading && (
-        <LoadingBox isLoading={mutationRemoveCartItem.isLoading} />
-      )}
       <TableRow>
         <TableCell>
           <Stack direction="row" spacing={2}>
