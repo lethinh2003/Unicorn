@@ -25,6 +25,9 @@ const GlobalStyle = createGlobalStyle`
 const getDesignTokens = (mode) => ({
   components: {
     MuiButton: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.main,
