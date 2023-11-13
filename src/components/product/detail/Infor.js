@@ -4,7 +4,6 @@ import { ConvertMoney } from "@/utils/convertMoney";
 import { Box, Button, Typography } from "@mui/material";
 import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 import axios from "axios";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
@@ -15,6 +14,10 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import InforColor from "./InforColor";
+import InforImage from "./InforImage";
+import InforQuantity from "./InforQuantity";
+import InforSize from "./InforSize";
 export default function Infor({ dataProduct }) {
   const queryClient = useQueryClient();
   const { session } = useAuth();
@@ -80,6 +83,9 @@ export default function Infor({ dataProduct }) {
     setIsAvailableProduct(
       productData.stockSizeQuantities >= productData.quantity
     );
+    if (!productData.quantity) {
+      setIsAvailableProduct(false);
+    }
   }, [productData]);
 
   useEffect(() => {
@@ -89,24 +95,6 @@ export default function Infor({ dataProduct }) {
       }
     }
   }, [dataProduct]);
-
-  const handleSetQuantity = (type) => {
-    if (type === "-") {
-      if (productData.quantity === 1) {
-        return;
-      } else {
-        setProductData((productData) => ({
-          ...productData,
-          quantity: productData.quantity - 1,
-        }));
-      }
-    } else if (type === "+") {
-      setProductData((productData) => ({
-        ...productData,
-        quantity: productData.quantity + 1,
-      }));
-    }
-  };
 
   const addProductToCart = async ({
     productId,
@@ -218,93 +206,11 @@ export default function Infor({ dataProduct }) {
                 flexDirection: { xs: "column", md: "row" },
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "1rem",
-                  width: { xs: "100%", md: "55%" },
-                }}
-              >
-                <Box
-                  sx={{
-                    padding: "0 1rem",
-
-                    maxHeight: "50rem",
-                    overflowY: "auto",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: "1rem",
-                      flexDirection: "column",
-                    }}
-                  >
-                    {dataProduct?.product_images?.map((item, i) => (
-                      <Box
-                        sx={{
-                          padding: "1rem",
-
-                          border: "2px solid",
-                          borderColor: "transparent",
-                          "&.active": {
-                            borderColor: "#7A7272",
-                          },
-                        }}
-                        className={activeImage === item ? "active" : null}
-                        key={i}
-                      >
-                        <Box
-                          onClick={() => setActiveImage(item)}
-                          sx={{
-                            width: "4.5rem",
-                            height: "4.5rem",
-
-                            position: "relative",
-                            cursor: "pointer",
-                            padding: "1rem",
-                          }}
-                        >
-                          <Image
-                            alt={dataProduct.product_name}
-                            src={item}
-                            fill
-                            sizes="500"
-                            style={{
-                              width: "100%",
-                              maxWidth: "100%",
-                              objectFit: "contain",
-                            }}
-                          />
-                        </Box>
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-                <Box
-                  sx={{
-                    maxWidth: { xs: "100%", md: "50rem" },
-                    flex: 1,
-                    height: "50rem",
-                    width: "100%",
-
-                    position: "relative",
-                  }}
-                >
-                  <Image
-                    src={activeImage}
-                    loader={(props) => imageLoader({ ...props, width: 750 })}
-                    alt={dataProduct.product_name}
-                    fill
-                    sizes="1000"
-                    style={{
-                      maxWidth: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                    }}
-                  />
-                </Box>
-              </Box>
+              <InforImage
+                dataProduct={dataProduct}
+                activeImage={activeImage}
+                setActiveImage={setActiveImage}
+              />
               <Box
                 sx={{
                   flex: 1,
@@ -314,9 +220,10 @@ export default function Infor({ dataProduct }) {
                 }}
               >
                 <Typography
+                  component={"h1"}
                   sx={{
                     fontWeight: "bold",
-                    fontSize: "2.5rem",
+                    fontSize: "3rem",
                   }}
                 >
                   {dataProduct?.product_name}
@@ -324,8 +231,8 @@ export default function Infor({ dataProduct }) {
                 <Typography
                   sx={{
                     color: "#FF0000",
-                    fontSize: "2.3rem",
-                    fontWeight: 500,
+                    fontSize: "2.5rem",
+                    fontWeight: 700,
                   }}
                 >
                   {ConvertMoney({
@@ -334,129 +241,12 @@ export default function Infor({ dataProduct }) {
                   đ
                 </Typography>
 
-                <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "2rem",
-                      }}
-                    >
-                      Màu sắc:
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: "2rem",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {dataProduct.product_color.product_color_name}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: "1rem",
-                    }}
-                  >
-                    {dataProduct?.relation_products?.map((relationProduct) => (
-                      <Box
-                        key={relationProduct.product_color.product_color_code}
-                        className={`transition duration-300 ease-in 
-                          ${
-                            productData.color ===
-                            relationProduct.product_color.product_color_code
-                              ? "active"
-                              : ""
-                          }
-                            `}
-                        onClick={() =>
-                          router.push(`/products/${relationProduct._id}`)
-                        }
-                        sx={{
-                          cursor: "pointer",
-                          minWidth: "4.5rem",
-                          height: "4.5rem",
-                          backgroundColor:
-                            relationProduct.product_color.product_color_code,
-                          border: "2px solid",
-                          "&.active": {
-                            border: "4px solid #7A7272",
-                          },
-                        }}
-                      ></Box>
-                    ))}
-                  </Box>
-                </Box>
-                <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "2rem",
-                      }}
-                    >
-                      Kích cỡ:
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: "2rem",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {productData.size}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: "1rem",
-                    }}
-                  >
-                    {dataProduct?.product_sizes?.map((item) => (
-                      <Box
-                        key={item._id}
-                        className={
-                          productData.size === item.size_type.product_size_name
-                            ? "active"
-                            : null
-                        }
-                        onClick={() =>
-                          setProductData((productData) => ({
-                            ...productData,
-                            size: item.size_type.product_size_name,
-                            sizeId: item.size_type._id,
-                            stockSizeQuantities: item.size_quantities,
-                          }))
-                        }
-                        sx={{
-                          minWidth: "4.5rem",
-                          height: "4.5rem",
-                          border: "2px solid black",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          "&.active": {
-                            border: "4px solid #7A7272",
-                          },
-                        }}
-                      >
-                        {item.size_type.product_size_name}
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
+                <InforColor dataProduct={dataProduct} />
+                <InforSize
+                  dataProduct={dataProduct}
+                  productData={productData}
+                  setProductData={setProductData}
+                />
                 <Box
                   sx={{
                     display: "flex",
@@ -464,48 +254,11 @@ export default function Infor({ dataProduct }) {
                     alignItems: "center",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      fontSize: "2rem",
-                    }}
-                  >
-                    Số lượng:
-                  </Typography>
-                  <Box
-                    sx={{
-                      backgroundColor: "white",
-                      display: "flex",
-                      alignItems: "center",
-                      border: "2px solid #7A7272",
-                    }}
-                  >
-                    <Box
-                      onClick={() => handleSetQuantity("-")}
-                      sx={{
-                        padding: "5px 10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      -
-                    </Box>
-                    <Typography
-                      sx={{
-                        fontWeight: "500",
-                        fontSize: "1.7rem",
-                      }}
-                    >
-                      {productData.quantity}
-                    </Typography>
-                    <Box
-                      onClick={() => handleSetQuantity("+")}
-                      sx={{
-                        padding: "5px 10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      +
-                    </Box>
-                  </Box>
+                  <InforQuantity
+                    dataProduct={dataProduct}
+                    productData={productData}
+                    setProductData={setProductData}
+                  />
                   <FavoriteProduct dataProduct={dataProduct} />
                 </Box>
                 <Typography
