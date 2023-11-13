@@ -1,86 +1,23 @@
 "use client";
+import CartItem from "@/components/cart/CartItem";
+import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import { LoadingContent } from "@/components/generals/LoadingBox";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useAuth from "@/customHooks/useAuth";
-import { setIsLoading } from "@/redux/actions/loadingBox";
+import useGetListCart from "@/customHooks/useGetListCart";
 import { ConvertMoney } from "@/utils/convertMoney";
 import {
   Box,
-  Breadcrumbs,
   Button,
   Container,
   Input,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
-import { useMutation, useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
-import useGetListCart from "./useGetListCart";
-//fake data san pham
-const PRODUCTS_CART = [
-  {
-    product_id: "1",
-    product_name: "Áo thun tay ngắn nam",
-    product_color: "Đen",
-    product_size: "L",
-    product_quantities: 100,
-    product_price: 200000,
-    product_image:
-      "https://tse2.mm.bing.net/th?id=OIP.jvlty0y7lA8IR-8vKV57ygHaJQ&pid=Api&P=0&h=220",
-  },
-  {
-    product_id: "2",
-    product_name: "Áo thun tay ngắn nam",
-    product_color: "Đen",
-    product_size: "L",
-    product_quantities: 2,
-    product_price: 100000,
-    product_image:
-      "https://tse2.mm.bing.net/th?id=OIP.jvlty0y7lA8IR-8vKV57ygHaJQ&pid=Api&P=0&h=220",
-  },
-  {
-    product_id: "3",
-    product_name: "Áo thun tay ngắn nam",
-    product_color: "Đen",
-    product_size: "L",
-    product_quantities: 2,
-    product_price: 102000.89,
-    product_image:
-      "https://tse2.mm.bing.net/th?id=OIP.jvlty0y7lA8IR-8vKV57ygHaJQ&pid=Api&P=0&h=220",
-  },
-  {
-    product_id: "4",
-    product_name: "Áo thun tay ngắn nam",
-    product_color: "Đen",
-    product_size: "L",
-    product_quantities: 2,
-    product_price: 100000,
-    product_image:
-      "https://tse2.mm.bing.net/th?id=OIP.jvlty0y7lA8IR-8vKV57ygHaJQ&pid=Api&P=0&h=220",
-  },
-  {
-    product_id: "5",
-    product_name: "Áo thun tay ngắn nam",
-    product_color: "Đen",
-    product_size: "L",
-    product_quantities: 2,
-    product_price: 100000,
-    product_image:
-      "https://tse2.mm.bing.net/th?id=OIP.jvlty0y7lA8IR-8vKV57ygHaJQ&pid=Api&P=0&h=220",
-  },
-];
 
 function Cart() {
   const Router = useRouter();
@@ -95,6 +32,13 @@ function Cart() {
     isFetchingNextPage,
   } = useGetListCart();
 
+  const DATA_BREADCRUMB = [
+    {
+      title: "Giỏ hàng",
+      link: ROUTERS_PATH.CART,
+    },
+  ];
+
   return (
     <Container sx={{ display: "block" }}>
       <div
@@ -104,17 +48,10 @@ function Cart() {
           justifyContent: "space-between",
         }}
       >
-        <div className="redirect">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              Trang chủ
-            </Link>
-            <Typography color="text.primary">Giỏ hàng</Typography>
-          </Breadcrumbs>
-        </div>
+        <BreadcrumbBar data={DATA_BREADCRUMB} />
       </div>
       <Box
-        className="cart-container"
+        className="cart-container drop-shadow-xl"
         sx={{
           marginTop: "2rem",
           flexDirection: { xs: "column", md: "row" },
@@ -129,7 +66,7 @@ function Cart() {
         >
           <div className="cart-left-panel-header">
             <h1>Giỏ hàng</h1>
-            <div className="cart-left-panel-quantity">
+            <div className="cart-left-panel-quantity !text-[2rem]">
               {dataListCartItems.length} sản phẩm
             </div>
           </div>
@@ -172,11 +109,8 @@ function Cart() {
               dataListCartItems.length != 0 && (
                 <TableContainer
                   sx={{
-                    overflowY: "scroll",
+                    overflow: "auto",
                     maxHeight: "40rem",
-                    "&::-webkit-scrollbar": {
-                      display: "none",
-                    },
                   }}
                 >
                   <Table>
@@ -312,353 +246,3 @@ function Cart() {
 }
 
 export default Cart;
-
-const CartItem = ({ item }) => {
-  const dispatch = useDispatch();
-  const { session } = useAuth();
-  const queryClient = useQueryClient();
-  const inputTimeoutRef = useRef();
-  const [quantityInput, setQuantityInput] = useState(item.data.quantities);
-  const countInStock = item.data.product.product_sizes.find(
-    (e) => e.size_type === item.data.size._id
-  ).size_quantities;
-
-  useEffect(() => {
-    setQuantityInput(item.data.quantities);
-    return () => {
-      clearTimeout(inputTimeoutRef.current);
-    };
-  }, [item]);
-
-  const updateQuanties = async ({
-    cartItemId,
-    productQuantitiesUpdate,
-    data,
-  }) => {
-    const results = await axios.post(
-      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/carts/cart-items/update-quantities`,
-      {
-        cartItemId,
-        productQuantitiesUpdate,
-      }
-    );
-    return results.data;
-  };
-  const mutationUpdateQuantities = useMutation({
-    mutationFn: ({ type, quantities }) =>
-      updateQuanties({
-        cartItemId: item._id,
-        productQuantitiesUpdate:
-          type === "increase"
-            ? item.data.quantities + 1
-            : type === "decrease"
-            ? item.data.quantities - 1
-            : type === "input"
-            ? quantities
-            : item.data.quantities,
-      }),
-    onMutate: () => {
-      dispatch(setIsLoading(true));
-      const previousData = queryClient.getQueryData([
-        "get-list-cart-items",
-        session?.user?._id,
-      ]);
-
-      return { previousData };
-    },
-    onSuccess: (data, { type, quantities }) => {
-      queryClient.setQueryData(
-        ["get-list-cart-items", session?.user?._id],
-        (oldData) => {
-          if (oldData) {
-            const getListCartItemsOld = oldData?.data || [];
-            const updateListCartItems = getListCartItemsOld.map((e) => {
-              if (e._id === item._id) {
-                return {
-                  ...e,
-                  data: {
-                    ...e.data,
-                    quantities:
-                      type === "increase"
-                        ? e.data.quantities + 1
-                        : type === "decrease"
-                        ? e.data.quantities - 1
-                        : type === "input"
-                        ? quantities
-                        : e.data.quantities,
-                  },
-                };
-              } else {
-                return e;
-              }
-            });
-            return { ...oldData, data: updateListCartItems };
-          } else {
-            return oldData;
-          }
-        }
-      );
-    },
-    onError: (err, _, context) => {
-      const { data } = context.previousData;
-      const findCurrentCartItem = data?.find((e) => e._id === item._id);
-      setQuantityInput(findCurrentCartItem.data.quantities);
-      queryClient.setQueryData(
-        ["get-list-cart-items", session?.user?._id],
-        context.previousData
-      );
-      toast.error(err?.response?.data?.message);
-    },
-    onSettled: () => {
-      dispatch(setIsLoading(false));
-
-      queryClient.invalidateQueries({
-        queryKey: ["get-list-cart-items", session?.user?._id],
-      });
-    },
-  });
-
-  const removeCartItem = async ({ cartItemId }) => {
-    const results = await axios.post(
-      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/carts/cart-items/delete`,
-      {
-        cartItemId,
-      }
-    );
-    return results.data;
-  };
-  const mutationRemoveCartItem = useMutation({
-    mutationFn: () =>
-      removeCartItem({
-        cartItemId: item._id,
-      }),
-    onMutate: () => {
-      dispatch(setIsLoading(true));
-
-      const previousData = queryClient.getQueryData([
-        "get-list-cart-items",
-        session?.user?._id,
-      ]);
-      return { previousData };
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        ["get-list-cart-items", session?.user?._id],
-        (oldData) => {
-          if (oldData) {
-            const getListCartItemsOld = oldData?.data || [];
-            const updateListCartItems = getListCartItemsOld.filter(
-              (e) => e._id !== item._id
-            );
-
-            return { ...oldData, data: updateListCartItems };
-          } else {
-            return oldData;
-          }
-        }
-      );
-    },
-    onError: (err, _, context) => {
-      const { data } = context.previousData;
-      queryClient.setQueryData(
-        ["get-list-cart-items", session?.user?._id],
-        context.previousData
-      );
-      toast.error(err?.response?.data?.message);
-    },
-    onSettled: () => {
-      dispatch(setIsLoading(false));
-
-      queryClient.invalidateQueries({
-        queryKey: ["get-list-cart-items", session?.user?._id],
-      });
-    },
-  });
-
-  const handleIncreaseQuantity = () => {
-    mutationUpdateQuantities.mutate({
-      type: "increase",
-    });
-  };
-  const handleDecreaseQuantity = () => {
-    if (quantityInput === 1) {
-      handleRemoveCartItem();
-      return;
-    }
-    mutationUpdateQuantities.mutate({
-      type: "decrease",
-    });
-  };
-  const handleUpdateQuantity = (value) => {
-    clearTimeout(inputTimeoutRef.current);
-    setQuantityInput(value);
-    inputTimeoutRef.current = setTimeout(() => {
-      if (!value || value == 0) {
-        handleRemoveCartItem();
-        return;
-      }
-      mutationUpdateQuantities.mutate({
-        type: "input",
-        quantities: value,
-      });
-    }, 500);
-  };
-
-  const handleRemoveCartItem = () => {
-    mutationRemoveCartItem.mutate();
-  };
-
-  return (
-    <>
-      <TableRow>
-        <TableCell>
-          <Stack direction="row" spacing={2}>
-            <Box
-              sx={{
-                position: "relative",
-                width: "10rem",
-                height: "10rem",
-              }}
-            >
-              <Image
-                src={item.data.product.product_images[0]}
-                alt={item.data.product.product_name}
-                width={1000}
-                height={200}
-                style={{
-                  width: "100%",
-                  objectFit: "contain",
-                  height: "100%",
-                }}
-              />
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-              }}
-            >
-              <Link
-                href={ROUTERS_PATH.DETAIL_PRODUCT.replace(
-                  "{productId}",
-                  item.data.product._id
-                )}
-              >
-                <span
-                  className="three-dots"
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 600,
-                  }}
-                  title={item.data.product.product_name}
-                >
-                  {item.data.product.product_name}
-                </span>
-              </Link>
-              <span style={{ fontSize: "1.3rem" }}>
-                Màu: {item.data.product.product_color.product_color_name}
-              </span>
-              <span style={{ fontSize: "1.3rem" }}>
-                Kích thước: {item.data.size.product_size_name}
-              </span>
-              <Typography
-                sx={{
-                  fontSize: "1.3rem",
-                  cursor: "pointer",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-                onClick={handleRemoveCartItem}
-              >
-                [Xoá]
-              </Typography>
-            </Box>
-          </Stack>
-        </TableCell>
-        <TableCell align="center">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              sx={{
-                border: ".1rem solid #787474",
-                minWidth: "1rem",
-                minHeight: "1rem",
-                height: "3rem",
-                width: "3rem",
-                backgroundColor: "#D9D9D9",
-                color: "#787474",
-                "&:hover": {
-                  backgroundColor: "#D9D9D9",
-                  opacity: ".5",
-                },
-              }}
-              onClick={() => handleDecreaseQuantity()}
-            >
-              -
-            </Button>
-            <input
-              type="number"
-              onChange={(e) => handleUpdateQuantity(e.target.value)}
-              style={{
-                backgroundColor: "#D9D9D9",
-                border: ".1rem solid #787474",
-                minWidth: "3rem",
-                minHeight: "3rem",
-                height: "3rem",
-                width: "5rem",
-                padding: "0 .5rem",
-                fontWeight: 800,
-                textAlign: "center",
-                color: "#787474",
-              }}
-              value={quantityInput}
-            ></input>
-            <Button
-              sx={{
-                border: ".1rem solid #787474",
-                minWidth: "3rem",
-                minHeight: "3rem",
-                height: "3rem",
-                width: "3rem",
-                backgroundColor: "#D9D9D9",
-                color: "#787474",
-                "&:hover": {
-                  backgroundColor: "#D9D9D9",
-                  opacity: ".5",
-                },
-              }}
-              onClick={() => handleIncreaseQuantity()}
-            >
-              +
-            </Button>
-          </div>
-          <Typography
-            sx={{
-              fontSize: "1.3rem",
-            }}
-          >
-            Trong kho còn {countInStock}
-          </Typography>
-        </TableCell>
-        <TableCell align="center" sx={{ width: "10rem" }}>
-          <ConvertMoney money={item.data.product.product_original_price} /> đ
-        </TableCell>
-        <TableCell align="center" sx={{ width: "15rem" }}>
-          <ConvertMoney
-            money={
-              item.data.product.product_original_price * item.data.quantities
-            }
-          />{" "}
-          đ
-        </TableCell>
-      </TableRow>
-    </>
-  );
-};
