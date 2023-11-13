@@ -2,7 +2,6 @@
 import useAuth from "@/customHooks/useAuth";
 import { ConvertMoney } from "@/utils/convertMoney";
 import { Box, Button, Typography } from "@mui/material";
-import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import FavoriteProduct from "./FavoriteProduct";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import { setIsLoading } from "@/redux/actions/loadingBox";
+import { addViewedProduct } from "@/redux/actions/viewedProducts";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import InforColor from "./InforColor";
@@ -24,46 +24,13 @@ export default function Infor({ dataProduct }) {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // Add to List Viewed
-  const [listViewed] = useLocalStorage("LIST_PRODUCTS_VIEWED", []);
   useEffect(() => {
-    const updateListViewed = () => {
-      let checkIsValid = true;
-      let currentPosition = -1;
-      let countPosition = 0;
-      for (const itemListViewed of listViewed) {
-        // check list viewed has current product?
-        if (itemListViewed._id === dataProduct._id) {
-          checkIsValid = false;
-          currentPosition = countPosition;
-          break;
-        }
-        // check current product in relation list yet?
-        const check = itemListViewed.relation_products.find(
-          (relationProduct) => relationProduct._id === dataProduct._id
-        );
-        if (check) {
-          checkIsValid = false;
-          currentPosition = countPosition;
-          break;
-        }
-        countPosition++;
-      }
-      // if  exist -> remove and push current item to top list
-      if (!checkIsValid) {
-        const newListViewed = [...listViewed];
-        newListViewed.splice(currentPosition, 1);
-        newListViewed.unshift(dataProduct);
-
-        writeStorage("LIST_PRODUCTS_VIEWED", newListViewed);
-      }
-      // if not exist -> push current item to top list
-      else if (checkIsValid) {
-        const newListViewed = [...[dataProduct], ...listViewed];
-        writeStorage("LIST_PRODUCTS_VIEWED", newListViewed);
-      }
-    };
-    updateListViewed();
+    // Add to List Viewed
+    dispatch(
+      addViewedProduct({
+        product: dataProduct,
+      })
+    );
   }, []);
 
   const [productData, setProductData] = useState({
