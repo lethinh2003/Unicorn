@@ -1,21 +1,16 @@
 "use client";
-import {
-  ProductItem,
-  ProductItemLoading,
-} from "@/components/product/ProductItem";
+import { ProductItem } from "@/components/product/ProductItem";
 import { TYPE_PRODUCT_ITEM_DISPLAY } from "@/configs/config.products";
 import { Box, Typography } from "@mui/material";
-import { useLocalStorage } from "@rehooks/local-storage";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+const LIMIT_ITEMS = 10;
 export default function ListViewed() {
-  const [listViewed] = useLocalStorage("LIST_PRODUCTS_VIEWED", []);
+  const dataListViewed = useSelector((state) => state.viewedProducts);
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const timeoutRef = useRef(null);
-
   useEffect(() => {
-    setData(listViewed);
-  }, [listViewed]);
+    setData(dataListViewed.slice(0, LIMIT_ITEMS));
+  }, [dataListViewed]);
   return (
     <>
       <Box>
@@ -35,37 +30,24 @@ export default function ListViewed() {
             Sản phẩm đã xem
           </Typography>
         </Box>
-        <Box
-          sx={{
+        <div
+          style={{
             display: "flex",
             gap: "1rem",
             overflowY: "auto",
           }}
         >
-          {isLoading && (
-            <>
-              {Array.from({ length: 5 }).map((_item, i) => (
-                <ProductItemLoading
-                  sx={{
-                    minWidth: "25rem",
-                  }}
-                  key={i}
-                />
-              ))}
-            </>
-          )}
-          {!isLoading &&
-            data?.slice(0, 10)?.map((item, i) => (
-              <ProductItem
-                key={item._id}
-                product={{ ...item, child_products: item.relation_products }}
-                sx={{
-                  minWidth: "25rem",
-                }}
-                type={TYPE_PRODUCT_ITEM_DISPLAY.VIEWED}
-              />
-            ))}
-        </Box>
+          {data.map((item, i) => (
+            <ProductItem
+              key={item._id}
+              product={{ ...item, child_products: item.relation_products }}
+              sx={{
+                minWidth: "25rem",
+              }}
+              type={TYPE_PRODUCT_ITEM_DISPLAY.VIEWED}
+            />
+          ))}
+        </div>
       </Box>
     </>
   );
