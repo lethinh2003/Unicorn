@@ -13,7 +13,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
-const HeaderNavigationItem = ({ GENDER }) => {
+const HeaderNavigationItem = ({ GENDER, positionOfElement }) => {
+  console.log(positionOfElement)
   const [isModalOpen, setIsModalOpen] = useState(true);
   const router = useRouter();
   const getCategories = async (gender) => {
@@ -41,7 +42,7 @@ const HeaderNavigationItem = ({ GENDER }) => {
 
   if (isLoading)
     return (
-      <div className="header-navigation-container">
+      <div className="header-navigation-container" style={{transformOrigin: `${positionOfElement}rem top`}}>
         <Box
           sx={{
             backgroundColor: "#fff",
@@ -58,7 +59,7 @@ const HeaderNavigationItem = ({ GENDER }) => {
     );
 
   return (
-    <div className="header-navigation-container">
+    <div className="header-navigation-container" style={{transformOrigin: `${positionOfElement}rem top`}}>
       <Box
         sx={{
           backgroundColor: "#fff",
