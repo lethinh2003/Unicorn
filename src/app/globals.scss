@@ -585,7 +585,7 @@ input[type="number"] {
   width: 55.5rem;
   height: auto;
   border-radius: 1rem;
-}
+}products-item
 .gender-product-title {
   text-transform: uppercase;
   font-family: Inter;
@@ -1074,7 +1074,7 @@ text {
 .product-item-name {
   text-transform: capitalize;
   color: #000;
-  height: 7rem;
+  height: 6.5rem;
   font-size: 2.3rem;
   font-weight: 500;
   overflow: hidden;
@@ -1421,4 +1421,32 @@ text {
   background-color: #ffffff !important;
   color: #000 !important;
   border: 1px solid #ccc !important;
+}
+////////////////////////Recommend products////////////////
+.recommend-button-controler{
+  width: 100%;
+}
+.recommend-button-prev{
+  background-color: transparent !important;
+  color: #000 !important;
+  margin:0 0 5rem -2rem !important;
+}
+.recommend-button-next{
+  background-color: transparent !important;
+  color: #000 !important;
+  margin:0 -2rem 5rem 0 !important;
+}
+//////////////////////viewed profuct //////////////////
+.viewed-button-controler{
+  width: 100%;
+}
+.viewed-button-prev{
+  background-color: transparent !important;
+  color: #000 !important;
+  margin:0 0 5rem -2rem !important;
+}
+.viewed-button-next{
+  background-color: transparent !important;
+  color: #000 !important;
+  margin:0 -2rem 5rem 0 !important;
 }
