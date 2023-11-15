@@ -297,15 +297,14 @@ const CartItem = ({ item }) => {
           </Typography>
         </TableCell>
         <TableCell align="center" sx={{ width: "10rem" }}>
-          <ConvertMoney money={item.data.product.product_original_price} /> đ
+          <ConvertMoney money={item.data.product.product_original_price} />
         </TableCell>
         <TableCell align="center" sx={{ width: "15rem" }}>
           <ConvertMoney
             money={
               item.data.product.product_original_price * item.data.quantities
             }
-          />{" "}
-          đ
+          />
         </TableCell>
       </TableRow>
     </>

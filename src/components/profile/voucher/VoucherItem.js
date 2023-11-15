@@ -1,11 +1,9 @@
 "use client";
 import { convertDateTime } from "@/utils/convertDate";
 import { TicketIcon } from "@heroicons/react/24/outline";
-import { Button } from "@mui/material";
-import toast from "react-hot-toast";
 import { useCopyToClipboard } from "usehooks-ts";
 
-export default function VoucherItem({ voucher }) {
+export default function VoucherItem({ voucher, button }) {
   const [value, copy] = useCopyToClipboard();
 
   return (
@@ -27,17 +25,7 @@ export default function VoucherItem({ voucher }) {
             <div className="voucher-expired">
               Hết hạn sau: {convertDateTime(voucher.expired_date)}
             </div>
-            <Button
-              onClick={() =>
-                toast.promise(copy(voucher.code), {
-                  loading: "Đang copy...",
-                  success: "Copy thành công " + voucher.code,
-                  error: <b>Không thể copy!</b>,
-                })
-              }
-            >
-              Copy
-            </Button>
+            {button}
           </div>
         </div>
       </div>

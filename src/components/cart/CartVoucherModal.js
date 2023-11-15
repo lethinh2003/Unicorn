@@ -9,11 +9,15 @@ import LoadMoreButton from "../button/LoadMoreButton";
 import { LoadingContent } from "../generals/LoadingBox";
 import Modal, { ModalBody, ModalTitle } from "../generals/Modal";
 import VoucherItem from "../profile/voucher/VoucherItem";
+import { VoucherItemChooseButton } from "../profile/voucher/VoucherItemButton";
 
 export default function CartVoucherModal({
   dataListCartItems,
   isOpen,
   setIsOpen,
+  totalPrice,
+  setVoucherApply,
+  voucherApply,
 }) {
   const timeoutRef = useRef();
   const [searchValue, setSearchValue] = useState("");
@@ -98,7 +102,19 @@ export default function CartVoucherModal({
 
           {!isLoading &&
             data?.map((voucher) => (
-              <VoucherItem key={uuidv4()} voucher={voucher} />
+              <VoucherItem
+                key={uuidv4()}
+                voucher={voucher}
+                button={
+                  <VoucherItemChooseButton
+                    voucher={voucher}
+                    dataListCartItems={dataListCartItems}
+                    totalPrice={totalPrice}
+                    setVoucherApply={setVoucherApply}
+                    voucherApply={voucherApply}
+                  />
+                }
+              />
             ))}
 
           {hasNextPage && (

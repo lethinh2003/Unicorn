@@ -75,7 +75,7 @@ export const ProductItem = ({
           </Link>
 
           <span className="product-item-price">
-            {<ConvertMoney money={productData.product_original_price} />}đ
+            {<ConvertMoney money={productData.product_original_price} />}
           </span>
           <Box
             className="home-product__colors"

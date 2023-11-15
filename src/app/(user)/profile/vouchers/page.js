@@ -3,6 +3,7 @@ import LoadMoreButton from "@/components/button/LoadMoreButton";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import { LoadingContent } from "@/components/generals/LoadingBox";
 import VoucherItem from "@/components/profile/voucher/VoucherItem";
+import VoucherItemCopyButton from "@/components/profile/voucher/VoucherItemButton";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import useGetListUserVouchers from "@/customHooks/useGetListUserVouchers";
 import { Stack } from "@mui/material";
@@ -52,7 +53,11 @@ export default function Voucher() {
             )}
 
             {data?.map((voucher) => (
-              <VoucherItem key={voucher._id} voucher={voucher} />
+              <VoucherItem
+                key={voucher._id}
+                voucher={voucher}
+                button={<VoucherItemCopyButton voucher={voucher} />}
+              />
             ))}
 
             {hasNextPage && (
