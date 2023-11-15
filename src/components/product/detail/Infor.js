@@ -204,8 +204,7 @@ export default function Infor({ dataProduct }) {
                 >
                   {ConvertMoney({
                     money: dataProduct?.product_original_price || 0,
-                  })}{" "}
-                  đ
+                  })}
                 </Typography>
 
                 <InforColor dataProduct={dataProduct} />

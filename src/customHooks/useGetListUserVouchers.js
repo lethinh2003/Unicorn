@@ -5,16 +5,19 @@ import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 
 const ITEMS_OF_PAGE = LIMIT_VOUCHER_ITEMS_PER_PAGE;
-const useGetListUserVouchers = () => {
+const transformData = (data) => {
+  return data.pages.flatMap((page) => page.data);
+};
+const useGetListUserVouchers = ({ searchValue = "" }) => {
   const getListVouchers = async (pageParam) => {
     const results = await axios.get(
-      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/vouchers?page=${pageParam}&itemsOfPage=${ITEMS_OF_PAGE}`
+      `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/vouchers?page=${pageParam}&itemsOfPage=${ITEMS_OF_PAGE}&search=${searchValue}`
     );
     return results.data;
   };
 
   const getListQuery = useInfiniteQuery(
-    ["get-list-vouchers-user"],
+    ["get-list-vouchers-user", searchValue],
     ({ pageParam = 1 }) => getListVouchers(pageParam),
     {
       getNextPageParam: (_lastPage, pages) => {
@@ -23,6 +26,7 @@ const useGetListUserVouchers = () => {
         }
         return undefined;
       },
+      select: transformData,
     }
   );
   const {
@@ -35,6 +39,7 @@ const useGetListUserVouchers = () => {
     isFetchingNextPage,
     fetchNextPage,
   } = getListQuery;
+
   useEffect(() => {
     if (isError) {
       throw new Error(error);

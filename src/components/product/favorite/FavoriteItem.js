@@ -68,7 +68,7 @@ const FavoriteItem = ({ product }) => {
             </span>
 
             <span className="favorite-product-price">
-              <ConvertMoney money={product.product_original_price} />đ
+              <ConvertMoney money={product.product_original_price} />
             </span>
           </Stack>
         </Box>

@@ -56,6 +56,11 @@ const getDesignTokens = (mode) => ({
         disableTouchRipple: true,
       },
     },
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {},
+      },
+    },
   },
   typography: {
     fontSize: 21,

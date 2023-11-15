@@ -34,7 +34,7 @@ export const ProductItem = ({
   return (
     <>
       <Stack
-        className="products-item rounded-lg p-0 shadow duration-150 hover:scale-105 hover:shadow-md"
+        className="products-item rounded-lg p-0 shadow duration-150 hover:shadow-md"
         sx={{ ...sx, cursor: "default" }}
       >
         <div className="p-4">
@@ -75,7 +75,7 @@ export const ProductItem = ({
           </Link>
 
           <span className="product-item-price">
-            {<ConvertMoney money={productData.product_original_price} />}đ
+            {<ConvertMoney money={productData.product_original_price} />}
           </span>
           <Box
             className="home-product__colors"
