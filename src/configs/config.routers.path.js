@@ -9,6 +9,7 @@ const ROUTERS_PATH = {
   PROFILE_VOUCHER: "/profile/vouchers",
   PROFILE_ORDER: "/profile/orders",
   CART: "/cart",
+  PAYMENT: "/cart/payment",
   FAVORITE_PRODUCT: "/products/favorite",
   HOME_PRODUCT: "/products",
   DETAIL_PRODUCT: "/products/{productId}",

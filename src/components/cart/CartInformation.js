@@ -1,11 +1,20 @@
 "use client";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import { TYPE_VOUCHER_ITEM_DISPLAY } from "@/configs/config.vouchers";
+import { setIsLoading } from "@/redux/actions/loadingBox";
 import { ConvertMoney } from "@/utils/convertMoney";
 import { Box, Button, Input } from "@mui/material";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import CartVoucherModal from "./CartVoucherModal";
 
 function CartInformation({ dataListCartItems }) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPriceDiscount, setTotalPriceDiscount] = useState(0);
   const [total, setTotal] = useState(0);
@@ -49,6 +58,26 @@ function CartInformation({ dataListCartItems }) {
     }
     if (voucherApply.type === TYPE_VOUCHER_ITEM_DISPLAY.FREE_SHIP) {
       return "Free ship";
+    }
+  };
+
+  const handleCheckCart = async () => {
+    try {
+      dispatch(setIsLoading(true));
+      if (voucherApply) {
+        // Check voucher is valid
+        const checkVoucher = await axios.post(
+          `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/carts/check-voucher`,
+          {
+            voucherId: voucherApply._id,
+          }
+        );
+      }
+      router.push(ROUTERS_PATH.PAYMENT);
+    } catch (err) {
+      toast.error(err.response?.data.message);
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -137,6 +166,7 @@ function CartInformation({ dataListCartItems }) {
             </div>
           </div>
           <Button
+            onClick={handleCheckCart}
             sx={{
               backgroundColor: "#E74040",
               color: "#FFFFFF",
