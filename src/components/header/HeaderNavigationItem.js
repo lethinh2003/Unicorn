@@ -44,7 +44,7 @@ const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
       <div className="header-navigation-container" style={{
         transformOrigin: `${positionOfElement}rem top`,
         transition: `opacity ease-in-out .5s, scale ease-in-out .5s, padding ease-in-out .5s`,
-        willChange: 'opacity, transform, padding',
+        willChange: 'opacity, transform, padding, scale',
         scale: `${value.scale}`,
         opacity: `${value.opacity}`,
         padding: `${value.padding}`
@@ -69,7 +69,7 @@ const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
     <div className="header-navigation-container" style={{
       transformOrigin: `${positionOfElement}rem top`,
       transition: `opacity ease-in-out .5s, scale ease-in-out .5s, padding ease-in-out .5s`,
-      willChange: 'opacity, transform, padding',
+      willChange: 'opacity, transform, padding, scale',
       scale: `${value.scale}`,
       opacity: `${value.opacity}`,
       padding: `${value.padding}`

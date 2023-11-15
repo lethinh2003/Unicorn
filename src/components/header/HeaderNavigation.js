@@ -7,11 +7,17 @@ import HeaderNavigationItem from "./HeaderNavigationItem";
 
 export default function HeaderNavigation() {
   const [positionOfElement, setPositionOfElement] = useState(0);
-  const [value, setValue] = useState({
+  const [valueMen, setValueMen] = useState({
     padding: '0rem',
     paddingLeft: 0,
     scale: 0,
-    opacity:0
+    opacity: 0
+  })
+  const [valueWomen, setValueWomen] = useState({
+    padding: '0rem',
+    paddingLeft: 0,
+    scale: 0,
+    opacity: 0
   })
   const router = useRouter();
   const boxMen = useRef(null);
@@ -24,20 +30,20 @@ export default function HeaderNavigation() {
       const { x, width } = rect;
       setPositionOfElement(Math.round(x + width * 2 / 3) / 10);
     }
-    setValue({
+    setValueMen({
       padding: '2rem 6rem',
       paddingLeft: 5,
       scale: 1,
-      opacity:1
+      opacity: 1
     })
   };
 
   const handleMenMouseLeave = () => {
-    setValue({
+    setValueMen({
       padding: '0rem',
       paddingLeft: 0,
       scale: 0,
-      opacity:0
+      opacity: 0
     })
   };
 
@@ -48,20 +54,20 @@ export default function HeaderNavigation() {
       const { x, width } = rect;
       setPositionOfElement(Math.round(x + width * 2 / 3) / 10);
     }
-    setValue({
+    setValueWomen({
       padding: '2rem 6rem',
       paddingLeft: 5,
       scale: 1,
-      opacity:1
+      opacity: 1
     })
   };
 
   const handleWomenMouseLeave = () => {
-    setValue({
+    setValueWomen({
       padding: '0rem',
       paddingLeft: 0,
       scale: 0,
-      opacity:0
+      opacity: 0
     })
   };
 
@@ -98,7 +104,7 @@ export default function HeaderNavigation() {
             </span>
 
             <div className="header-men-categories">
-              {<HeaderNavigationItem GENDER="men" positionOfElement={positionOfElement} value={value} />}
+              {<HeaderNavigationItem GENDER="men" positionOfElement={positionOfElement} value={valueMen} />}
             </div>
           </Stack>
         </Box>
@@ -121,7 +127,7 @@ export default function HeaderNavigation() {
           </span>
 
           <div className="header-women-categories">
-            {<HeaderNavigationItem GENDER="women" positionOfElement={positionOfElement} value={value} />}
+            {<HeaderNavigationItem GENDER="women" positionOfElement={positionOfElement} value={valueWomen} />}
           </div>
         </Box>
         <Box
