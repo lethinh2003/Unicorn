@@ -2,27 +2,73 @@
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import { Box, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import HeaderNavigationItem from "./HeaderNavigationItem";
 
 export default function HeaderNavigation() {
-  const [isMenHover, setIsMenHover] = useState(false);
-  const [isWomenHover, setIsWomenHover] = useState(false);
+  const [positionOfElement, setPositionOfElement] = useState(0);
+  const [valueMen, setValueMen] = useState({
+    padding: '0rem',
+    paddingLeft: 0,
+    scale: 0,
+    opacity: 0
+  })
+  const [valueWomen, setValueWomen] = useState({
+    padding: '0rem',
+    paddingLeft: 0,
+    scale: 0,
+    opacity: 0
+  })
   const router = useRouter();
+  const boxMen = useRef(null);
+  const boxWomen = useRef(null);
+
   const handleMenMouseEnter = () => {
-    setIsMenHover(true);
+    const boxElement = boxMen.current;
+    if (boxElement) {
+      const rect = boxElement.getBoundingClientRect();
+      const { x, width } = rect;
+      setPositionOfElement(Math.round(x + width * 2 / 3) / 10);
+    }
+    setValueMen({
+      padding: '2rem 6rem',
+      paddingLeft: 5,
+      scale: 1,
+      opacity: 1
+    })
   };
 
   const handleMenMouseLeave = () => {
-    setIsMenHover(false);
+    setValueMen({
+      padding: '0rem',
+      paddingLeft: 0,
+      scale: 0,
+      opacity: 0
+    })
   };
 
   const handleWomenMouseEnter = () => {
-    setIsWomenHover(true);
+    const boxElement = boxWomen.current;
+    if (boxElement) {
+      const rect = boxElement.getBoundingClientRect();
+      const { x, width } = rect;
+      setPositionOfElement(Math.round(x + width * 2 / 3) / 10);
+    }
+    setValueWomen({
+      padding: '2rem 6rem',
+      paddingLeft: 5,
+      scale: 1,
+      opacity: 1
+    })
   };
 
   const handleWomenMouseLeave = () => {
-    setIsWomenHover(false);
+    setValueWomen({
+      padding: '0rem',
+      paddingLeft: 0,
+      scale: 0,
+      opacity: 0
+    })
   };
 
   return (
@@ -39,6 +85,7 @@ export default function HeaderNavigation() {
         }}
       >
         <Box
+          ref={boxMen}
           sx={{
             paddingLeft: "2rem",
             cursor: "pointer",
@@ -57,11 +104,12 @@ export default function HeaderNavigation() {
             </span>
 
             <div className="header-men-categories">
-              {isMenHover && <HeaderNavigationItem GENDER="men" />}
+              {<HeaderNavigationItem GENDER="men" positionOfElement={positionOfElement} value={valueMen} />}
             </div>
           </Stack>
         </Box>
         <Box
+          ref={boxWomen}
           sx={{
             paddingLeft: "3rem",
             cursor: "pointer",
@@ -79,7 +127,7 @@ export default function HeaderNavigation() {
           </span>
 
           <div className="header-women-categories">
-            {isWomenHover && <HeaderNavigationItem GENDER="women" />}
+            {<HeaderNavigationItem GENDER="women" positionOfElement={positionOfElement} value={valueWomen} />}
           </div>
         </Box>
         <Box

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
-const HeaderNavigationItem = ({ GENDER }) => {
+const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const router = useRouter();
   const getCategories = async (gender) => {
@@ -41,14 +41,22 @@ const HeaderNavigationItem = ({ GENDER }) => {
 
   if (isLoading)
     return (
-      <div className="header-navigation-container">
+      <div className="header-navigation-container" style={{
+        transformOrigin: `${positionOfElement}rem top`,
+        transition: `opacity ease-in-out .25s, scale ease-in-out .25s, padding ease-in-out .25s`,
+        willChange: 'opacity, transform, padding, scale',
+        scale: `${value.scale}`,
+        opacity: `${value.opacity}`,
+        padding: `${value.padding}`
+      }}>
         <Box
           sx={{
             backgroundColor: "#fff",
             maxWidth: "100vw",
-            paddingLeft: 5,
+            paddingLeft: `${value.paddingLeft}`,
             textAlign: "center",
             position: "relative",
+            height: '70vh',
           }}
           onMouseLeave={handleMouseLeave}
         >
@@ -58,14 +66,21 @@ const HeaderNavigationItem = ({ GENDER }) => {
     );
 
   return (
-    <div className="header-navigation-container">
+    <div className="header-navigation-container" style={{
+      transformOrigin: `${positionOfElement}rem top`,
+      transition: `opacity ease-in-out .25s, scale ease-in-out .25s, padding ease-in-out .25s`,
+      willChange: 'opacity, transform, padding, scale',
+      scale: `${value.scale}`,
+      opacity: `${value.opacity}`,
+      padding: `${value.padding}`
+    }}>
       <Box
         sx={{
           backgroundColor: "#fff",
-          height: "70vh",
+          height: '70vh',
           maxWidth: "100vw",
           overflowY: "auto",
-          paddingLeft: 5,
+          paddingLeft: `${value.paddingLeft}`,
         }}
         onMouseLeave={handleMouseLeave}
       >
@@ -113,7 +128,7 @@ const HeaderNavigationItem = ({ GENDER }) => {
           ))}
         </Grid>
       </Box>
-    </div>
+    </div >
   );
 };
 export default HeaderNavigationItem;
