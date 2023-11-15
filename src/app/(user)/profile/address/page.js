@@ -4,11 +4,11 @@ import LoadMoreButton from "@/components/button/LoadMoreButton";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import { LoadingContent } from "@/components/generals/LoadingBox";
 import AddressItem from "@/components/profile/address/AddressItem";
+import AddressItemButtons from "@/components/profile/address/AddressItemButtons";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import useGetListUserAddresses from "@/customHooks/useGetListUserAddresses";
 import { Button, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { Fragment } from "react";
 export default function Address() {
   const router = useRouter();
 
@@ -56,13 +56,14 @@ export default function Address() {
               flexDirection: "column",
             }}
           >
-            {dataAddresses?.pages.map((group, i) => (
-              <Fragment key={i}>
-                {group.data.map((address) => (
-                  <AddressItem key={address._id} address={address} />
-                ))}
-              </Fragment>
+            {dataAddresses?.map((address) => (
+              <AddressItem
+                key={address._id}
+                address={address}
+                buttons={<AddressItemButtons address={address} />}
+              />
             ))}
+
             {hasNextPage && (
               <LoadMoreButton
                 isLoading={isFetchingNextPage}

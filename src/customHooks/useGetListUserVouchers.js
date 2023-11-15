@@ -1,13 +1,12 @@
 "use client";
 import { LIMIT_VOUCHER_ITEMS_PER_PAGE } from "@/configs/config.users.voucher";
+import { transformData } from "@/utils/transformDataInfinityUseQuery";
 import axios from "axios";
 import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
 
 const ITEMS_OF_PAGE = LIMIT_VOUCHER_ITEMS_PER_PAGE;
-const transformData = (data) => {
-  return data.pages.flatMap((page) => page.data);
-};
+
 const useGetListUserVouchers = ({ searchValue = "" }) => {
   const getListVouchers = async (pageParam) => {
     const results = await axios.get(

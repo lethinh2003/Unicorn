@@ -1,9 +1,9 @@
 "use client";
 import { LIMIT_ADDRESS_ITEMS_PER_PAGE } from "@/configs/config.users.address";
+import { transformData } from "@/utils/transformDataInfinityUseQuery";
 import axios from "axios";
 import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
-
 const ITEMS_OF_PAGE = LIMIT_ADDRESS_ITEMS_PER_PAGE;
 const useGetListUserAddresses = () => {
   const getListAddresses = async (pageParam) => {
@@ -23,6 +23,7 @@ const useGetListUserAddresses = () => {
         }
         return undefined;
       },
+      select: transformData,
     }
   );
   const {
