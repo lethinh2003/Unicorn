@@ -6,9 +6,13 @@ import { useState, useRef } from "react";
 import HeaderNavigationItem from "./HeaderNavigationItem";
 
 export default function HeaderNavigation() {
-  const [isMenHover, setIsMenHover] = useState(false);
-  const [isWomenHover, setIsWomenHover] = useState(false);
   const [positionOfElement, setPositionOfElement] = useState(0);
+  const [value, setValue] = useState({
+    padding: '0rem',
+    paddingLeft: 0,
+    scale: 0,
+    opacity:0
+  })
   const router = useRouter();
   const boxMen = useRef(null);
   const boxWomen = useRef(null);
@@ -20,11 +24,21 @@ export default function HeaderNavigation() {
       const { x, width } = rect;
       setPositionOfElement(Math.round(x + width * 2 / 3) / 10);
     }
-    setIsMenHover(true);
+    setValue({
+      padding: '2rem 6rem',
+      paddingLeft: 5,
+      scale: 1,
+      opacity:1
+    })
   };
 
   const handleMenMouseLeave = () => {
-    setIsMenHover(false);
+    setValue({
+      padding: '0rem',
+      paddingLeft: 0,
+      scale: 0,
+      opacity:0
+    })
   };
 
   const handleWomenMouseEnter = () => {
@@ -34,11 +48,21 @@ export default function HeaderNavigation() {
       const { x, width } = rect;
       setPositionOfElement(Math.round(x + width * 2 / 3) / 10);
     }
-    setIsWomenHover(true);
+    setValue({
+      padding: '2rem 6rem',
+      paddingLeft: 5,
+      scale: 1,
+      opacity:1
+    })
   };
 
   const handleWomenMouseLeave = () => {
-    setIsWomenHover(false);
+    setValue({
+      padding: '0rem',
+      paddingLeft: 0,
+      scale: 0,
+      opacity:0
+    })
   };
 
   return (
@@ -74,7 +98,7 @@ export default function HeaderNavigation() {
             </span>
 
             <div className="header-men-categories">
-              {isMenHover && <HeaderNavigationItem GENDER="men" positionOfElement={positionOfElement} />}
+              {<HeaderNavigationItem GENDER="men" positionOfElement={positionOfElement} value={value} />}
             </div>
           </Stack>
         </Box>
@@ -97,7 +121,7 @@ export default function HeaderNavigation() {
           </span>
 
           <div className="header-women-categories">
-            {isWomenHover && <HeaderNavigationItem GENDER="women" positionOfElement={positionOfElement} />}
+            {<HeaderNavigationItem GENDER="women" positionOfElement={positionOfElement} value={value} />}
           </div>
         </Box>
         <Box
