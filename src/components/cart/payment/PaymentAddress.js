@@ -1,10 +1,12 @@
 "use client";
+import { setCartShippingCost } from "@/redux/actions/cart";
 import { Radio, Stack, Typography } from "@mui/material";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import PaymentAddAddress from "./PaymentAddAddress";
 import PaymentChooseAddress from "./PaymentChooseAddress";
 
@@ -36,9 +38,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: ".1rem solid rgba(0, 0, 0, .125)",
 }));
-
+const DEFAULT_SHIPPING_COST = 30000;
 function PaymentAddress() {
   const [expanded, setExpanded] = useState("available_address");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCartShippingCost({ shippingCost: DEFAULT_SHIPPING_COST }));
+  }, []);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);

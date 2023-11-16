@@ -3,11 +3,14 @@ import LoadMoreButton from "@/components/button/LoadMoreButton";
 import { LoadingContent } from "@/components/generals/LoadingBox";
 import AddressItem from "@/components/profile/address/AddressItem";
 import useGetListUserAddresses from "@/customHooks/useGetListUserAddresses";
+import { setCartAddress } from "@/redux/actions/cart";
 import { Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PaymentChooseAddressButtons from "./PaymentChooseAddressButtons";
 
 function PaymentChooseAddress() {
+  const dispatch = useDispatch();
   const {
     data: dataAddresses,
     isLoading: isLoadingQuery,
@@ -18,14 +21,13 @@ function PaymentChooseAddress() {
     isFetchingNextPage,
     fetchNextPage,
   } = useGetListUserAddresses();
-  const [addressChoose, setAddressChoose] = useState(null);
 
   useEffect(() => {
     if (dataAddresses) {
       const findAddressDefault = dataAddresses.find(
         (item) => item.default === true
       );
-      setAddressChoose(findAddressDefault);
+      dispatch(setCartAddress({ address: findAddressDefault }));
     }
   }, [dataAddresses]);
 
@@ -36,13 +38,7 @@ function PaymentChooseAddress() {
         <AddressItem
           address={address}
           key={address._id}
-          buttons={
-            <PaymentChooseAddressButtons
-              address={address}
-              addressChoose={addressChoose}
-              setAddressChoose={setAddressChoose}
-            />
-          }
+          buttons={<PaymentChooseAddressButtons address={address} />}
         />
       ))}
       {hasNextPage && (

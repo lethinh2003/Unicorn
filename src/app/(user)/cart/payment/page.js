@@ -1,12 +1,12 @@
 "use client";
 import PaymentAddress from "@/components/cart/payment/PaymentAddress";
+import PaymentButton from "@/components/cart/payment/PaymentButton";
 import PaymentMethod from "@/components/cart/payment/PaymentMethod";
 import PaymentNote from "@/components/cart/payment/PaymentNote";
 import PaymentProduct from "@/components/cart/payment/PaymentProduct";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import { Button, Container, Stack } from "@mui/material";
-
+import { Container, Stack } from "@mui/material";
 function Payment() {
   const DATA_BREADCRUMB = [
     {
@@ -34,12 +34,7 @@ function Payment() {
         </Stack>
         <Stack sx={{ width: { xs: "100%", md: "50%" } }} spacing={2}>
           <PaymentProduct />
-          <Button
-            className="drop-shadow-xl"
-            sx={{ padding: "2rem", borderRadius: "1rem" }}
-          >
-            Thanh toán
-          </Button>
+          <PaymentButton />
         </Stack>
       </div>
     </Container>

@@ -1,21 +1,23 @@
 "use client";
 import PAYMENT_MESSAGES from "@/configs/config.payment.messages";
 import ROUTERS_PATH from "@/configs/config.routers.path";
+import { setCartAddress } from "@/redux/actions/cart";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { Button, Radio, Stack } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useQueryClient } from "react-query";
-import { useDispatch } from "react-redux";
-function PaymentChooseAddressButtons({
-  address,
-  addressChoose,
-  setAddressChoose,
-}) {
+import { useDispatch, useSelector } from "react-redux";
+function PaymentChooseAddressButtons({ address }) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { address: addressChoose } = useSelector((state) => state.cart);
+
+  const handleChooseAddress = () => {
+    dispatch(setCartAddress({ address }));
+  };
   const handleDeleteAddress = async ({}) => {
     try {
       if (addressChoose._id === address._id) {
@@ -52,11 +54,11 @@ function PaymentChooseAddressButtons({
         <Radio
           sx={{ fontSize: "0.9rem", textAlign: "center" }}
           checked={addressChoose?._id === address._id || false}
-          onChange={() => setAddressChoose(address)}
+          onChange={handleChooseAddress}
         />
-        <Stack spacing={2} sx={{ padding: "2rem 0" }}>
+        <Stack spacing={2} sx={{ padding: "1rem 0" }}>
           <Button
-            className="delete-address-button drop-shadow-lg"
+            className="delete-address-button-df !bg-[#38AC8F] drop-shadow-lg"
             onClick={handleDeleteAddress}
           >
             Xóa

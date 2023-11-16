@@ -35,7 +35,10 @@ function PaymentProductItem({ item }) {
         </Box>
         <div className="flex flex-1 gap-4">
           <div className="product-payment-product-desc flex w-[100%] max-w-[25rem] flex-col gap-4">
-            <span className="product-payment-product-name three-dots !w-full">
+            <span
+              className="product-payment-product-name three-dots !w-full"
+              title={item.data.product.product_name}
+            >
               {item.data.product.product_name}
             </span>
             <span className="product-payment-product-color">

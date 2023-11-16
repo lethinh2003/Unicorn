@@ -11,14 +11,7 @@ import Modal, { ModalBody, ModalTitle } from "../generals/Modal";
 import VoucherItem from "../profile/voucher/VoucherItem";
 import { VoucherItemChooseButton } from "../profile/voucher/VoucherItemButton";
 
-export default function CartVoucherModal({
-  dataListCartItems,
-  isOpen,
-  setIsOpen,
-  totalPrice,
-  setVoucherApply,
-  voucherApply,
-}) {
+export default function CartVoucherModal({ isOpen, setIsOpen }) {
   const timeoutRef = useRef();
   const [searchValue, setSearchValue] = useState("");
   const [searchInput, setSearchInput] = useState("");
@@ -108,10 +101,7 @@ export default function CartVoucherModal({
                 button={
                   <VoucherItemChooseButton
                     voucher={voucher}
-                    dataListCartItems={dataListCartItems}
-                    totalPrice={totalPrice}
-                    setVoucherApply={setVoucherApply}
-                    voucherApply={voucherApply}
+                    setIsOpen={setIsOpen}
                   />
                 }
               />

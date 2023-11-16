@@ -365,9 +365,14 @@ input[type="number"] {
 .address-item,
 .notifies-item {
   display: flex;
-  border-bottom: 1px solid #ccc;
   align-items: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+
+  }
 }
+
 
 .user-title {
 }
@@ -416,6 +421,13 @@ input[type="number"] {
   font-size: 0.9rem !important;
   border-radius: 0.5rem;
   background-color: #e74040e5 !important;
+  text-transform: capitalize !important;
+}
+.address-operation .delete-address-button-df {
+  width: 2rem !important;
+  height: 2.5rem !important;
+  font-size: 0.9rem !important;
+  border-radius: 0.5rem;
   text-transform: capitalize !important;
 }
 .operation-stack {

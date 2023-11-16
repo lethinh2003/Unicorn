@@ -1,13 +1,23 @@
 "use client";
+import { CART_PAYMENT_METHOD } from "@/configs/config.cart";
+import { setCartPaymentMethod } from "@/redux/actions/cart";
 import { BanknotesIcon, CreditCardIcon } from "@heroicons/react/24/outline";
-import { Radio, Typography } from "@mui/material";
-import { useState } from "react";
+import { Radio } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 function PaymentMethod() {
-  const [selectMethodPayment, setSelectMethodPayment] = useState("cash");
+  const dispatch = useDispatch();
 
-  const handleChangeMethodPayMent = (event) => {
-    setSelectMethodPayment(event.target.value);
+  const [selectMethodPayment, setSelectMethodPayment] = useState(
+    CART_PAYMENT_METHOD.CASH
+  );
+  useEffect(() => {
+    dispatch(setCartPaymentMethod({ method: selectMethodPayment }));
+  }, [selectMethodPayment]);
+
+  const handleChangeMethodPayMent = (value) => {
+    setSelectMethodPayment(value);
   };
   const payMethod = [
     {
@@ -36,19 +46,22 @@ function PaymentMethod() {
           >
             {payMethod.map((item) => (
               <div
-                className="flex items-center justify-between px-8 py-4 transition-all duration-150 ease-in hover:bg-[#eeeeee]"
+                className="flex cursor-pointer items-center justify-between px-8 py-4 transition-all duration-150 ease-in hover:bg-[#eeeeee]"
                 style={{
                   borderTop: ".1rem solid rgba(0, 0, 0, .125)",
                 }}
                 key={item.value}
+                onClick={() => handleChangeMethodPayMent(item.value)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="h-[5rem] w-[5rem]">{item.icon}</div>
-                  <Typography variant="h6">{item.title}</Typography>
+                  <div className="h-[3.5rem] w-[3.5rem]">{item.icon}</div>
+                  <span className="text-[1.7rem] font-medium">
+                    {item.title}
+                  </span>
                 </div>
                 <Radio
                   checked={selectMethodPayment === item.value}
-                  onChange={handleChangeMethodPayMent}
+                  onChange={(e) => handleChangeMethodPayMent(e.target.value)}
                   value={item.value}
                   name="radio-buttons"
                   inputProps={{ "aria-label": item.value }}
