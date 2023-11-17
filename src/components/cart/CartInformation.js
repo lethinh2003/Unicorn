@@ -1,6 +1,7 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import { TYPE_VOUCHER_ITEM_DISPLAY } from "@/configs/config.vouchers";
+import { setCartItems, setCartShippingCost } from "@/redux/actions/cart";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { ConvertMoney } from "@/utils/convertMoney";
 import { Box, Button, Input } from "@mui/material";
@@ -8,56 +9,47 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartVoucherModal from "./CartVoucherModal";
 
 function CartInformation({ dataListCartItems }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalPriceDiscount, setTotalPriceDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
-
-  const [voucherApply, setVoucherApply] = useState(null);
+  const {
+    voucher: voucherApply,
+    subTotal,
+    shippingCost,
+    discountAmount,
+    total,
+  } = useSelector((state) => state.cart);
 
   const [isOpenModalVoucher, setIsOpenModalVoucher] = useState(false);
   useEffect(() => {
-    let totalPrice = 0;
-    dataListCartItems?.forEach((item) => {
-      totalPrice +=
-        item.data.product.product_original_price * item.data.quantities;
-    });
-    setTotalPrice(totalPrice);
-  }, [dataListCartItems]);
-
+    dispatch(setCartShippingCost({ shippingCost: 0 }));
+  }, []);
   useEffect(() => {
-    if (voucherApply) {
-      if (voucherApply.type === TYPE_VOUCHER_ITEM_DISPLAY.AMOUNT) {
-        const { discount } = voucherApply;
-        const totalDiscount = Math.round((totalPrice * discount) / 100);
-        setTotal(totalPrice - totalDiscount);
-        setTotalPriceDiscount(totalDiscount);
-      } else if (voucherApply.type === TYPE_VOUCHER_ITEM_DISPLAY.FREE_SHIP) {
-        setTotalPriceDiscount(0);
-        setTotal(totalPrice - 0);
-      }
-      setIsOpenModalVoucher(false);
-    } else {
-      setTotal(totalPrice);
-      setTotalPriceDiscount(0);
-    }
-  }, [voucherApply, totalPrice]);
+    dispatch(setCartItems({ cartItems: dataListCartItems }));
+  }, [dataListCartItems]);
 
   const handleRenderVoucherUI = () => {
     if (!voucherApply) {
       return "0 đ";
     }
     if (voucherApply.type === TYPE_VOUCHER_ITEM_DISPLAY.AMOUNT) {
-      return <ConvertMoney money={totalPriceDiscount} />;
+      return (
+        <>
+          -
+          <ConvertMoney money={discountAmount} />
+        </>
+      );
     }
     if (voucherApply.type === TYPE_VOUCHER_ITEM_DISPLAY.FREE_SHIP) {
-      return "Free ship";
+      return (
+        <>
+          <span>-{voucherApply.discount}%</span> tiền ship
+        </>
+      );
     }
   };
 
@@ -86,10 +78,6 @@ function CartInformation({ dataListCartItems }) {
       <CartVoucherModal
         isOpen={isOpenModalVoucher}
         setIsOpen={setIsOpenModalVoucher}
-        dataListCartItems={dataListCartItems}
-        totalPrice={totalPrice}
-        voucherApply={voucherApply}
-        setVoucherApply={setVoucherApply}
       />
       <Box
         className="cart-right-panel"
@@ -116,7 +104,7 @@ function CartInformation({ dataListCartItems }) {
           <div className="cart-right-panel-merchandises">
             <div className="cart-right-panel-merchandise">Tiền hàng:</div>
             <div className="cart-right-panel-price">
-              <ConvertMoney money={totalPrice} />
+              <ConvertMoney money={subTotal} />
             </div>
           </div>
           <div className="cart-right-panel-sale-offs" style={{ paddingTop: 0 }}>

@@ -17,7 +17,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 function Cart() {
   const router = useRouter();
@@ -25,21 +24,7 @@ function Cart() {
     session,
     data: dataListCartItems,
     isLoading: isLoadingGetListCartItems,
-    isFetching,
-    isError,
-    error,
-    hasNextPage,
-    isFetchingNextPage,
   } = useGetListCart();
-  const [totalPrice, setTotalPrice] = useState(0);
-  useEffect(() => {
-    let totalPrice = 0;
-    dataListCartItems.forEach((item) => {
-      totalPrice +=
-        item.data.product.product_original_price * item.data.quantities;
-    });
-    setTotalPrice(totalPrice);
-  }, [dataListCartItems]);
 
   const DATA_BREADCRUMB = [
     {

@@ -1,10 +1,31 @@
 "use client";
+import { TYPE_VOUCHER_ITEM_DISPLAY } from "@/configs/config.vouchers";
 import { convertDateTime } from "@/utils/convertDate";
+import { ConvertMoney } from "@/utils/convertMoney";
 import { TicketIcon } from "@heroicons/react/24/outline";
-import { useCopyToClipboard } from "usehooks-ts";
 
 export default function VoucherItem({ voucher, button }) {
-  const [value, copy] = useCopyToClipboard();
+  const handleRenderUITypeVoucher = () => {
+    if (voucher.type === TYPE_VOUCHER_ITEM_DISPLAY.AMOUNT) {
+      return "tổng tiền";
+    }
+    if (voucher.type === TYPE_VOUCHER_ITEM_DISPLAY.FREE_SHIP) {
+      return "tiền ship";
+    }
+    return "";
+  };
+  const handleRenderUIVoucherDescription = () => {
+    let description = voucher.description;
+    if (voucher.min_order_quantity) {
+      description += `. Từ ${voucher.min_order_quantity} sản phẩm trở lên`;
+    }
+    if (voucher.min_order_amount) {
+      description += `. Tổng đơn từ ${(
+        <ConvertMoney money={voucher.min_order_amount} />
+      )} trở lên`;
+    }
+    return description;
+  };
 
   return (
     <>
@@ -15,17 +36,21 @@ export default function VoucherItem({ voucher, button }) {
 
         <div className="voucher-infomation gap-4">
           <div className="voucher-line flex-wrap gap-4">
-            <div className="voucher-percent">Giảm {voucher.discount}%</div>
+            <div className="voucher-percent">
+              Giảm {voucher.discount}% {handleRenderUITypeVoucher()}
+            </div>
             <div className="voucher-id rounded-l border-2 border-dashed px-4 py-2 text-gray-400">
               {voucher.code}
             </div>
           </div>
-          <div className="voucher-detail">{voucher.description}</div>
+          <div className="voucher-detail">
+            {handleRenderUIVoucherDescription()}
+          </div>
           <div className="voucher-line flex-wrap gap-4">
             <div className="voucher-expired">
               Hết hạn sau: {convertDateTime(voucher.expired_date)}
             </div>
-            {button}
+            <div className="flex gap-4">{button}</div>
           </div>
         </div>
       </div>

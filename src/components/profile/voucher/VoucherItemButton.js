@@ -1,11 +1,16 @@
 "use client";
 import CART_MESSAGES from "@/configs/config.cart.messages";
+import { setCartVoucher } from "@/redux/actions/cart";
 import { Button } from "@mui/material";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useCopyToClipboard } from "usehooks-ts";
 
 export default function VoucherItemCopyButton({ voucher }) {
   const [value, copy] = useCopyToClipboard();
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   return (
     <>
@@ -24,30 +29,31 @@ export default function VoucherItemCopyButton({ voucher }) {
   );
 }
 
-export function VoucherItemChooseButton({
-  voucher,
-  dataListCartItems,
-  totalPrice,
-  setVoucherApply,
-  voucherApply,
-}) {
+export function VoucherItemChooseButton({ voucher, setIsOpen }) {
+  const dispatch = useDispatch();
+  const {
+    subTotal,
+    cartItems,
+    voucher: voucherApply,
+  } = useSelector((state) => state.cart);
+
   const handleApplyVoucher = () => {
-    if (voucher.min_order_quantity > dataListCartItems.length) {
+    if (voucher.min_order_quantity > cartItems.length) {
       toast.error(CART_MESSAGES.MIN_ORDER_QUANTITY_VOUCHER_INVALID);
       return;
     }
-    if (voucher.min_order_amount > totalPrice) {
+    if (voucher.min_order_amount > subTotal) {
       toast.error(CART_MESSAGES.MIN_ORDER_AMOUNT_VOUCHER_INVALID);
       return;
     }
-    setVoucherApply(voucher);
+    dispatch(setCartVoucher({ voucher }));
     toast.success(CART_MESSAGES.APPLY_VOUCHER_SUCCESS);
+    setIsOpen(false);
   };
 
   const handleCancelApplyVoucher = () => {
     toast.success(CART_MESSAGES.CANCEL_APPLY_VOUCHER_SUCCESS);
-
-    setVoucherApply(null);
+    dispatch(setCartVoucher({ voucher: null }));
   };
   return (
     <>
