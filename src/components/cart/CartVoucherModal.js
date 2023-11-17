@@ -35,7 +35,7 @@ export default function CartVoucherModal({ isOpen, setIsOpen }) {
   }, [searchInput]);
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} maxWidth={"90rem"}>
       <ModalTitle>Chọn mã giảm giá</ModalTitle>
       <ModalBody>
         <Stack

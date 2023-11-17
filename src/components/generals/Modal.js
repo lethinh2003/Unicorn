@@ -1,4 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
+import clsx from "clsx";
 import { Fragment } from "react";
 
 export const ModalTitle = ({ children }) => {
@@ -12,7 +13,9 @@ export const ModalBody = ({ children }) => {
   return <Dialog.Description as="div">{children}</Dialog.Description>;
 };
 
-const Modal = ({ children, isOpen, setIsOpen }) => {
+const Modal = ({ children, isOpen, setIsOpen, ...props }) => {
+  const { maxWidth } = props;
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -48,7 +51,11 @@ const Modal = ({ children, isOpen, setIsOpen }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[60rem] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel
+                  className={clsx(
+                    "w-full max-w-[60rem] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                  )}
+                >
                   {children}
                 </Dialog.Panel>
               </Transition.Child>

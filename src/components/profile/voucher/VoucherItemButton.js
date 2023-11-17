@@ -2,12 +2,15 @@
 import CART_MESSAGES from "@/configs/config.cart.messages";
 import { setCartVoucher } from "@/redux/actions/cart";
 import { Button } from "@mui/material";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useCopyToClipboard } from "usehooks-ts";
 
 export default function VoucherItemCopyButton({ voucher }) {
   const [value, copy] = useCopyToClipboard();
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   return (
     <>
