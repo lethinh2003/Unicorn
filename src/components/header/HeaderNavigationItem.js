@@ -1,6 +1,5 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useGetProductCategories from "@/customHooks/useGetProductCategories";
 import {
   Box,
   CircularProgress,
@@ -9,33 +8,47 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useQuery } from "react-query";
 
 const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const router = useRouter();
+  const getCategories = async (gender) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=${gender}`
+      );
+      const data = response.data.data;
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const handleMouseLeave = () => {
     setIsModalOpen(false);
   };
-  const { data, isLoading, isError } = useGetProductCategories({
-    gender: GENDER,
-  });
+  const { data, isLoading, isError } = useQuery(
+    ["categories", GENDER],
+    () => getCategories(GENDER),
+    {
+      staleTime: Infinity,
+    }
+  );
 
   if (isLoading)
     return (
-      <div
-        className="header-navigation-container"
-        style={{
-          transformOrigin: `${positionOfElement}rem top`,
-          transition: `opacity ease-in-out .25s, scale ease-in-out .25s, padding ease-in-out .25s`,
-          willChange: "opacity, transform, padding, scale",
-          scale: `${value.scale}`,
-          opacity: `${value.opacity}`,
-          padding: `${value.padding}`,
-        }}
-      >
+      <div className="header-navigation-container" style={{
+        transformOrigin: `${positionOfElement}rem top`,
+        transition: `opacity ease-in-out .25s, scale ease-in-out .25s, padding ease-in-out .25s`,
+        willChange: 'opacity, transform, padding, scale',
+        scale: `${value.scale}`,
+        opacity: `${value.opacity}`,
+        padding: `${value.padding}`
+      }}>
         <Box
           sx={{
             backgroundColor: "#fff",
@@ -43,7 +56,7 @@ const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
             paddingLeft: `${value.paddingLeft}`,
             textAlign: "center",
             position: "relative",
-            height: "70vh",
+            height: '70vh',
           }}
           onMouseLeave={handleMouseLeave}
         >
@@ -53,21 +66,18 @@ const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
     );
 
   return (
-    <div
-      className="header-navigation-container"
-      style={{
-        transformOrigin: `${positionOfElement}rem top`,
-        transition: `opacity ease-in-out .25s, scale ease-in-out .25s, padding ease-in-out .25s`,
-        willChange: "opacity, transform, padding, scale",
-        scale: `${value.scale}`,
-        opacity: `${value.opacity}`,
-        padding: `${value.padding}`,
-      }}
-    >
+    <div className="header-navigation-container" style={{
+      transformOrigin: `${positionOfElement}rem top`,
+      transition: `opacity ease-in-out .25s, scale ease-in-out .25s, padding ease-in-out .25s`,
+      willChange: 'opacity, transform, padding, scale',
+      scale: `${value.scale}`,
+      opacity: `${value.opacity}`,
+      padding: `${value.padding}`
+    }}>
       <Box
         sx={{
           backgroundColor: "#fff",
-          height: "70vh",
+          height: '70vh',
           maxWidth: "100vw",
           overflowY: "auto",
           paddingLeft: `${value.paddingLeft}`,
@@ -118,7 +128,7 @@ const HeaderNavigationItem = ({ GENDER, positionOfElement, value }) => {
           ))}
         </Grid>
       </Box>
-    </div>
+    </div >
   );
 };
 export default HeaderNavigationItem;
