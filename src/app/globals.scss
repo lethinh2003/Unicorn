@@ -13,6 +13,9 @@ html {
     font-size: 55.5%;
   }
 }
+///////////////////mobile //////////////////
+
+
 
 .three-dots {
   display: inline-block;
@@ -365,11 +368,8 @@ input[type="number"] {
 .address-item,
 .notifies-item {
   display: flex;
+  border-bottom: 1px solid #ccc;
   align-items: center;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
-  }
 }
 
 .user-title {
@@ -419,13 +419,6 @@ input[type="number"] {
   font-size: 0.9rem !important;
   border-radius: 0.5rem;
   background-color: #e74040e5 !important;
-  text-transform: capitalize !important;
-}
-.address-operation .delete-address-button-df {
-  width: 2rem !important;
-  height: 2.5rem !important;
-  font-size: 0.9rem !important;
-  border-radius: 0.5rem;
   text-transform: capitalize !important;
 }
 .operation-stack {
@@ -595,7 +588,7 @@ input[type="number"] {
   height: auto;
   border-radius: 1rem;
 }
-products-item .gender-product-title {
+.gender-product-title {
   text-transform: uppercase;
   font-family: Inter;
   color: #000;
@@ -1083,7 +1076,7 @@ text {
 .product-item-name {
   text-transform: capitalize;
   color: #000;
-  height: 6.5rem;
+  height: 7rem;
   font-size: 2.3rem;
   font-weight: 500;
   overflow: hidden;
@@ -1313,12 +1306,26 @@ text {
   text-align: center !important;
   flex-basis: 30%;
 }
+.category-image{
+  width: 4rem ;
+  height: auto ;
+  border-radius: 1rem;
+}
 .category-name {
   padding-left: 1rem;
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-style: normal;
-  font-weight: 550;
+  font-weight: 600;
   line-height: normal;
+  text-transform: uppercase;
+}
+.category-name-mobile{
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 1px;
 }
 .child-category-name {
   padding: 0;
@@ -1430,50 +1437,6 @@ text {
   color: #000 !important;
   border: 1px solid #ccc !important;
 }
-////////////////////////Recommend products////////////////
-.recommend-button-controler {
-  width: 100%;
-}
-.recommend-button-prev {
-  background-color: transparent !important;
-  color: #000 !important;
-  left: 0;
-}
-.recommend-button-next {
-  background-color: transparent !important;
-  color: #000 !important;
-  right: 0;
-}
 
-.recommend-button-prev,
-.recommend-button-next {
-  position: absolute;
-  cursor: pointer;
-  border-radius: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-//////////////////////viewed profuct //////////////////
-.viewed-button-controler {
-  width: 100%;
-}
-.viewed-button-prev {
-  background-color: transparent !important;
-  color: #000 !important;
-  left: 0;
-  position: absolute;
-}
-.viewed-button-next {
-  background-color: transparent !important;
-  color: #000 !important;
-  right: 0;
-  position: absolute;
-}
-.viewed-button-prev,
-.viewed-button-next {
-  cursor: pointer;
-  border-radius: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
+/////////////////////////////////////Header reponsive ////////////////////////////
+/// 
