@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { usePathname } from "next/navigation";
 
 const namePage = [
@@ -52,7 +52,7 @@ const namePage = [
   },
   {
     title: "Xem tài khoản",
-    path: "/admin/users/view",
+    path: "/admin/users/list",
   },
   {
     title: "Sửa tài khoản",
@@ -74,12 +74,12 @@ const namePage = [
 ];
 
 export default function HeaderTitle() {
-    const pathName = usePathname();
+  const pathName = usePathname();
   let pageTitle = "Trang không tồn tại";
   for (const page of namePage) {
     if (pathName === page.path) {
       pageTitle = page.title;
-      break; 
+      break;
     }
   }
 

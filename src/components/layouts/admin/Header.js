@@ -1,26 +1,23 @@
 "use client";
-import { Box } from "@mui/material";
+import { BellIcon } from "@heroicons/react/24/outline";
+import { Stack } from "@mui/material";
+import Image from "next/image";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   return (
     <>
-      <Box
-        sx={{
-          backgroundColor: "black",
-          height: "7rem",
-          boxShadow: "2px 2px 2px #dcdbdb",
-          display: "flex",
-          alignItems: "center",
-          gap: "2rem",
-          justifyContent: "space-between",
-          padding: "1rem",
-          position: "fixed",
-          top: "0",
-          left: 0,
-          right: 0,
-          zIndex: (theme) => theme.zIndex.appBar,
-        }}
-      ></Box>
+      <div className="admin-layout-header  drop-shadow-md">
+        <SearchBar />
+        <Stack
+          direction="row"
+          spacing={3}
+          className="admin-layout-account-notifi"
+        >
+          <BellIcon className="h-[2rem] w-[2rem]" />
+          <Image alt="" src="/avatar.png" width={30} height={30} />
+        </Stack>
+      </div>
     </>
   );
 };

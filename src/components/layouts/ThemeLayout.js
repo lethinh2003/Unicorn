@@ -14,10 +14,14 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${({ theme }) => theme.palette.background.default};
   }
 
+  ::-webkit-scrollbar {
+  width: 5px;
+}
   ::-webkit-scrollbar-thumb {
-  background-color:  ${({ theme }) => theme.palette.background.default};
+    border-radius: 10px;
+  background-color:  ${({ theme }) => "#ccc"};
   &:hover {
-    background-color:  ${({ theme }) => theme.palette.background.default};
+    background-color:  ${({ theme }) => "#848484"};
   }
 } 
 `;
