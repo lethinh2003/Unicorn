@@ -19,9 +19,12 @@ const MainContent = ({ children }) => {
   return (
     <>
       <Box
+        className="h-full border-l-2 border-solid border-[#dcdbdb] bg-white drop-shadow-md"
         sx={{
           padding: "0 1rem",
-          paddingTop: "10rem",
+          paddingTop: "1rem",
+          marginTop: "1.5rem",
+          minHeight: "100vh",
         }}
       >
         {children}
