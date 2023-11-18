@@ -16,8 +16,8 @@ export default function SharingSelection({ item }) {
         <Disclosure defaultOpen>
           {({ open }) => (
             <>
-              <Disclosure.Button className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-[2rem] font-medium hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75 items-center">
-                <span> Chia sẻ</span>
+              <Disclosure.Button className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left text-[2rem] font-medium focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75">
+                <span className={open && "font-semibold"}> Chia sẻ</span>
                 <ChevronUpIcon
                   className={`${
                     open ? "rotate-180 transform" : ""
@@ -34,7 +34,7 @@ export default function SharingSelection({ item }) {
                 leaveTo="transform scale-95 opacity-0"
               >
                 <Disclosure.Panel
-                  className="px-4 pt-4 pb-2 text-base text-gray-500"
+                  className="px-4 pb-2 pt-4 text-base text-gray-500"
                   static
                 >
                   <Box
