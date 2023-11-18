@@ -1,42 +1,27 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import {
-  Box,
-  CircularProgress,
-  Grid,
-  List,
-  ListItemButton,
-  ListItemText,
-  Stack,
-} from "@mui/material";
-import axios from "axios";
-import Image from "next/image";
-import Slide from "@mui/material/Slide";
+import useGetProductCategories from "@/customHooks/useGetProductCategories";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, CircularProgress, Grid, List, Stack } from "@mui/material";
+import Slide from "@mui/material/Slide";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useQuery } from "react-query";
 
-const HeaderMobileNavigationItem = ({ GENDER }) => {
+const HeaderMobileNavigationItem = ({
+  GENDER,
+  setIsCategoriesOptionsVisible,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [parentCategories, setParentCategories] = useState([]);
   const router = useRouter();
-  const getCategories = async (gender) => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/product-categories?gender=${gender}`
-      );
-      const data = response.data.data;
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  };
+  const { data, isLoading, isError } = useGetProductCategories({
+    gender: GENDER,
+  });
 
   const handleMouseLeave = () => {
     setIsModalOpen(false);
-
   };
   const handleCategoryClick = (category) => {
     if (category.child_categories && category.child_categories.length > 0) {
@@ -46,6 +31,7 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
       router.push(
         `${ROUTERS_PATH.HOME_PRODUCT}?gender=${GENDER}&category=${category._id}`
       );
+      setIsCategoriesOptionsVisible(false);
     }
   };
 
@@ -54,17 +40,10 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
     setSelectedCategory(lastParent);
     setParentCategories([...parentCategories]);
   };
-  const { data, isLoading, isError } = useQuery(
-    ["categories", GENDER],
-    () => getCategories(GENDER),
-    {
-      staleTime: Infinity,
-    }
-  );
   const renderCategoryList = (categories) => {
     return (
       <Slide
-        direction={selectedCategory ? 'left' : 'right'}
+        direction={selectedCategory ? "left" : "right"}
         in={true}
         mountOnEnter
         unmountOnExit
@@ -85,6 +64,7 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
               sx={{ margin: "auto" }}
             >
               <Stack
+                className="hover:rounded-lg hover:bg-gray-200/20"
                 direction="row"
                 sx={{
                   alignItems: "center",
@@ -94,11 +74,11 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
                 onClick={() => handleCategoryClick(category)}
               >
                 <Image
-                  src="/thoitrangnam.jpg"
+                  src={category.product_category_image || "/thoitrangnam.jpg"}
                   alt=""
                   width={40}
-                  height={60}
-                  className="category-image"
+                  height={40}
+                  className="category-image !h-[4rem] min-w-[4rem] object-cover object-left-top"
                 />
                 <span className="category-name-mobile">
                   {category.product_category_name}
@@ -132,7 +112,7 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
             alignItems: "center",
             textAlign: "center",
             position: "relative",
-            height: "70vh",
+            height: "100%",
           }}
           onMouseLeave={handleMouseLeave}
         >
@@ -155,9 +135,10 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
       <Box
         sx={{
           backgroundColor: "#fff",
-          height: "70vh",
+          height: "100%",
           width: "100%",
           overflowY: "auto",
+          overflowX: "hidden",
         }}
         onMouseLeave={handleMouseLeave}
       >
@@ -167,7 +148,6 @@ const HeaderMobileNavigationItem = ({ GENDER }) => {
           <>
             {selectedCategory ? (
               <>
-                
                 <List>
                   <Stack
                     direction="row"

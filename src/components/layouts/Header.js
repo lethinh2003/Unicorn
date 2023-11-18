@@ -1,6 +1,6 @@
 "use client";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import { Box, Typography, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "../header/Cart";
@@ -9,29 +9,8 @@ import HeaderMobileNavigation from "../header/HeaderMobileNavigation";
 import HeaderNavigation from "../header/HeaderNavigation";
 import ProfileOption from "../header/ProfileOption";
 import SearchProducts from "../header/SearchProducts";
-import HeaderMobileCategoriesOptions from "../header/HeaderMobileCategoriesOptions";
-import { useState, useEffect } from "react";
 
 const Header = () => {
-  const [isCategoriesOptionsVisible, setIsCategoriesOptionsVisible] =
-    useState(false);
-
-  const toggleCategoriesOptions = () => {
-    setIsCategoriesOptionsVisible(!isCategoriesOptionsVisible);
-  };
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 780) {
-        setIsCategoriesOptionsVisible(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   return (
     <>
       <Box
@@ -103,7 +82,7 @@ const Header = () => {
                   gap: "1rem",
                 }}
               >
-                <HeaderMobileNavigation onClick={toggleCategoriesOptions} />
+                <HeaderMobileNavigation />
                 <SearchProducts />
                 <FavoriteProducts />
                 <Cart />
@@ -111,15 +90,6 @@ const Header = () => {
               </Box>
             </Box>
           </div>
-          {isCategoriesOptionsVisible && (
-            <div 
-            style={{
-              marginLeft: "-2rem",
-            }}
-            >
-              <HeaderMobileCategoriesOptions />
-            </div>
-          )}
         </Stack>
       </Box>
     </>
