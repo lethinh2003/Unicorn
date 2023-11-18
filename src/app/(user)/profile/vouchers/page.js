@@ -3,10 +3,10 @@ import LoadMoreButton from "@/components/button/LoadMoreButton";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import { LoadingContent } from "@/components/generals/LoadingBox";
 import VoucherItem from "@/components/profile/voucher/VoucherItem";
+import VoucherItemCopyButton from "@/components/profile/voucher/VoucherItemButton";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import useGetListUserVouchers from "@/customHooks/useGetListUserVouchers";
 import { Stack } from "@mui/material";
-import { Fragment } from "react";
 
 export default function Voucher() {
   const {
@@ -18,7 +18,7 @@ export default function Voucher() {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetListUserVouchers();
+  } = useGetListUserVouchers({ searchValue: "" });
   const DATA_BREADCRUMB = [
     {
       title: "Hồ sơ",
@@ -51,13 +51,15 @@ export default function Voucher() {
                 <LoadingContent />
               </div>
             )}
-            {data?.pages.map((group, i) => (
-              <Fragment key={i}>
-                {group.data.map((voucher) => (
-                  <VoucherItem key={voucher._id} voucher={voucher} />
-                ))}
-              </Fragment>
+
+            {data?.map((voucher) => (
+              <VoucherItem
+                key={voucher._id}
+                voucher={voucher}
+                button={<VoucherItemCopyButton voucher={voucher} />}
+              />
             ))}
+
             {hasNextPage && (
               <LoadMoreButton
                 isLoading={isFetchingNextPage}

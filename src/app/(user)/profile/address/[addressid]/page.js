@@ -5,6 +5,7 @@ import AddressForm from "@/components/profile/address/AddressForm";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import { TYPE_ADDRESS_FORM } from "@/configs/config.users.address";
 import axios from "axios";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 const fetchAddressById = async (addressId) => {
@@ -21,10 +22,15 @@ const fetchAddressById = async (addressId) => {
 export default function UpdateAddress({ params }) {
   const dispatch = useDispatch();
   const { addressId } = params;
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get-detail-address", addressId],
     queryFn: () => fetchAddressById(addressId),
   });
+  useEffect(() => {
+    if (isError) {
+      throw error;
+    }
+  }, [isError, error]);
 
   const addressInformation = {
     fullName: data?.full_name,
