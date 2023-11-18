@@ -3,13 +3,12 @@ import {
   ProductItem,
   ProductItemLoading,
 } from "@/components/product/ProductItem";
-import { Box, Typography, Button } from "@mui/material";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
@@ -17,6 +16,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 const PRODUCTS = [];
 const PAGE = 1;
 const ITEMS_OF_PAGE = 5;
@@ -65,6 +65,7 @@ export default function ListSuggesting({ productId }) {
           </Typography>
         </Box>
         <Box
+          className="!m-b-[1rem]"
           sx={{
             position: "relative",
             display: "flex",
@@ -87,12 +88,24 @@ export default function ListSuggesting({ productId }) {
           )}
           <Swiper
             grabCursor={true}
-            slidesPerView={3}
+            slidesPerView={1}
+            spaceBetween={10}
             coverflowEffect={{
               rotate: 0,
               stretch: 0,
               depth: 0,
               modifier: 0.5,
+            }}
+            breakpoints={{
+              600: {
+                slidesPerView: 2,
+              },
+              900: {
+                slidesPerView: 2,
+              },
+              1200: {
+                slidesPerView: 2,
+              },
             }}
             navigation={{
               nextEl: ".recommend-button-next",
@@ -101,27 +114,30 @@ export default function ListSuggesting({ productId }) {
             }}
             pagination={{ el: "swiper-pagination", clickable: true }}
             modules={[EffectCoverflow, Pagination, Navigation]}
+            style={{ padding: "0.5rem", width: "100%" }}
           >
             {data?.map((item) => (
-              <SwiperSlide key={item._id}>
+              <SwiperSlide key={item._id} style={{}}>
                 <ProductItem
                   product={item}
                   sx={{
-                    width: "20rem",
-                    height: "auto",
+                    margin: 0,
+                    width: "100%",
                     minWidth: "20rem",
                   }}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="recommend-button-controler absolute top-1/2 z-10 flex justify-between">
-            <Button className="recommend-button-prev">
-              {!isLoading ? <NavigateBeforeIcon className="" sx={{ fontSize: 50 }} /> : null}
-            </Button>
-            <Button className="recommend-button-next">
-              {!isLoading ? <NavigateNextIcon className="" sx={{ fontSize: 50 }} /> : null}
-            </Button>
+          <div className="recommend-button-prev z-10">
+            {!isLoading ? (
+              <NavigateBeforeIcon className="" sx={{ fontSize: 50 }} />
+            ) : null}
+          </div>
+          <div className="recommend-button-next z-10">
+            {!isLoading ? (
+              <NavigateNextIcon className="" sx={{ fontSize: 50 }} />
+            ) : null}
           </div>
         </Box>
       </Box>

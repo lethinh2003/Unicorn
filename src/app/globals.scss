@@ -585,8 +585,8 @@ input[type="number"] {
   width: 55.5rem;
   height: auto;
   border-radius: 1rem;
-}products-item
-.gender-product-title {
+}
+products-item .gender-product-title {
   text-transform: uppercase;
   font-family: Inter;
   color: #000;
@@ -1423,30 +1423,49 @@ text {
   border: 1px solid #ccc !important;
 }
 ////////////////////////Recommend products////////////////
-.recommend-button-controler{
+.recommend-button-controler {
   width: 100%;
 }
-.recommend-button-prev{
+.recommend-button-prev {
   background-color: transparent !important;
   color: #000 !important;
-  margin:0 0 5rem -2rem !important;
+  left: 0;
 }
-.recommend-button-next{
+.recommend-button-next {
   background-color: transparent !important;
   color: #000 !important;
-  margin:0 -2rem 5rem 0 !important;
+  right: 0;
 }
+
+.recommend-button-prev,
+.recommend-button-next {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 //////////////////////viewed profuct //////////////////
-.viewed-button-controler{
+.viewed-button-controler {
   width: 100%;
 }
-.viewed-button-prev{
+.viewed-button-prev {
   background-color: transparent !important;
   color: #000 !important;
-  margin:0 0 5rem -2rem !important;
+  left: 0;
+  position: absolute;
 }
-.viewed-button-next{
+.viewed-button-next {
   background-color: transparent !important;
   color: #000 !important;
-  margin:0 -2rem 5rem 0 !important;
+  right: 0;
+  position: absolute;
+}
+.viewed-button-prev,
+.viewed-button-next {
+  cursor: pointer;
+  border-radius: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }

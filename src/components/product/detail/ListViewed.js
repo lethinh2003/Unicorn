@@ -1,12 +1,11 @@
 "use client";
 import { ProductItem } from "@/components/product/ProductItem";
 import { TYPE_PRODUCT_ITEM_DISPLAY } from "@/configs/config.products";
-import { Box, Typography,Button } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Box, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
@@ -14,6 +13,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 const LIMIT_ITEMS = 10;
 export default function ListViewed() {
   const dataListViewed = useSelector((state) => state.viewedProducts);
@@ -41,6 +41,7 @@ export default function ListViewed() {
           </Typography>
         </Box>
         <div
+          className="m-b-[1rem]"
           style={{
             display: "flex",
             gap: "1rem",
@@ -51,12 +52,24 @@ export default function ListViewed() {
         >
           <Swiper
             grabCursor={true}
-            slidesPerView={4}
+            spaceBetween={10}
+            slidesPerView={1}
             coverflowEffect={{
               rotate: 0,
               stretch: 0,
               depth: 0,
               modifier: 0.5,
+            }}
+            breakpoints={{
+              600: {
+                slidesPerView: 2,
+              },
+              900: {
+                slidesPerView: 3,
+              },
+              1200: {
+                slidesPerView: 4,
+              },
             }}
             navigation={{
               nextEl: ".viewed-button-next",
@@ -66,29 +79,31 @@ export default function ListViewed() {
             pagination={{ el: "swiper-pagination", clickable: true }}
             modules={[EffectCoverflow, Pagination, Navigation]}
             className="relative"
+            style={{
+              padding: "0.5rem",
+              width: "100%",
+            }}
           >
             {data.map((item, i) => (
               <SwiperSlide key={item._id}>
                 <ProductItem
                   product={{ ...item, child_products: item.relation_products }}
                   sx={{
-                    minWidth: "25rem",
+                    minWidth: "20rem",
+                    margin: "0",
                   }}
                   type={TYPE_PRODUCT_ITEM_DISPLAY.VIEWED}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
-          
-            <div className="viewed-button-controler absolute top-1/2 z-10 flex justify-between">
-              <Button className="viewed-button-prev">
-                <NavigateBeforeIcon className="" sx={{ fontSize: 50 }} />
-              </Button>
-              <Button className="viewed-button-next">
-                <NavigateNextIcon className="" sx={{ fontSize: 50 }} />
-              </Button>
-            </div>
-          
+
+          <div className="viewed-button-prev absolute top-1/2 z-10">
+            <NavigateBeforeIcon className="" sx={{ fontSize: 50 }} />
+          </div>
+          <div className="viewed-button-next absolute top-1/2 z-10">
+            <NavigateNextIcon className="" sx={{ fontSize: 50 }} />
+          </div>
         </div>
       </Box>
     </>
