@@ -1,7 +1,7 @@
 "use client";
 import { Box, Button, Stack } from "@mui/material";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -20,48 +20,60 @@ export default function InforImage({
   const [isGoPrev, setGoPrev] = useState(true)
   const [isGoNext, setGoNext] = useState(false)
   const [isCount, setCount] = useState(0)
-  const containerRef = useRef(null);
-
+  const containerRef = useRef(0);
+  // 73 = sizeImage(4remx4rem) + gap(1rem) + padding(1rem) + border(2px)
+  const sizeOfImage = 73.2
   const imageLoader = ({ src, width, quality }) => {
     const url = new URL(src);
     url.searchParams.set("width", width.toString());
     return url.href;
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      checkValueScroll();
+    };
+
+    containerRef.current.addEventListener('scroll', handleScroll);
+
+    return () => {
+      containerRef.current.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
   const scrollUpSlider = () => {
-    containerRef.current.scrollTop -= 50
-    if (Math.ceil(containerRef.current.scrollTop <= 50)) {
-      setScrollUp(true)
-    }
-    else {
-      setScrollDown(false)
-      setScrollUp(false)
-    }
-  }
+    const newScrollTop = containerRef.current.scrollTop - sizeOfImage;
+    containerRef.current.scrollTop = newScrollTop;
+  };
 
   const scrollDownSlider = () => {
-    containerRef.current.scrollTop += 50
+    const newScrollTop = containerRef.current.scrollTop + sizeOfImage;
+    containerRef.current.scrollTop = newScrollTop;
+  };
+
+  const checkValueScroll = () => {
     const sliderScrollHeight = containerRef.current.scrollHeight - containerRef.current.clientHeight;
-    if (Math.ceil(containerRef.current.scrollTop) >= sliderScrollHeight - 50) {
-      setScrollDown(true)
+    const currentScrollTop = containerRef.current.scrollTop;
+
+    if (currentScrollTop <= 0) {
+      setScrollUp(true);
+      setScrollDown(false);
+    } else if (Math.ceil(currentScrollTop) >= sliderScrollHeight - sizeOfImage / 2) {
+      setScrollUp(false);
+      setScrollDown(true);
+    } else {
+      setScrollUp(false);
+      setScrollDown(false);
     }
-    else {
-      setScrollDown(false)
-      setScrollUp(false)
-    }
-  }
+  };
+
 
   const goPrev = () => {
     const value = isCount - 1
     setCount(value)
     setActiveImage(imageSliders[value])
     scrollUpSlider()
-    if (value <= 0) {
-      setGoPrev(true)
-    } else {
-      setGoNext(false)
-      setGoPrev(false)
-    }
+    checkValue(value)
   }
 
   const goNext = () => {
@@ -69,7 +81,13 @@ export default function InforImage({
     setCount(value)
     setActiveImage(imageSliders[value])
     scrollDownSlider()
-    if (value == imageSliders.length - 1) {
+    checkValue(value)
+  }
+
+  const checkValue = (value) => {
+    if (value <= 0) {
+      setGoPrev(true)
+    } else if (value == imageSliders.length - 1) {
       setGoNext(true)
     } else {
       setGoNext(false)
@@ -97,7 +115,8 @@ export default function InforImage({
                 ref={containerRef}
                 sx={{
                   padding: "0 1rem",
-                  maxHeight: "40rem",
+                  maxHeight: "36rem",
+                  height: "36rem",
                   overflowY: "auto",
                   '- ms - overflow - style': 'none',
                   scrollbarWidth: 'none',
@@ -106,7 +125,6 @@ export default function InforImage({
                     display: "none",
                   },
                   borderBottom: '.2rem solid #ededed',
-                  paddingBottom: '1rem'
                 }}
               >
                 <Box
@@ -131,17 +149,15 @@ export default function InforImage({
                     >
                       <Box
                         onClick={(e) => {
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const offsetTop = rect.top + window.scrollY;
-                          const containerHeight = containerRef.current.clientHeight;
-                          const scrollTopValue = offsetTop - containerHeight / 2;
-                          containerRef.current.scrollTop = scrollTopValue;
-                          setActiveImage(item)
-                          setCount(i)
+                          setActiveImage(item);
+                          setCount(i);
+                          checkValue(i);
+                          checkValueScroll(containerRef.current.scrollTop)
+
                         }}
                         sx={{
-                          width: "4.5rem",
-                          height: "4.5rem",
+                          width: "4rem",
+                          height: "4rem",
                           position: "relative",
                           cursor: "pointer",
                           padding: "1rem",
@@ -153,9 +169,11 @@ export default function InforImage({
                           fill
                           sizes="500"
                           style={{
+                            position: 'absolute',
                             width: "100%",
                             maxWidth: "100%",
                             objectFit: "contain",
+                            transition: '1s',
                           }}
                         />
                       </Box>
@@ -278,11 +296,15 @@ export default function InforImage({
                 <KeyboardArrowRightIcon />
               </Button>
             </Box>
-          </Box >
+          </Box>
         </>
       )
       }
     </>
   );
 }
+
+
+
+
 
