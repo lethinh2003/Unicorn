@@ -1,4 +1,5 @@
 "use client";
+import LoadingBox from "@/components/generals/LoadingBox";
 import Header from "@/components/layouts/admin/Header";
 import MainContent from "@/components/layouts/admin/MainContent";
 import Sidebar from "@/components/layouts/admin/Sidebar";
@@ -11,6 +12,7 @@ export default function AdminLayout({ children }) {
         <Header />
 
         <MainContent>{children}</MainContent>
+        <LoadingBox></LoadingBox>
       </div>
     </div>
   );
