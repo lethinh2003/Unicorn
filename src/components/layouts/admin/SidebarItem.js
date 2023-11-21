@@ -36,6 +36,7 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
             sx={{
               textAlign: "start",
               fontSize: "1.5rem",
+              alignItems: "center",
             }}
           >
             {item.icon}
