@@ -17,7 +17,7 @@ const ADD_USERS = [
     title: "Họ và tên",
   },
   {
-    title: "Mail",
+    title: "Email",
   },
   {
     title: "Số điện thoại",
@@ -60,9 +60,10 @@ export default function AddUsers() {
                 className="input-col"
                 sx={{
                   textAlign: "start",
-                  fontSize: "1.5rem",
-                  gap: "1.5rem",
+                  fontSize: "2.6rem",
+                  fontWeight:"400",
                   width: "100%",
+                  marginBottom: "2rem",
                 }}
               >
                 <div className="admin-users-add-title">{addusers.title}</div>
@@ -83,13 +84,14 @@ export default function AddUsers() {
               display="flex"
               gap="10.1rem"
               marginBottom="2rem"
+              marginTop="2rem"              
             >
               <Stack
                 className="input-col"
                 sx={{
                   textAlign: "start",
-                  fontSize: "1.5rem",
-                  gap: "1.5rem",
+                  fontSize: "2.6rem",
+                  fontWeight:"400",
                   width: "100%",
                 }}
               >
@@ -107,8 +109,8 @@ export default function AddUsers() {
                 className="input-col"
                 sx={{
                   textAlign: "start",
-                  fontSize: "1.5rem",
-                  gap: "1.5rem",
+                  fontSize: "2.6rem",
+                  fontWeight:"400",
                   width: "100%",
                 }}
               >
@@ -133,9 +135,8 @@ export default function AddUsers() {
                 className="input-col"
                 sx={{
                   textAlign: "start",
-                  fontSize: "1.5rem",
-                  gap: "1.5rem",
-                  marginBottom: "2rem",
+                  fontSize: "2.6rem",
+                  fontWeight:"400",
                   width: "100%",
                 }}
               >
@@ -160,13 +161,13 @@ export default function AddUsers() {
                 className="input-col"
                 sx={{
                   textAlign: "start",
-                  fontSize: "1.5rem",
-                  gap: "1.5rem",
+                  fontSize: "2.6rem",
+                  fontWeight:"400",
                   width: "100%",
                 }}
               >
                 <div className="admin-users-add-title">Vai trò</div>
-                <Box sx={{ minWidth: "40rem" }}>
+                <Box>
                   <FormControl fullWidth>
                     <Select
                       labelId="demo-simple-select-label"
@@ -180,34 +181,44 @@ export default function AddUsers() {
             </Stack>
 
             <Stack
-              className="input-col"
-              sx={{
-                textAlign: "start",
-                fontSize: "1.5rem",
-                gap: "1.5rem",
-                width: "100%",
-              }}
+              direction="row"
+              display="flex"
+              gap="10.1rem"
+              marginBottom="2rem"
+              marginTop="2rem"              
             >
-              <Box
-                component="form"
+              <Stack
+                className="input-col"
                 sx={{
-                  "& .MuiTextField-root": { marginLeft: 0, width: "100%" },
+                  textAlign: "start",
+                  fontSize: "2.6rem",
+                  fontWeight:"400",
                   width: "100%",
-                  gap: "5rem",
-                  display: "flex",
-                  flexdirection: "row",
                 }}
-                noValidate
-                autoComplete="off"
               >
-                <TextField
-                  id="outlined-basic"
-                  label="Ngày"
-                  variant="outlined"
-                />
-                <TextField id="filled-basic" label="Tháng" variant="outlined" />
-                <TextField id="filled-basic" label="Năm" variant="outlined" />
-              </Box>
+                <div className="admin-users-add-title">Ngày sinh</div>
+                <Box
+                  component="form"
+                  sx={{
+                    "& .MuiTextField-root": { marginLeft: 0, width: "100%" },
+                    width: "100%",
+                    gap: "5rem",
+                    display: "flex",
+                    flexdirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  
+                  <TextField
+                    id="outlined-basic"
+                    label="Ngày"
+                    variant="outlined"
+                  />
+                  <TextField id="filled-basic" label="Tháng" variant="outlined" />
+                  <TextField id="filled-basic" label="Năm" variant="outlined" />
+                </Box>
+              </Stack>
             </Stack>
 
             <Stack
