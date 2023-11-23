@@ -4,7 +4,7 @@ import { convertDate } from "@/utils/convertDate";
 import { convertUserGender } from "@/utils/convertGender";
 import { convertUserRole } from "@/utils/convertRole";
 import { convertUserStatus } from "@/utils/convertStatus";
-import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { EyeIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { TablePagination } from "@mui/material";
 import { compareItems, rankItem } from "@tanstack/match-sorter-utils";
 import {
@@ -15,6 +15,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import RemoveUserButton from "./RemoveUserButton";
 import SearchBar from "./SearchBar";
 import UserListTable from "./UserListTable";
 
@@ -94,7 +95,7 @@ const UserList = () => {
           <div className="flex items-center gap-4">
             <EyeIcon className="h-[2rem] w-[2rem] cursor-pointer" />
             <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
-            <TrashIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+            <RemoveUserButton user={original} />
           </div>
         ),
       },
