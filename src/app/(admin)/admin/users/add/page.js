@@ -1,16 +1,15 @@
 "use client";
-import { alpha, styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
+import { Button, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
 import { useState } from "react";
-import { Stack, Input, Button } from '@mui/material';
-import * as React from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import HeaderTitle from '../../adminComponent/headerTitle';
 
 const ADD_USERS = [
   {
@@ -24,33 +23,20 @@ const ADD_USERS = [
   },
 ];
 
-
 export default function AddUsers() {
   const [addusers, setAddUsers] = useState(ADD_USERS);
-  const [gender, setGender] = useState('');
-  const [role, setRole] = useState('');
-
-
-
-  const handleSetDefault = (index) => {
-    const updatedAddUsers = addusers.map((addusers, i) => {
-      return {
-        ...addusers,
-        isDefault: i === index,
-      };
-    });
-    setAddUsers(updatedAddUsers);
-  };
-
+  const [gender, setGender] = useState("");
+  const [role, setRole] = useState("");
+  const [changeDate, setChangeDate] = useState("");
   const handleChange = (event) => {
     setGender(event.target.value);
   };
 
-
-
   return (
     <>
-      <HeaderTitle></HeaderTitle>
+      <div className="admin-header-title">
+        <h1 className="admin-header-title-text">Thêm tài khoản</h1>
+      </div>
       <div className="admin-user-add">
         <div className="admin-user-add-form">
           <div className="admin-users-add-basicInformation">
@@ -61,12 +47,14 @@ export default function AddUsers() {
                 sx={{
                   textAlign: "start",
                   fontSize: "2.6rem",
-                  fontWeight:"400",
+                  fontWeight: "400",
                   width: "100%",
                   marginBottom: "2rem",
                 }}
               >
-                <div className="admin-users-add-title">{addusers.title}</div>
+                <div className="admin-users-add-title text-[1.5rem]">
+                  {addusers.title}
+                </div>
                 <Box
                   sx={{
                     width: "100%",
@@ -84,18 +72,20 @@ export default function AddUsers() {
               display="flex"
               gap="10.1rem"
               marginBottom="2rem"
-              marginTop="2rem"              
+              marginTop="2rem"
             >
               <Stack
                 className="input-col"
                 sx={{
                   textAlign: "start",
                   fontSize: "2.6rem",
-                  fontWeight:"400",
+                  fontWeight: "400",
                   width: "100%",
                 }}
               >
-                <div className="admin-users-add-title">Mật khẩu</div>
+                <div className="admin-users-add-title text-[1.5rem]">
+                  Mật khẩu
+                </div>
                 <Box
                   sx={{
                     width: "100%",
@@ -110,17 +100,30 @@ export default function AddUsers() {
                 sx={{
                   textAlign: "start",
                   fontSize: "2.6rem",
-                  fontWeight:"400",
+                  fontWeight: "400",
                   width: "100%",
                 }}
               >
-                <div className="admin-users-add-title">Trạng thái</div>
+                <div className="admin-users-add-title text-[1.5rem]">
+                  Trạng thái
+                </div>
                 <Box
                   sx={{
                     width: "100%",
                   }}
                 >
-                  <TextField fullWidth id="fullWidth" />
+                  <FormControl fullWidth>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={gender}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={"nam"}>Nam</MenuItem>
+                      <MenuItem value={"nữ"}>Nữ</MenuItem>
+                      <MenuItem value={"khác"}>Khác</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Box>
               </Stack>
             </Stack>
@@ -136,11 +139,13 @@ export default function AddUsers() {
                 sx={{
                   textAlign: "start",
                   fontSize: "2.6rem",
-                  fontWeight:"400",
+                  fontWeight: "400",
                   width: "100%",
                 }}
               >
-                <div className="admin-users-add-title">Giới tính</div>
+                <div className="admin-users-add-title text-[1.5rem]">
+                  Giới tính
+                </div>
                 <Box>
                   <FormControl fullWidth>
                     <Select
@@ -162,11 +167,13 @@ export default function AddUsers() {
                 sx={{
                   textAlign: "start",
                   fontSize: "2.6rem",
-                  fontWeight:"400",
+                  fontWeight: "400",
                   width: "100%",
                 }}
               >
-                <div className="admin-users-add-title">Vai trò</div>
+                <div className="admin-users-add-title text-[1.5rem]">
+                  Vai trò
+                </div>
                 <Box>
                   <FormControl fullWidth>
                     <Select
@@ -178,45 +185,27 @@ export default function AddUsers() {
                   </FormControl>
                 </Box>
               </Stack>
-            </Stack>
-
-            <Stack
-              direction="row"
-              display="flex"
-              gap="10.1rem"
-              marginBottom="2rem"
-              marginTop="2rem"              
-            >
               <Stack
                 className="input-col"
                 sx={{
                   textAlign: "start",
                   fontSize: "2.6rem",
-                  fontWeight:"400",
+                  fontWeight: "400",
                   width: "100%",
                 }}
               >
-                <div className="admin-users-add-title">Ngày sinh</div>
-                <Box
-                  component="form"
-                  sx={{
-                    "& .MuiTextField-root": { marginLeft: 0, width: "100%" },
-                    width: "100%",
-                    gap: "5rem",
-                    display: "flex",
-                    flexdirection: "row",
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  
-                  <TextField
-                    id="outlined-basic"
-                    label="Ngày"
-                    variant="outlined"
-                  />
-                  <TextField id="filled-basic" label="Tháng" variant="outlined" />
-                  <TextField id="filled-basic" label="Năm" variant="outlined" />
+                <div className="admin-users-add-title text-[1.5rem]">
+                  Ngày sinh
+                </div>
+                <Box>
+                  <FormControl sx={{ width: "100%" }}>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      key={"birthday"}
+                    >
+                      <DatePicker value={dayjs(changeDate)} />
+                    </LocalizationProvider>
+                  </FormControl>
                 </Box>
               </Stack>
             </Stack>
