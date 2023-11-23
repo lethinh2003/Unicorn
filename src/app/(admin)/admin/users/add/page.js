@@ -1,4 +1,7 @@
 "use client";
+import USER_GENDERS from "@/configs/config.users.genders";
+import USER_ROLES from "@/configs/config.users.roles";
+import USER_STATUSES from "@/configs/config.users.statuses";
 import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
@@ -119,9 +122,11 @@ export default function AddUsers() {
                       value={gender}
                       onChange={handleChange}
                     >
-                      <MenuItem value={"nam"}>Nam</MenuItem>
-                      <MenuItem value={"nữ"}>Nữ</MenuItem>
-                      <MenuItem value={"khác"}>Khác</MenuItem>
+                      {Object.entries(USER_STATUSES).map(([key, value]) => (
+                        <MenuItem key={key} value={value}>
+                          {key}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Box>
@@ -154,9 +159,11 @@ export default function AddUsers() {
                       value={gender}
                       onChange={handleChange}
                     >
-                      <MenuItem value={"nam"}>Nam</MenuItem>
-                      <MenuItem value={"nữ"}>Nữ</MenuItem>
-                      <MenuItem value={"khác"}>Khác</MenuItem>
+                      {Object.entries(USER_GENDERS).map(([key, value]) => (
+                        <MenuItem key={key} value={value}>
+                          {key}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Box>
@@ -181,7 +188,13 @@ export default function AddUsers() {
                       id="demo-simple-select"
                       value={role}
                       onChange={handleChange}
-                    ></Select>
+                    >
+                      {Object.entries(USER_ROLES).map(([key, value]) => (
+                        <MenuItem key={key} value={value}>
+                          {key}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </FormControl>
                 </Box>
               </Stack>
