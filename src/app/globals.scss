@@ -1362,8 +1362,8 @@ text {
 .admin-container {
   background: #eef2f6;
 }
-.admin-layout-header,
-.admin-user-add {
+
+.admin-layout-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1374,6 +1374,13 @@ text {
   border-left: 0.2px solid #e9e9e9;
   background-color: #fff;
 }
+
+.admin-user-add {
+  max-width: 100%;
+  padding: 0 2rem;
+  background-color: #fff;
+}
+
 .admin-layout-navigation {
   width: 28rem;
   height: 100%;
@@ -1393,12 +1400,11 @@ text {
 }
 //////////////////////////////Component header////////////////
 .admin-header-title {
-  margin: -9rem 0 1rem -1rem;
+  // margin: -9rem 0 1rem -1rem;
   background-color: #fff;
-  height: 10rem;
 }
 .admin-header-title-text {
-  font-size: 4.5rem;
+  font-size: 2.5rem;
   font-weight: 500;
   padding: 2rem 0 1rem 2rem;
 }
