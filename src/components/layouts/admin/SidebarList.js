@@ -60,23 +60,11 @@ const navigationContents = [
   {
     titile: "Đơn hàng",
     icon: <EventNoteOutlinedIcon />,
-    path: "/admin/oders/list",
+    path: "/admin/orders/list",
     listItem: [
       {
         titile: "Danh sách",
-        path: "/admin/oders/list",
-      },
-      {
-        titile: "Thêm",
-        path: "/admin/oders/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/oders/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/oders/edit",
+        path: "/admin/orders/list",
       },
     ],
   },
