@@ -14,31 +14,23 @@ import SidebarItem from "./SidebarItem";
 
 const navigationContents = [
   {
-    titile: "Doanh thu",
+    titile: "Tổng quan",
     icon: <AutoGraphOutlinedIcon />,
-    path: "/admin",
+    path: "/admin/overviews",
   },
 
   {
     titile: "Tài khoản",
     icon: <AccountCircleOutlinedIcon />,
-    path: "/admin/users/list",
+    path: "/admin/users",
     listItem: [
       {
         titile: "Danh sách",
         path: "/admin/users/list",
       },
       {
-        titile: "Thêm",
+        titile: "Thêm mới",
         path: "/admin/users/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/users/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/users/edit",
       },
     ],
   },
