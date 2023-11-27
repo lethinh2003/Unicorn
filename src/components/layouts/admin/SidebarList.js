@@ -38,7 +38,7 @@ const navigationContents = [
       },
       {
         titile: "Sửa",
-        path: "/admin/users/edit",
+        path: "/admin/users/update",
       },
     ],
   },

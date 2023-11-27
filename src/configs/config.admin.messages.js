@@ -1,4 +1,4 @@
-const USER_MESSAGES = {
+const ADMIN_MESSAGES = {
   NAME_MISSING: "Vui lòng nhập tên",
   NAME_INVALID: "Tên không hợp lệ",
   EMAIL_MISSING: "Vui lòng nhập email",
@@ -19,6 +19,9 @@ const USER_MESSAGES = {
   DISTRICT_MISSING: "Vui lòng chọn quận/huyện",
   WARD_MISSING: "Vui lòng chọn phường xã",
   ADDRESS_MISSING: "Vui lòng nhập địa chỉ",
-  
+  ROLE_MISSING: "Vui lòng chọn vai trò",
+  STATUS_MISSING: "Vui lòng chọn trạng thái tài khoản",
+  GENDER_MISSING: "Vui lòng chọn giới tính",    
+  BIRTHDAY_MISSING: "Vui lòng chọn ngày sinh",
 };
-export default USER_MESSAGES;
+export default ADMIN_MESSAGES; 

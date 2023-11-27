@@ -18,6 +18,7 @@ import { useMemo, useState } from "react";
 import RemoveUserButton from "./RemoveUserButton";
 import SearchBar from "./SearchBar";
 import UserListTable from "./UserListTable";
+import { useRouter } from "next/navigation";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -49,6 +50,11 @@ const fuzzySort = (rowA, rowB, columnId) => {
 
 const UserList = () => {
   const [globalFilter, setGlobalFilter] = useState("");
+  const router = useRouter();
+
+  const handleEditClick = (userId) => {
+    router.push(`/admin/users/update`);
+  };
   const columns = useMemo(
     () => [
       {
@@ -94,7 +100,10 @@ const UserList = () => {
         cell: ({ row: { original } }) => (
           <div className="flex items-center gap-4">
             <EyeIcon className="h-[2rem] w-[2rem] cursor-pointer" />
-            <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+            <PencilIcon
+              className="h-[2rem] w-[2rem] cursor-pointer"
+              onClick={() => handleEditClick(original.id)} 
+            />
             <RemoveUserButton user={original} />
           </div>
         ),
