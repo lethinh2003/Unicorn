@@ -1,10 +1,13 @@
 import ListTablePagination from "@/components/generals/ListTablePagination";
 import { LoadingContent } from "@/components/generals/LoadingBox";
-import useGetListUsers from "@/customHooks/admin/useGetListUsers";
-import { convertDate } from "@/utils/convertDate";
-import { convertUserGender } from "@/utils/convertGender";
-import { convertUserRole } from "@/utils/convertRole";
-import { convertUserStatus } from "@/utils/convertStatus";
+import useGetListOrders from "@/customHooks/admin/useGetListOrders";
+import { convertDateTime } from "@/utils/convertDate";
+import { ConvertMoney } from "@/utils/convertMoney";
+import {
+  convertOrderDeliveryStatus,
+  convertOrderPaymentMethod,
+  convertOrderStatus,
+} from "@/utils/convertOrders";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import {
@@ -18,7 +21,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import ListTable from "../../generals/ListTable";
 import SearchListBar from "../generals/SearchListBar";
-import RemoveUserButton from "./RemoveUserButton";
+import RemoveOrderButton from "./RemoveOrderButton";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -33,47 +36,50 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-const UserList = () => {
+const OrderList = () => {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const columns = useMemo(
     () => [
       {
-        header: "Tên",
+        header: "Mã đơn hàng",
         footer: (props) => props.column.id,
-
         cell: (cell) => cell.getValue(),
-        accessorKey: "name",
+        accessorKey: "_id",
       },
       {
         header: "Email",
         footer: (props) => props.column.id,
-        accessorKey: "email",
+        accessorKey: "user.email",
       },
       {
-        header: "Giới tính",
+        header: "Tổng cộng",
         footer: (props) => props.column.id,
-        accessorFn: (row) => `${convertUserGender(row.gender)}`,
+        accessorKey: "total",
+        cell: (cell) => <ConvertMoney money={cell.getValue()} />,
       },
       {
-        header: "Phone",
+        header: "Phương thức thanh toán",
         footer: (props) => props.column.id,
-        accessorKey: "phone_number",
+        accessorFn: (row) => `${convertOrderPaymentMethod(row.order_method)}`,
       },
       {
-        header: "Birthday",
+        header: "Tình trạng đơn hàng",
         footer: (props) => props.column.id,
-        accessorFn: (row) => `${convertDate(row.birthday)}`,
+        accessorFn: (row) => `${convertOrderDeliveryStatus(row.order_status)}`,
+      },
+
+      {
+        header: "Trạng thái",
+        footer: (props) => props.column.id,
+        accessorFn: (row) => `${convertOrderStatus(row.status)}`,
       },
       {
-        header: "Role",
+        header: "Thời gian tạo",
         footer: (props) => props.column.id,
-        accessorFn: (row) => `${convertUserRole(row.role)}`,
-      },
-      {
-        header: "Status",
-        footer: (props) => props.column.id,
-        accessorFn: (row) => `${convertUserStatus(row.status)}`,
+        accessorKey: "createdAt",
+
+        cell: (row) => `${convertDateTime(row.getValue())}`,
       },
       {
         header: "Hành động",
@@ -83,7 +89,7 @@ const UserList = () => {
             <Link href={`${original._id}`}>
               <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
             </Link>
-            <RemoveUserButton user={original} />
+            <RemoveOrderButton order={original} />
           </div>
         ),
       },
@@ -105,7 +111,7 @@ const UserList = () => {
     [pageIndex, pageSize]
   );
   const { data, isLoading, isError, error, isFetching, refetch } =
-    useGetListUsers({
+    useGetListOrders({
       pageIndex,
       pageSize,
     });
@@ -151,4 +157,4 @@ const UserList = () => {
     </>
   );
 };
-export default UserList;
+export default OrderList;

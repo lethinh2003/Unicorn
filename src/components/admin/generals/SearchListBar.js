@@ -2,7 +2,7 @@
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { InputBase, Stack } from "@mui/material";
 
-const SearchBar = ({ value, onChange }) => {
+const SearchListBar = ({ value, onChange }) => {
   return (
     <>
       <Stack
@@ -28,4 +28,4 @@ const SearchBar = ({ value, onChange }) => {
     </>
   );
 };
-export default SearchBar;
+export default SearchListBar;

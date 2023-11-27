@@ -7,6 +7,9 @@ import Link from "next/link";
 export default function AddUsers() {
   return (
     <>
+      <div className="admin-header-title">
+        <h1 className="admin-header-title-text">Danh sách tài khoản</h1>
+      </div>
       <Link href="add">
         <Button
           sx={{
