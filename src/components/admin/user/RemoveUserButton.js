@@ -3,7 +3,7 @@ import { setIsLoading } from "@/redux/actions/loadingBox";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
@@ -38,6 +38,7 @@ const RemoveUserButton = ({ user }) => {
       return handleDeleteUser();
     },
     onMutate: () => {
+      dispatch(setIsLoading(true));
       const previousData = queryClient.getQueryData([
         "get-list-users",
         "admin",
@@ -52,11 +53,11 @@ const RemoveUserButton = ({ user }) => {
       const { previousData } = context;
       queryClient.setQueryData(["get-list-users", "admin"], previousData);
     },
+    onSettled: () => {
+      dispatch(setIsLoading(false));
+    },
   });
 
-  useEffect(() => {
-    dispatch(setIsLoading(isLoading));
-  }, [isLoading]);
   return (
     <>
       <Modal isOpen={isOpenModal} setIsOpen={setIsOpenModal}>

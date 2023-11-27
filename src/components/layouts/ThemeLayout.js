@@ -59,6 +59,13 @@ const getDesignTokens = (mode) => ({
       defaultProps: {
         disableTouchRipple: true,
       },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "&:hover": {
+            backgroundColor: "unset",
+          },
+        }),
+      },
     },
     MuiTableContainer: {
       styleOverrides: {

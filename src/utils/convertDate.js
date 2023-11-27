@@ -14,8 +14,12 @@ export const convertDateTime = (timeISOString) => {
   return result;
 };
 export const convertDate = (timeISOString) => {
-  let result = dayjs(timeISOString).format("YYYY-MM-DD");
+  if (timeISOString) {
+    let result = dayjs(timeISOString).format("YYYY-MM-DD");
 
-  return result;
+    return result;
+  } else {
+    return "";
+  }
 };
 export default convertTime;

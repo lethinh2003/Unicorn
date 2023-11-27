@@ -1,5 +1,4 @@
 "use client";
-import HeaderTitle from "@/app/(admin)/adminComponent/headerTitle";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Box, Button, Checkbox, Stack, TextField } from "@mui/material";
@@ -104,7 +103,6 @@ export default function AddProduct() {
 
   return (
     <>
-      <HeaderTitle></HeaderTitle>
       <div className="add-product-container">
         <Stack direction="row">
           <div className="add-product-image">

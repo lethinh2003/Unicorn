@@ -16,7 +16,7 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
         <ToggleButton
           aria-label="list"
           className={`admin-layout-nav-button !justify-between ${
-            item.path === pathName ?? "active"
+            pathName.includes(item.path) ?? "active"
           }`}
           onClick={() => toggleItem(index)}
           sx={{
@@ -26,8 +26,16 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
             justifyContent: "flex-start",
             padding: "1rem",
             paddingLeft: "5rem",
-            backgroundColor: item.path === pathName ? "#38AC8F" : "",
-            color: item.path === pathName ? "#fff" : "",
+            backgroundColor: pathName.includes(item.path) ? "#38AC8F" : "",
+            color: pathName.includes(item.path) ? "#fff" : "",
+
+            "&:hover": {
+              backgroundColor: pathName.includes(item.path)
+                ? "#38AC8F"
+                : "rgba(0, 0, 0, 0.04)",
+              color: pathName.includes(item.path) ? "#fff" : "inherit",
+              opacity: "0.9",
+            },
           }}
         >
           <Stack
@@ -42,15 +50,10 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
             {item.icon}
             <span className="capitalize">{item.titile}</span>
           </Stack>
-          {item.listItem ? (
-            openItems[index] ? (
-              <ExpandLess />
-            ) : (
-              <ExpandMore />
-            )
-          ) : null}
+          {item.listItem &&
+            (openItems[index] ? <ExpandLess /> : <ExpandMore />)}
         </ToggleButton>
-        {item.listItem ? (
+        {item.listItem && (
           <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
             <ToggleButtonGroup
               sx={{ width: "100%", textAlign: "start" }}
@@ -82,7 +85,7 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
               ))}
             </ToggleButtonGroup>
           </Collapse>
-        ) : null}
+        )}
       </div>
     </>
   );

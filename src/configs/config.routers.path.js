@@ -14,6 +14,7 @@ const ROUTERS_PATH = {
   HOME_PRODUCT: "/products",
   DETAIL_PRODUCT: "/products/{productId}",
   GENDER_PRODUCT: "/products?gender={gender}",
+  ADMIN_USER_LIST: "/admin/users/list",
 };
 
 export default ROUTERS_PATH;
