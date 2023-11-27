@@ -1507,6 +1507,7 @@ text {
   width: 20rem;
   cursor: pointer;
   position: absolute;
+  transition: all 0.2s linear;
 }
 .nike::before {
   content: "";
