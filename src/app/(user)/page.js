@@ -1,18 +1,16 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import Image from "next/image";
-import Link from "next/link";
-
 import HomeSwiper from "@/components/layouts/homepage/HomeSwiper";
 import LatestProducts from "@/components/layouts/homepage/LatestProducts";
 import SaleProducts from "@/components/layouts/homepage/SaleProducts";
-import { Stack } from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-
+import NewShoesProduct from "../../components/home/NewShoesProduct";
 export const metadata = {
   title: "Quần áo thời trang online | Unicorn",
   description: "Quần áo thời trang online",
@@ -137,6 +135,9 @@ export default function Home() {
           </Container>
         </Box>
       </div>
+
+      <NewShoesProduct />
+
       <Container
         sx={{
           display: "flex",
