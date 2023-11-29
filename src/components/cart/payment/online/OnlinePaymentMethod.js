@@ -1,40 +1,25 @@
 "use client";
-import { CART_PAYMENT_METHOD } from "@/configs/config.cart";
-import { setCartPaymentMethod } from "@/redux/actions/cart";
-import { BanknotesIcon, CreditCardIcon } from "@heroicons/react/24/outline";
+import { ORDER_ONLINE_PAYMENT_METHOD } from "@/configs/config.orders";
+import { CreditCardIcon } from "@heroicons/react/24/outline";
 import { Radio } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
-function PaymentMethod() {
-  const dispatch = useDispatch();
-
-  const [selectMethodPayment, setSelectMethodPayment] = useState(
-    CART_PAYMENT_METHOD.CASH
-  );
-  useEffect(() => {
-    dispatch(setCartPaymentMethod({ method: selectMethodPayment }));
-  }, [selectMethodPayment]);
-
-  const handleChangeMethodPayMent = (value) => {
-    setSelectMethodPayment(value);
-  };
+function OnlinePaymentMethod({
+  handleChangeMethodPayMent,
+  selectMethodPayment,
+}) {
   const payMethod = [
     {
-      title: "Thanh toán khi nhận hàng",
-      value: "cash",
-      icon: <BanknotesIcon className="h-full" />,
-    },
-    {
-      title: "Thanh toán online",
-      value: "banking",
+      title: "Thanh toán VNPAY",
+      value: ORDER_ONLINE_PAYMENT_METHOD.VNPAY,
       icon: <CreditCardIcon className="h-full" />,
     },
   ];
   return (
     <>
-      <div>
-        <h2 className="p-8 text-[2.5rem] font-bold">Phương thức thanh toán</h2>
+      <div className="mx-auto w-full max-w-[60rem]">
+        <h2 className="p-8 text-[2.5rem] font-bold">
+          Phương thức thanh toán online
+        </h2>
         <div className="px-8 ">
           <div
             className="flex flex-col overflow-hidden "
@@ -75,4 +60,4 @@ function PaymentMethod() {
   );
 }
 
-export default PaymentMethod;
+export default OnlinePaymentMethod;

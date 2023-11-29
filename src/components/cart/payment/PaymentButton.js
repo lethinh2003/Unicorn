@@ -1,17 +1,21 @@
 "use client";
+import { ORDER_PAYMENT_METHODS } from "@/configs/config.orders";
 import PAYMENT_MESSAGES from "@/configs/config.payment.messages";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import useAuth from "@/customHooks/useAuth";
 import { resetCartData } from "@/redux/actions/cart";
 import { setIsLoading } from "@/redux/actions/loadingBox";
+import { setCurrentOrderPaymentPending } from "@/redux/actions/order";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useQueryClient } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 function PaymentButton() {
   const queryClient = useQueryClient();
   const { session } = useAuth();
-
+  const router = useRouter();
   const dispatch = useDispatch();
   const { address, voucher, note, paymentMethod, cartItems } = useSelector(
     (state) => state.cart
@@ -35,12 +39,17 @@ function PaymentButton() {
       );
       // Reset Cart Data
       dispatch(resetCartData());
+
       // revalidate list cart items
       queryClient.invalidateQueries({
         queryKey: ["get-list-cart-items", session?.user?._id],
       });
 
       toast.success(result.data.message);
+      if (paymentMethod === ORDER_PAYMENT_METHODS.BANKING) {
+        dispatch(setCurrentOrderPaymentPending({ order: result.data.data }));
+        router.push(`${ROUTERS_PATH.PAYMENT}/online/${result.data.data._id}`);
+      }
     } catch (err) {
       toast.error(err.response?.data.message);
     } finally {

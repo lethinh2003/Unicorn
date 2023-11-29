@@ -15,7 +15,7 @@ export const ModalTitle = ({ children }) => {
   );
 };
 export const ModalBody = ({ children }) => {
-  return <Dialog.Description>{children}</Dialog.Description>;
+  return <Dialog.Description as="div">{children}</Dialog.Description>;
 };
 
 const LoadingBox = () => {
