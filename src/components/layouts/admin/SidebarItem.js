@@ -14,6 +14,8 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
     <>
       <div>
         <ToggleButton
+          value="center"
+          fullWidth={true}
           aria-label="list"
           className={`admin-layout-nav-button !justify-between ${
             pathName.includes(item.path) ?? "active"
@@ -48,7 +50,7 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
             }}
           >
             {item.icon}
-            <span className="capitalize">{item.titile}</span>
+            <span className="font-medium capitalize">{item.titile}</span>
           </Stack>
           {item.listItem &&
             (openItems[index] ? <ExpandLess /> : <ExpandMore />)}
@@ -56,6 +58,7 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
         {item.listItem && (
           <Collapse in={openItems[index]} timeout="auto" unmountOnExit>
             <ToggleButtonGroup
+              fullWidth={true}
               sx={{ width: "100%", textAlign: "start" }}
               orientation="vertical"
               exclusive
@@ -67,6 +70,8 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
                   sx={{ width: "100%" }}
                 >
                   <ToggleButton
+                    value="center"
+                    fullWidth={true}
                     aria-label="list"
                     className="admin-layout-nav-button-child"
                     sx={{

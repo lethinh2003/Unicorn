@@ -1,7 +1,7 @@
 import Modal, { ModalBody, ModalTitle } from "@/components/generals/Modal";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -94,10 +94,9 @@ const RemoveUserButton = ({ user }) => {
           </div>
         </ModalBody>
       </Modal>
-      <TrashIcon
-        onClick={() => setIsOpenModal(true)}
-        className="h-[2rem] w-[2rem] cursor-pointer"
-      />
+      <IconButton onClick={() => setIsOpenModal(true)}>
+        <TrashIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+      </IconButton>
     </>
   );
 };

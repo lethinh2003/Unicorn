@@ -1,4 +1,8 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import {
+  ChevronDownIcon,
+  ChevronUpDownIcon,
+  ChevronUpIcon,
+} from "@heroicons/react/24/solid";
 import { flexRender } from "@tanstack/react-table";
 
 const ListTable = ({ table }) => {
@@ -15,7 +19,7 @@ const ListTable = ({ table }) => {
                       <th
                         key={header.id}
                         colSpan={header.colSpan}
-                        className="px-4 py-3.5 text-left text-[1.5rem] font-bold text-black rtl:text-right"
+                        className="px-4 py-[1.6rem] text-left text-[1.5rem] font-bold text-[#2B3445] rtl:text-right"
                       >
                         {header.isPlaceholder ? null : (
                           <div
@@ -30,6 +34,11 @@ const ListTable = ({ table }) => {
                               header.column.columnDef.header,
                               header.getContext()
                             )}
+                            {header.column.getCanSort() &&
+                              !header.column.getIsSorted() && (
+                                <ChevronUpDownIcon className="h-4 w-4" />
+                              )}
+
                             {{
                               asc: <ChevronUpIcon className="h-4 w-4" />,
                               desc: <ChevronDownIcon className="h-4 w-4" />,
@@ -50,7 +59,7 @@ const ListTable = ({ table }) => {
                       return (
                         <td
                           key={cell.id}
-                          className="whitespace-nowrap px-4 py-4 text-[1.5rem] font-medium text-black drop-shadow-sm"
+                          className="whitespace-nowrap px-4 py-[1.6rem] text-[1.5rem] font-medium text-[#2B3445] drop-shadow-sm"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,

@@ -8,7 +8,13 @@ import {
   convertOrderPaymentMethod,
   convertOrderStatus,
 } from "@/utils/convertOrders";
+
+import {
+  convertOrderStatus as convertOrderStatusTable,
+  convertStatus,
+} from "@/utils/convertTables";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { IconButton } from "@mui/material";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import {
   getCoreRowModel,
@@ -67,12 +73,24 @@ const OrderList = () => {
         header: "Tình trạng đơn hàng",
         footer: (props) => props.column.id,
         accessorFn: (row) => `${convertOrderDeliveryStatus(row.order_status)}`,
+        accessorKey: "order_status",
+
+        cell: (cell) => {
+          return convertOrderStatusTable(
+            cell.row.original.order_status,
+            cell.getValue()
+          );
+        },
       },
 
       {
         header: "Trạng thái",
         footer: (props) => props.column.id,
         accessorFn: (row) => `${convertOrderStatus(row.status)}`,
+        accessorKey: "status",
+        cell: (cell) => {
+          return convertStatus(cell.row.original.status, cell.getValue());
+        },
       },
       {
         header: "Thời gian tạo",
@@ -87,8 +105,11 @@ const OrderList = () => {
         cell: ({ row: { original } }) => (
           <div className="flex items-center gap-4">
             <Link href={`${original._id}`}>
-              <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+              <IconButton>
+                <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+              </IconButton>
             </Link>
+
             <RemoveOrderButton order={original} />
           </div>
         ),

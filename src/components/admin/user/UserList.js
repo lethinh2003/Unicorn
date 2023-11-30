@@ -5,7 +5,9 @@ import { convertDate } from "@/utils/convertDate";
 import { convertUserGender } from "@/utils/convertGender";
 import { convertUserRole } from "@/utils/convertRole";
 import { convertUserStatus } from "@/utils/convertStatus";
+import { convertStatus } from "@/utils/convertTables";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { IconButton } from "@mui/material";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import {
   getCoreRowModel,
@@ -74,6 +76,10 @@ const UserList = () => {
         header: "Status",
         footer: (props) => props.column.id,
         accessorFn: (row) => `${convertUserStatus(row.status)}`,
+        accessorKey: "status",
+        cell: (cell) => {
+          return convertStatus(cell.row.original.status, cell.getValue());
+        },
       },
       {
         header: "Hành động",
@@ -81,8 +87,11 @@ const UserList = () => {
         cell: ({ row: { original } }) => (
           <div className="flex items-center gap-4">
             <Link href={`${original._id}`}>
-              <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+              <IconButton>
+                <PencilIcon className="h-[2rem] w-[2rem] cursor-pointer" />
+              </IconButton>
             </Link>
+
             <RemoveUserButton user={original} />
           </div>
         ),
