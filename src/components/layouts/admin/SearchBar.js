@@ -5,12 +5,12 @@ import { InputBase, Stack } from "@mui/material";
 const SearchBar = () => {
   return (
     <>
-      <div className="admin-layout-search">
+      <div className="admin-layout-search flex-1">
         <Stack
           direction="row"
           sx={{
             border: "1px solid #ccc",
-            width: "60rem",
+
             padding: "1rem",
             borderRadius: "4px",
             alignItems: "center",

@@ -5,7 +5,13 @@ const ListTablePagination = ({ table, allResults = 0 }) => {
   return (
     <>
       <TablePagination
-        rowsPerPageOptions={[1, 10, 25, { label: "All", value: allResults }]}
+        sx={{
+          "& .MuiToolbar-root": {
+            flexWrap: "wrap",
+            justifyContent: "center",
+          },
+        }}
+        rowsPerPageOptions={[5, 10, 25, { label: "All", value: allResults }]}
         component="div"
         count={allResults}
         rowsPerPage={table.getState().pagination.pageSize}

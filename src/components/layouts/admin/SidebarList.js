@@ -9,8 +9,11 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SidebarItem from "./SidebarItem";
+
+import { usePathname } from "next/navigation";
+import SimpleBar from "simplebar-react";
 
 const navigationContents = [
   {
@@ -179,6 +182,7 @@ const navigationContents = [
 
 export default function SidebarList() {
   const [openItems, setOpenItems] = useState({});
+  const pathname = usePathname();
 
   const toggleItem = (index) => {
     setOpenItems((prevOpenItems) => ({
@@ -186,13 +190,48 @@ export default function SidebarList() {
       [index]: !prevOpenItems[index],
     }));
   };
+
+  useEffect(() => {
+    if (pathname) {
+      let index = -1;
+      const findParentCategory = navigationContents.find((item, i) => {
+        if (item.path === pathname) {
+          index = i;
+          return true;
+        }
+
+        if (item.listItem) {
+          const findChildCategory = item.listItem.find(
+            (child) => child.path === pathname
+          );
+          if (findChildCategory) {
+            index = i;
+            return true;
+          }
+        }
+        return false;
+      });
+      if (findParentCategory) {
+        setOpenItems((prevOpenItems) => ({
+          ...prevOpenItems,
+          [index]: true,
+        }));
+      } else {
+        setOpenItems((prevOpenItems) => ({
+          ...prevOpenItems,
+          [index]: false,
+        }));
+      }
+    }
+  }, [pathname]);
   return (
     <>
-      <div className="h-[calc(100%-7rem)] overflow-y-auto">
+      <SimpleBar style={{ height: "calc(100% - 7rem)" }}>
         <ToggleButtonGroup
           orientation="vertical"
+          fullWidth={true}
           exclusive
-          sx={{ width: "100%", textAlign: "start", overflowY: "auto" }}
+          sx={{ width: "100%", textAlign: "start", padding: "0 1rem" }}
         >
           {navigationContents.map((item, index) => (
             <SidebarItem
@@ -204,7 +243,7 @@ export default function SidebarList() {
             />
           ))}
         </ToggleButtonGroup>
-      </div>
+      </SimpleBar>
     </>
   );
 }
