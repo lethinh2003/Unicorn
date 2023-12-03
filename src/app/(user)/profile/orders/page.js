@@ -1,38 +1,12 @@
 "use client";
+import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
+import ListOrders from "@/components/profile/order/ListOrders";
+import { ORDER_QUERY_TYPE } from "@/configs/config.orders";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Breadcrumbs, Button, Link, Tab, Typography } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Image from "next/image";
 import { useState } from "react";
-
-const ORDER_STATUS = [
-  {
-    label: "Tất cả",
-    value: "0",
-    type: 0,
-  },
-  {
-    label: "Chờ xác nhận",
-    value: "1",
-    type: 1,
-  },
-  {
-    label: "Vận chuyển",
-    value: "2",
-    type: 1,
-  },
-  {
-    label: "Hoàn thành",
-    value: "3",
-    type: 1,
-  },
-  {
-    label: "Đã hủy",
-    value: "4",
-    type: 1,
-  },
-];
-
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
@@ -54,8 +28,51 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
-export default function Notifies() {
-  const [value, setValue] = useState("0");
+const DATA_BREADCRUMB = [
+  {
+    title: "Hồ sơ",
+    link: ROUTERS_PATH.PROFILE,
+  },
+  {
+    title: "Lịch sử đơn hàng",
+  },
+];
+
+const ORDER_STATUS = [
+  {
+    label: "Tất cả",
+    value: ORDER_QUERY_TYPE.ALL,
+    component: <ListOrders value={ORDER_QUERY_TYPE.ALL} />,
+  },
+  {
+    label: "Chờ thanh toán",
+    value: ORDER_QUERY_TYPE.PAYMENT_PENDING,
+    component: <ListOrders value={ORDER_QUERY_TYPE.PAYMENT_PENDING} />,
+  },
+  {
+    label: "Chờ xác nhận",
+    value: ORDER_QUERY_TYPE.PENDING,
+    component: <ListOrders value={ORDER_QUERY_TYPE.PENDING} />,
+  },
+  {
+    label: "Vận chuyển",
+    value: ORDER_QUERY_TYPE.DELIVERING,
+    component: <ListOrders value={ORDER_QUERY_TYPE.DELIVERING} />,
+  },
+  {
+    label: "Hoàn thành",
+    value: ORDER_QUERY_TYPE.DELIVERED,
+    component: <ListOrders value={ORDER_QUERY_TYPE.DELIVERED} />,
+  },
+  {
+    label: "Đã hủy",
+    value: ORDER_QUERY_TYPE.CANCELLED,
+    component: <ListOrders value={ORDER_QUERY_TYPE.CANCELLED} />,
+  },
+];
+
+export default function Home() {
+  const [value, setValue] = useState(ORDER_QUERY_TYPE.ALL);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -64,26 +81,14 @@ export default function Notifies() {
   return (
     <>
       <div className="redirect-title-container">
-        <div className="redirect">
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              Trang chủ
-            </Link>
-            <Link underline="hover" color="inherit" href="/profile">
-              Hồ sơ
-            </Link>
-            <Typography color="text.primary">Lịch sử đơn hàng</Typography>
-          </Breadcrumbs>
-        </div>
-        <div className="profile-page-header">
-          <h1>Thông tin tài khoản</h1>
-        </div>
+        <BreadcrumbBar data={DATA_BREADCRUMB} />
       </div>
-      <div className="user-notifies-container">
-        <div className="user-notifies-header">
-          <span className="user-notifies-text">Lịch sử đơn hàng</span>
+
+      <div className="user-desc-container divide-y divide-gray-200 rounded-lg drop-shadow-xl">
+        <div className="user-desc-header">
+          <h2 className="user-desc-text">Lịch sử đơn hàng</h2>
         </div>
-        <div className="user-notifies-body">
+        <div className="user-desc-body">
           <Box
             sx={{
               width: "100%",
@@ -94,14 +99,13 @@ export default function Notifies() {
               justifyContent: "flex-start",
               flexDirection: "column",
               flexWrap: "wrap",
-              borderBottom: (theme) =>
-                theme.palette.mode === "light"
-                  ? "1px solid #dcdee0"
-                  : "1px solid #4b4c4e",
             }}
           >
             <TabContext value={value}>
               <TabList
+                variant="scrollable"
+                allowScrollButtonsMobile
+                scrollButtons={false}
                 onChange={handleChange}
                 sx={{
                   width: "100%",
@@ -123,133 +127,18 @@ export default function Notifies() {
                 })}
               </TabList>
 
-              <TabPanel
-                sx={{
-                  padding: 0,
-                  width: "100%",
-                }}
-                value="0"
-              >
-                {Array.from({ length: 3 }).map((_item, i) => (
-                  <Box
-                    key={i}
-                    sx={{
-                      width: "100%",
-
-                      backgroundColor: "#f6f3f3",
-                      display: "flex",
-                      padding: "2rem",
-                      gap: "1rem",
-                      borderBottom: "1px solid #ACA3A3",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        maxWidth: "13rem",
-                        minWidth: "13rem",
-                        height: "13rem",
-                        backgroundColor: "white",
-                        position: "relative",
-                      }}
-                    >
-                      <Image
-                        src="/item_product.png"
-                        alt="me"
-                        layout="fill"
-                        objectFit="contain"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        flex: 1,
-                        gap: "1rem",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: "2.5rem",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Áo thun nam ngắn tay
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: "2.5rem",
-                            fontWeight: "bold",
-                            color: "#B50B0B",
-                          }}
-                        >
-                          100.000đ
-                        </Typography>
-                      </Box>
-                      <Typography
-                        sx={{
-                          color: (theme) => theme.palette.text.secondary,
-                          fontWeight: 500,
-                          fontSize: "1.7rem",
-                        }}
-                      >
-                        Black/L
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            color: (theme) => theme.palette.text.secondary,
-                            fontWeight: 500,
-                            fontSize: "1.7rem",
-                          }}
-                        >
-                          Số lượng 1
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            gap: "1rem",
-                          }}
-                        >
-                          <Button>Mua lại</Button>
-                          <Button>Đánh giá</Button>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Box>
-                ))}
-              </TabPanel>
-
-              <TabPanel
-                sx={{
-                  padding: 0,
-                  width: "100%",
-                }}
-                value="1"
-              >
-                <Typography>Hello 1</Typography>
-              </TabPanel>
-              <TabPanel
-                sx={{
-                  padding: 0,
-                  width: "100%",
-                }}
-                value="2"
-              >
-                <Typography>Hello 2</Typography>
-              </TabPanel>
+              {Object.keys(ORDER_QUERY_TYPE).map((item) => (
+                <TabPanel
+                  key={item}
+                  sx={{
+                    padding: 0,
+                    width: "100%",
+                  }}
+                  value={ORDER_QUERY_TYPE[item]}
+                >
+                  <ListOrders value={ORDER_QUERY_TYPE[item]} />
+                </TabPanel>
+              ))}
             </TabContext>
           </Box>
         </div>
