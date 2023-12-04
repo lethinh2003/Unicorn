@@ -22,6 +22,15 @@ export const ProductItem = ({
   const [productData, setProductData] = useState({
     _id: product._id,
     product_original_price: product.product_original_price,
+    product_sale_event: product.product_sale_event,
+    product_price: product.product_sale_event
+      ? Math.round(
+          product.product_original_price -
+            (product.product_sale_event.sale_discount_percentage *
+              product.product_original_price) /
+              100
+        )
+      : product.product_original_price,
   });
   const [mainImage, setMainImage] = useState(product.product_images[0]);
   useEffect(() => {
@@ -29,7 +38,21 @@ export const ProductItem = ({
       (item) => item._id.toString() === productData._id.toString()
     );
     setIsLiked(checkIsLikedProduct);
+    console.log(productData);
   }, [dataFavoriteProducts, productData]);
+
+  useEffect(() => {
+    if (productData.product_sale_event) {
+      const newPrice = Math.round(
+        productData.product_original_price -
+          (productData.product_sale_event.sale_discount_percentage *
+            productData.product_original_price) /
+            100
+      );
+
+      setProductData((state) => ({ ...state, product_price: newPrice }));
+    }
+  }, [productData.product_sale_event]);
 
   return (
     <>
@@ -73,10 +96,21 @@ export const ProductItem = ({
               {product.product_name}
             </span>
           </Link>
-
-          <span className="product-item-price">
-            {<ConvertMoney money={productData.product_original_price} />}
-          </span>
+          {!productData.product_sale_event && (
+            <span className="product-item-price">
+              {<ConvertMoney money={productData.product_original_price} />}
+            </span>
+          )}
+          {productData.product_sale_event && (
+            <>
+              <span className="product-item-price !text-[1.6rem] line-through">
+                {<ConvertMoney money={productData.product_original_price} />}
+              </span>
+              <span className="product-item-price !text-red-600">
+                {<ConvertMoney money={productData.product_price} />}
+              </span>
+            </>
+          )}
           <Box
             className="home-product__colors"
             sx={{
@@ -92,6 +126,7 @@ export const ProductItem = ({
                     ...prev,
                     _id: product._id,
                     product_original_price: product.product_original_price,
+                    product_sale_event: product.product_sale_event,
                   }));
                 }}
                 style={{
@@ -115,6 +150,7 @@ export const ProductItem = ({
                     setProductData((prev) => ({
                       ...prev,
                       _id: childProduct._id,
+                      product_sale_event: childProduct.product_sale_event,
                       product_original_price:
                         childProduct.product_original_price,
                     }));

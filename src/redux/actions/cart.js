@@ -63,8 +63,18 @@ export const resetCartData = () => {
 const getSubTotal = (cartItems) => {
   let totalPrice = 0;
   cartItems?.forEach((item) => {
-    totalPrice +=
-      item.data.product.product_original_price * item.data.quantities;
+    if (item.data.product.product_sale_event) {
+      const discountPercent =
+        item.data.product.product_sale_event.sale_discount_percentage;
+      totalPrice +=
+        Math.round(
+          item.data.product.product_original_price -
+            (discountPercent * item.data.product.product_original_price) / 100
+        ) * item.data.quantities;
+    } else {
+      totalPrice +=
+        item.data.product.product_original_price * item.data.quantities;
+    }
   });
   return totalPrice;
 };

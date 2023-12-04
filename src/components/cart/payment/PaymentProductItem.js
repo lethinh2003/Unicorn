@@ -4,8 +4,19 @@ import { ConvertMoney } from "@/utils/convertMoney";
 import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 function PaymentProductItem({ item }) {
+  const [amount, setAmount] = useState(
+    item.data.product.product_sale_event
+      ? Math.round(
+          item.data.product.product_original_price -
+            (item.data.product.product_sale_event.sale_discount_percentage *
+              item.data.product.product_original_price) /
+              100
+        ) * item.data.quantities
+      : item.data.product.product_original_price * item.data.quantities
+  );
   return (
     <Link
       href={ROUTERS_PATH.HOME_PRODUCT + "/" + item.data.product._id}
@@ -51,11 +62,7 @@ function PaymentProductItem({ item }) {
             </span>
           </div>
           <span className="product-payment-product-price flex-1">
-            <ConvertMoney
-              money={
-                item.data.product.product_original_price * item.data.quantities
-              }
-            />
+            <ConvertMoney money={amount} />
           </span>
         </div>
       </div>

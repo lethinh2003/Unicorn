@@ -21,6 +21,19 @@ const CartItem = ({ item }) => {
   const queryClient = useQueryClient();
   const inputTimeoutRef = useRef();
   const [quantityInput, setQuantityInput] = useState(item.data.quantities);
+  const [price, setPrice] = useState(
+    item.data.product.product_sale_event
+      ? Math.round(
+          item.data.product.product_original_price -
+            (item.data.product.product_sale_event.sale_discount_percentage *
+              item.data.product.product_original_price) /
+              100
+        )
+      : item.data.product.product_original_price
+  );
+  const [amount, setAmount] = useState(
+    Math.round(price * item.data.quantities)
+  );
   const countInStock = item.data.product.product_sizes.find(
     (e) => e.size_type === item.data.size._id
   ).size_quantities;
@@ -31,6 +44,11 @@ const CartItem = ({ item }) => {
       clearTimeout(inputTimeoutRef.current);
     };
   }, [item]);
+
+  useEffect(() => {
+    const newAmount = price * quantityInput;
+    setAmount(newAmount);
+  }, [quantityInput]);
 
   const updateQuanties = async ({
     cartItemId,
@@ -296,15 +314,26 @@ const CartItem = ({ item }) => {
             Trong kho còn {countInStock}
           </Typography>
         </TableCell>
+
         <TableCell align="center" sx={{ width: "10rem" }}>
-          <ConvertMoney money={item.data.product.product_original_price} />
+          {item.data.product.product_sale_event && (
+            <div className="flex flex-col">
+              <div className="text-[1rem] line-through">
+                <ConvertMoney
+                  money={item.data.product.product_original_price}
+                />
+              </div>
+              <ConvertMoney money={price} />
+            </div>
+          )}
+          {!item.data.product.product_sale_event && (
+            <>
+              <ConvertMoney money={item.data.product.product_original_price} />
+            </>
+          )}
         </TableCell>
         <TableCell align="center" sx={{ width: "15rem" }}>
-          <ConvertMoney
-            money={
-              item.data.product.product_original_price * item.data.quantities
-            }
-          />
+          <ConvertMoney money={amount} />
         </TableCell>
       </TableRow>
     </>

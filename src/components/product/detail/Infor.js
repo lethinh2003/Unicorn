@@ -40,6 +40,16 @@ export default function Infor({ dataProduct }) {
     size: dataProduct.product_sizes[0].size_type.product_size_name,
     sizeId: dataProduct.product_sizes[0].size_type._id,
   });
+  const [price, setPrice] = useState(
+    dataProduct.product_sale_event
+      ? Math.round(
+          dataProduct.product_original_price -
+            (dataProduct.product_sale_event.sale_discount_percentage *
+              dataProduct.product_original_price) /
+              100
+        )
+      : dataProduct.product_original_price
+  );
   const [isAvailableProduct, setIsAvailableProduct] = useState(
     productData.stockSizeQuantities >= productData.quantity
   );
@@ -59,6 +69,16 @@ export default function Infor({ dataProduct }) {
     if (dataProduct) {
       if (dataProduct.product_images.length > 0) {
         setActiveImage(dataProduct?.product_images[0]);
+      }
+      // Set Sale Price
+      if (dataProduct.product_sale_event) {
+        const newPrice = Math.round(
+          dataProduct.product_original_price -
+            (dataProduct.product_sale_event.sale_discount_percentage *
+              dataProduct.product_original_price) /
+              100
+        );
+        setPrice(newPrice);
       }
     }
   }, [dataProduct]);
@@ -195,17 +215,47 @@ export default function Infor({ dataProduct }) {
                 >
                   {dataProduct?.product_name}
                 </Typography>
-                <Typography
-                  sx={{
-                    color: "#FF0000",
-                    fontSize: "2.5rem",
-                    fontWeight: 700,
-                  }}
-                >
-                  {ConvertMoney({
-                    money: dataProduct?.product_original_price || 0,
-                  })}
-                </Typography>
+                {dataProduct.product_sale_event && (
+                  <>
+                    <Typography
+                      className="line-through"
+                      sx={{
+                        fontSize: "1.7rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {ConvertMoney({
+                        money: dataProduct.product_original_price,
+                      })}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: "#FF0000",
+                        fontSize: "2.5rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {ConvertMoney({
+                        money: price,
+                      })}
+                    </Typography>
+                  </>
+                )}
+                {!dataProduct.product_sale_event && (
+                  <>
+                    <Typography
+                      sx={{
+                        color: "#FF0000",
+                        fontSize: "2.5rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {ConvertMoney({
+                        money: dataProduct.product_original_price,
+                      })}
+                    </Typography>
+                  </>
+                )}
 
                 <InforColor dataProduct={dataProduct} />
                 <InforSize
