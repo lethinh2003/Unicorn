@@ -5,8 +5,19 @@ import { ConvertMoney } from "@/utils/convertMoney";
 import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const FavoriteItem = ({ product }) => {
+  const [price, setPrice] = useState(
+    product.product_sale_event
+      ? Math.round(
+          product.product_original_price -
+            (product.product_sale_event.sale_discount_percentage *
+              product.product_original_price) /
+              100
+        )
+      : product.product_original_price
+  );
   return (
     <>
       <Box
@@ -30,6 +41,8 @@ const FavoriteItem = ({ product }) => {
             sx={{
               position: "relative",
               width: { xs: "100%", sm: "18.4375rem" },
+              minWidth: { xs: "100%", sm: "18.4375rem" },
+              maxWidth: { xs: "100%", sm: "18.4375rem" },
             }}
           >
             <Image
@@ -66,10 +79,22 @@ const FavoriteItem = ({ product }) => {
             <span className="favorite-product-color">
               Màu sắc: {product.product_color.product_color_name}
             </span>
+            {!product.product_sale_event && (
+              <span className="favorite-product-price">
+                <ConvertMoney money={product.product_original_price} />
+              </span>
+            )}
 
-            <span className="favorite-product-price">
-              <ConvertMoney money={product.product_original_price} />
-            </span>
+            {product.product_sale_event && (
+              <>
+                <span className="favorite-product-price !text-[1.7rem] !text-black line-through">
+                  <ConvertMoney money={product.product_original_price} />
+                </span>
+                <span className="favorite-product-price">
+                  <ConvertMoney money={price} />
+                </span>
+              </>
+            )}
           </Stack>
         </Box>
         <div className="favorite-control">
