@@ -15,7 +15,6 @@ const SearchProducts = () => {
         sx={{
           fontSize: "2.5rem",
           cursor: "pointer",
-          marginTop: "-5px",
         }}
         onClick={() => handleShowSearchBar()}
       />

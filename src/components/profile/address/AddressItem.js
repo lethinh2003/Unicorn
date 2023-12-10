@@ -21,11 +21,11 @@ const AddressItem = ({ address, buttons }) => {
       <div className="address-item flex-col md:flex-row">
         <div className="flex w-full flex-col">
           {INFORMATION_CONTENT.map((item) => (
-            <div key={item.title} className="flex">
-              <span className="user-title-item min-w-[15rem] max-w-[15rem] ">
+            <div key={item.title} className="flex flex-col sm:flex-row">
+              <span className="user-title-item min-w-[15rem] sm:max-w-[15rem] ">
                 {item.title}
               </span>
-              <span className="user-desc-value-item max-w-[calc(100%-15rem)] ">
+              <span className="user-desc-value-item sm:max-w-[calc(100%-15rem)] ">
                 {item.value}
               </span>
             </div>

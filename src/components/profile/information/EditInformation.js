@@ -98,7 +98,8 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -135,7 +136,8 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -164,7 +166,8 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -209,7 +212,8 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -246,7 +250,8 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span

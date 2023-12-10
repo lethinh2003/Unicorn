@@ -47,6 +47,7 @@ export default function InforColor({ dataProduct }) {
                 <Link
                   key={relationProduct.product_color.product_color_code}
                   href={`${ROUTERS_PATH.HOME_PRODUCT}/${relationProduct._id}`}
+                  replace={true}
                 >
                   <div
                     className={clsx(

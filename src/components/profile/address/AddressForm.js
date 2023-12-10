@@ -151,7 +151,8 @@ export default function AddressForm({ addressInformation, type }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -189,7 +190,8 @@ export default function AddressForm({ addressInformation, type }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -227,7 +229,8 @@ export default function AddressForm({ addressInformation, type }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -265,7 +268,8 @@ export default function AddressForm({ addressInformation, type }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -313,7 +317,8 @@ export default function AddressForm({ addressInformation, type }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span
@@ -369,7 +374,8 @@ export default function AddressForm({ addressInformation, type }) {
                 width: "100%",
                 display: "flex",
                 justifyConent: "space-between",
-                alignItems: "center",
+                alignItems: { xs: "flex-start", sm: "center" },
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <span

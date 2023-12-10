@@ -8,25 +8,58 @@ import {
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+const TIME_REPEAT = 3000;
 
 export default function NewShoesProduct() {
   const imageSliders = ["/Nike1.png", "/Nike2.png", "/Nike3.png"];
   const [activeImage, setActiveImage] = useState(imageSliders[1]);
+  const [isRunningTransition, setIsRunningTransition] = useState(false);
+  const timerRef = useRef(null);
 
   const calculatePosition = (index) => {
     const centerIndex = imageSliders.indexOf(activeImage);
     const offset = index - centerIndex;
     const left = offset === 0 ? 200 : 0;
     const rotateObject = centerIndex === 0 ? 360 : 0;
-    const scaleObject = index === centerIndex ? 4 : 1;
-    const top = offset === 0 ? 220 : offset === 1 || offset === -2 ? 550 : 0;
+    const scaleObject = index === centerIndex ? 5 : 1;
+    const top = offset === 0 ? 120 : offset === 1 || offset === -2 ? 357 : 0;
     return { x: left, y: top, scale: scaleObject, rotate: rotateObject };
+  };
+
+  useEffect(() => {
+    // Auto running
+    timerRef.current = setInterval(() => {
+      const getCurrentIndexActiveImage = imageSliders.indexOf(activeImage);
+      if (getCurrentIndexActiveImage === imageSliders.length - 1) {
+        setActiveImage(imageSliders[0]);
+      } else {
+        setActiveImage(imageSliders[getCurrentIndexActiveImage + 1]);
+      }
+    }, TIME_REPEAT);
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [activeImage]);
+
+  const handleChangeActiveImage = (image) => {
+    if (isRunningTransition) {
+      return;
+    }
+    setActiveImage(image);
   };
 
   return (
     <>
-      <Container sx={{ height: "80rem", marginTop: "5%", marginBottom: "10%" }}>
+      <Container
+        className="rounded-lg"
+        sx={{
+          display: { xs: "none", md: "block" },
+          height: "50rem",
+          marginTop: "5%",
+        }}
+      >
         <Paper
           elevation={5}
           sx={{
@@ -35,6 +68,8 @@ export default function NewShoesProduct() {
             display: "block",
             position: "relative",
             background: "url(/template.jpg) no-repeat top center/ contain",
+            boxShadow:
+              "-3px 3px 11px 1px rgb(248 248 248 / 0%), 9px 8px 8px 1px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)",
           }}
         >
           <Stack
@@ -62,12 +97,15 @@ export default function NewShoesProduct() {
                       type: "spring",
                       duration: 1.5,
                     }}
+                    onAnimationStart={() => setIsRunningTransition(true)}
+                    onAnimationComplete={() => setIsRunningTransition(false)}
                     className={item === activeImage ? "nike active" : "nike"}
-                    onClick={() => setActiveImage(item)}
+                    onClick={() => handleChangeActiveImage(item)}
                   >
                     <img
                       src={item}
                       key={index}
+                      className="drop-shadow-md"
                       style={{
                         objectFit: "cover",
                         width: "100%",
@@ -86,13 +124,20 @@ export default function NewShoesProduct() {
                 alignSelf: "flex-end",
               }}
             >
-              <Typography variant="h2" sx={{ fontWeight: "600" }}>
+              <Typography
+                variant="h2"
+                sx={{ fontWeight: "700", fontSize: "4rem" }}
+              >
                 SẢN PHẨM MỚI
               </Typography>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ width: "100%", height: "100%", position: "relative" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  marginTop: "2rem",
+                  width: "100%",
+                  height: "100%",
+                  position: "relative",
+                }}
               >
                 <Box
                   sx={{
@@ -123,11 +168,12 @@ export default function NewShoesProduct() {
                       cursor: "pointer",
                     }}
                     className={item === activeImage ? "active" : ""}
-                    onClick={() => setActiveImage(item)}
+                    onClick={() => handleChangeActiveImage(item)}
                   >
                     <img
                       src={item}
                       key={index}
+                      className="drop-shadow-lg"
                       style={{
                         objectFit: "cover",
                         width: "100%",
@@ -136,14 +182,14 @@ export default function NewShoesProduct() {
                     />
                   </Box>
                 ))}
-              </Stack>
+              </Box>
               <Button
                 sx={{
                   width: "30%",
-                  height: "5rem",
+
                   color: "#f9f9f9",
                   backgroundColor: "#000",
-                  border: ".5rem solid #000",
+                  border: ".1rem solid #000",
                   borderRadius: "2.5rem",
                   "&:hover": {
                     color: "#000",

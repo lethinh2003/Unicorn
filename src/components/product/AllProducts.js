@@ -87,11 +87,12 @@ export default function AllProducts() {
         className="products-item-wrap"
         sx={{
           display: "grid",
-          gap: "1rem",
+          gap: { md: "1rem", lg: "1.5rem" },
           gridTemplateColumns: {
             xs: "repeat(1, minmax(0,1fr))",
             sm: "repeat(2, minmax(0,1fr))",
-            md: "repeat(3, minmax(0,1fr))",
+            md: "repeat(2, minmax(0,1fr))",
+            lg: "repeat(3, minmax(0,1fr))",
           },
         }}
       >

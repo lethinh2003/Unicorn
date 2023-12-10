@@ -22,6 +22,14 @@ function VNPayOnlinePaymentReturn({}) {
   const [message, setMessage] = useState();
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(setIsLoading(true));
+    } else {
+      dispatch(setIsLoading(false));
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
     if (isAuthenticated) {
       let vnp_Params = {};
       for (var pair of searchParams.entries()) {
@@ -43,7 +51,7 @@ function VNPayOnlinePaymentReturn({}) {
         }
       );
       const result = request.data;
-      console.log(result);
+
       setMessage(result?.message);
       toast.success(result?.message);
       dispatch(setCurrentOrderPaymentPending({ order: null }));

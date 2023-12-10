@@ -1,3 +1,37 @@
+$xs-width: 0px;
+$sm-width: 600px;
+$md-width: 900px;
+$lg-width: 1200px;
+$xl-width: 1536px;
+
+@mixin xs {
+  @media (max-width: #{$sm-width}) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: #{$xs-width}) and (max-width: #{$sm-width}) {
+    @content;
+  }
+}
+@mixin md {
+  @media (min-width: #{$sm-width}) and (max-width: #{$md-width}) {
+    @content;
+  }
+}
+@mixin lg {
+  @media (min-width: #{$md-width}) and (max-width: #{$lg-width}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$xl-width}) {
+    @content;
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -232,6 +266,13 @@ input[type="number"] {
 
 .profile-page-header h1,
 .payment-page-header h1 {
+  @include xs {
+    font-size: 2.5rem;
+  }
+  @include md {
+    font-size: 3rem;
+  }
+
   font-size: 4rem;
   font-style: normal;
   font-weight: 500;
@@ -375,6 +416,9 @@ input[type="number"] {
 .user-title {
 }
 .user-title-item {
+  @include xs {
+    padding: 0.5rem 0;
+  }
   padding: 1.5rem 0;
   color: #747474;
   font-size: 1.7rem;
@@ -818,7 +862,7 @@ text {
   border-bottom: 0.5px solid #ccc;
   display: flex;
   flex-direction: row;
-  height: 3.15rem;
+  gap: 1rem;
   justify-content: space-between;
   align-content: center;
   flex-wrap: wrap;
@@ -1034,6 +1078,13 @@ text {
 }
 .product-page-title-text {
   color: #000;
+  @include xs {
+    font-size: 2.5rem;
+  }
+  @include md {
+    font-size: 3rem;
+  }
+
   font-size: 4rem;
   font-style: normal;
   font-weight: 500;
@@ -1043,13 +1094,25 @@ text {
 }
 
 .products-page-header {
+  @include xs {
+    margin: 1rem 0 1rem 0;
+  }
+  @include md {
+    margin: 2rem 0 2rem 0;
+  }
   margin: 4rem 0 -4rem 0;
 }
 .products-page-header-title {
   color: #000;
+  @include xs {
+    font-size: 2.5rem;
+  }
+  @include md {
+    font-size: 3rem;
+  }
   font-size: 3rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
   text-transform: uppercase;
 }
@@ -1062,6 +1125,12 @@ text {
 }
 .products-item {
   flex-basis: 30%;
+  @include xs {
+    margin: 1rem 0 0 0;
+  }
+  @include md {
+    margin: 2rem 0 0 0;
+  }
   margin: 4rem 0 0 0;
   position: relative;
   cursor: pointer;
@@ -1073,6 +1142,7 @@ text {
   width: 100%;
   object-fit: cover;
   height: 25rem;
+  object-position: top center;
 }
 .product-details {
   display: flex;
@@ -1507,22 +1577,22 @@ text {
 ////////////////////////Carousel slider new product////////////////
 .nike {
   z-index: 2;
-  width: 20rem;
+  width: 10rem;
   cursor: pointer;
   position: absolute;
   transition: all 0.2s linear;
 }
 .nike::before {
   content: "";
-  height: 10rem;
-  width: 10rem;
+  height: 5rem;
+  width: 5rem;
   position: absolute;
   border-radius: 50%;
   transform: rotateX(80deg);
   opacity: 0.7;
   background: radial-gradient(#ccc, #fff 70%);
-  top: 80%;
-  left: 40%;
+  top: 65%;
+  left: 35%;
 }
 
 .nike.active {

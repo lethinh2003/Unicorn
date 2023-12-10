@@ -84,7 +84,7 @@ export default function Home() {
                       textTransform: "uppercase",
                       fontFamily: "Inter",
                       color: "#000",
-                      fontSize: { xs: "3rem", md: "3.75rem" },
+                      fontSize: { xs: "2.5rem", md: "3rem", lg: "3.75rem" },
                       fontWeight: 800,
                       lineHeight: "normal",
                       opacity: 0.65,
@@ -121,7 +121,7 @@ export default function Home() {
                       textTransform: "uppercase",
                       fontFamily: "Inter",
                       color: "#000",
-                      fontSize: { xs: "3rem", md: "3.75rem" },
+                      fontSize: { xs: "2.5rem", md: "3rem", lg: "3.75rem" },
                       fontWeight: 800,
                       lineHeight: "normal",
                       opacity: 0.65,
@@ -152,7 +152,31 @@ export default function Home() {
           }}
         >
           <Link href={"/"}>
-            <Typography variant="h3" sx={TitleStyle} gutterBottom>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 700,
+                textAlign: "center",
+                color: "#000000",
+                position: "relative",
+                display: "inline-block",
+                padding: "0 2rem",
+                left: "50%",
+                transform: "translateX(-50%)",
+                textShadow: "0 .2rem 1rem rgba(0, 0, 0, .2)",
+                fontSize: { xs: "3rem", md: "3.5rem", lg: "4rem" },
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  width: "100%",
+                  bottom: "1rem",
+                  left: 0,
+                  zIndex: -1,
+                  borderBottom: "1.5rem solid #D4D0D0",
+                },
+              }}
+              gutterBottom
+            >
               SẢN PHẨM BÁN CHẠY
             </Typography>
           </Link>

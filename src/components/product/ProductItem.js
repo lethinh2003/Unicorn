@@ -38,7 +38,6 @@ export const ProductItem = ({
       (item) => item._id.toString() === productData._id.toString()
     );
     setIsLiked(checkIsLikedProduct);
-    console.log(productData);
   }, [dataFavoriteProducts, productData]);
 
   useEffect(() => {
@@ -168,7 +167,15 @@ export const ProductItem = ({
                     backgroundColor:
                       childProduct?.product_color.product_color_code,
                   }}
-                ></div>
+                >
+                  <Image
+                    src={childProduct.product_images[0]}
+                    alt={product.product_name}
+                    width={0}
+                    height={0}
+                    loading="lazy"
+                  />
+                </div>
               );
             })}
           </Box>
@@ -193,7 +200,6 @@ export const ProductItemLoading = ({ sx }) => {
           ...sx,
           cursor: "default",
 
-          maxWidth: "30rem",
           width: "100%",
         }}
       >

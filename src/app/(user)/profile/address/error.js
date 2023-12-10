@@ -20,9 +20,6 @@ export default function Error({ error, reset }) {
             <Typography color="text.primary">Địa chỉ</Typography>
           </Breadcrumbs>
         </div>
-        <div className="profile-page-header">
-          <h1>Thông tin tài khoản</h1>
-        </div>
       </div>
       <div className="user-desc-container">
         <div className="user-desc-header">

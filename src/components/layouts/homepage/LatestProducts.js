@@ -21,27 +21,7 @@ export const getLatestProducts = async () => {
 
 const LatestProducts = async () => {
   const dataLatestProducts = await getLatestProducts();
-  const TitleStyle = {
-    fontWeight: 700,
-    textAlign: "center",
-    color: "#000000",
-    position: "relative",
-    display: "inline-block",
-    padding: "0 2rem",
-    left: "50%",
-    transform: "translateX(-50%)",
-    textShadow: "0 .2rem 1rem rgba(0, 0, 0, .2)",
-    fontSize: "4rem",
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      width: "100%",
-      bottom: "1rem",
-      left: 0,
-      zIndex: -1,
-      borderBottom: "1.5rem solid #D4D0D0",
-    },
-  };
+
   return (
     <>
       <Box
@@ -50,7 +30,31 @@ const LatestProducts = async () => {
         }}
       >
         <Link href={"/"}>
-          <Typography variant="h3" sx={TitleStyle} gutterBottom>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: 700,
+              textAlign: "center",
+              color: "#000000",
+              position: "relative",
+              display: "inline-block",
+              padding: "0 2rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+              textShadow: "0 .2rem 1rem rgba(0, 0, 0, .2)",
+              fontSize: { xs: "3rem", md: "3.5rem", lg: "4rem" },
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                width: "100%",
+                bottom: "1rem",
+                left: 0,
+                zIndex: -1,
+                borderBottom: "1.5rem solid #D4D0D0",
+              },
+            }}
+            gutterBottom
+          >
             SẢN PHẨM MỚI
           </Typography>
         </Link>
@@ -63,8 +67,10 @@ const LatestProducts = async () => {
           sx={{
             gap: "1.5rem",
             gridTemplateColumns: {
-              xs: "repeat(2, minmax(0, 1fr))",
-              md: "repeat(4, minmax(0, 1fr))",
+              xs: "repeat(1, minmax(0, 1fr))",
+              sm: "repeat(2, minmax(0, 1fr))",
+              md: "repeat(3, minmax(0, 1fr))",
+              lg: "repeat(4, minmax(0, 1fr))",
             },
           }}
         >

@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import SimpleBar from "simplebar-react";
 
 const GENDER = "men";
 
@@ -114,7 +115,7 @@ export default function Filter({ filterData, category, color, size }) {
         <ListSubheader component="div" id="nested-list-subheader">
           Bộ lọc
         </ListSubheader>
-        <div>
+        <SimpleBar style={{ height: "calc(100vh - 7rem)" }}>
           {categories?.map((category) => (
             <div key={category._id}>
               <ListItemButton
@@ -331,7 +332,7 @@ export default function Filter({ filterData, category, color, size }) {
             ))}
           </FormGroup>
         </Collapse> */}
-        </div>
+        </SimpleBar>
       </List>
     </Box>
   );
