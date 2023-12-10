@@ -9,6 +9,9 @@ export const ORDER_DELIVERY_STATUSES = {
   DELIVERED: "delivered",
   CANCELLED: "cancelled",
 };
+
+export const ORDER_QUERY_TYPE = { ...ORDER_DELIVERY_STATUSES, ALL: "all" };
+
 export const ORDER_PAYMENT_METHODS = {
   CASH: "cash",
   BANKING: "banking",

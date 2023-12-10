@@ -1,0 +1,130 @@
+"use client";
+import { ConvertMoney } from "@/utils/convertMoney";
+import { Box, Typography } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
+import OrderItemButton from "./OrderItemButton";
+
+export default function OrderItem({ item }) {
+  return (
+    <>
+      <Link href={`orders/${item._id}`}>
+        <Box
+          sx={{
+            width: "100%",
+            flexDirection: "column",
+
+            backgroundColor: "#f6f3f3",
+            display: "flex",
+            padding: "2rem",
+            gap: "1rem",
+            borderBottom: "1px solid #ACA3A3",
+          }}
+        >
+          <div className="flex flex-col gap-4 md:flex-row">
+            <Box
+              sx={{
+                maxWidth: "13rem",
+                minWidth: "13rem",
+                height: "13rem",
+                backgroundColor: "white",
+                position: "relative",
+                alignSelf: "center",
+              }}
+            >
+              <Image
+                src={
+                  item.order_items?.[0]?.data?.product?.product_images?.[0] ||
+                  ""
+                }
+                alt={item.order_items?.[0]?.data?.product?.product_name || ""}
+                fill={true}
+                style={{
+                  objectFit: "contain",
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                flex: 1,
+                gap: "1rem",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: { xs: "column", md: "row" },
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <Typography
+                  className="three-dots text-center"
+                  sx={{
+                    width: { xs: "100%", md: "30rem" },
+
+                    fontSize: "2.5rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {item.order_items?.[0]?.data?.product?.product_name || ""}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "2.5rem",
+                    fontWeight: "bold",
+                    color: "#B50B0B",
+                  }}
+                >
+                  <ConvertMoney money={item.total} />
+                </Typography>
+              </Box>
+              <Typography
+                sx={{
+                  color: (theme) => theme.palette.text.secondary,
+                  fontWeight: 500,
+                  fontSize: "1.7rem",
+                }}
+              >
+                {item.order_items?.[0]?.data?.product?.product_color
+                  ?.product_color_name || ""}
+                / {item.order_items?.[0]?.data?.size?.product_size_name || ""}
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "1rem",
+                  flexDirection: { xs: "column", md: "row" },
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: (theme) => theme.palette.text.secondary,
+                    fontWeight: 500,
+                    fontSize: "1.7rem",
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  Số lượng {item.order_items?.[0]?.data?.quantities || 0}
+                </Typography>
+                <OrderItemButton item={item} />
+              </Box>
+            </Box>
+          </div>
+          {item.order_items.length > 1 && (
+            <div className="text-center">
+              <Link href={`orders/${item._id}`} className="hover:underline">
+                Xem thêm sản phẩm
+              </Link>
+            </div>
+          )}
+        </Box>
+      </Link>
+    </>
+  );
+}
