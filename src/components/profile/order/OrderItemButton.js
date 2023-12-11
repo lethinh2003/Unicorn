@@ -1,6 +1,7 @@
 "use client";
 import { ORDER_DELIVERY_STATUSES } from "@/configs/config.orders";
 import { Box, Button } from "@mui/material";
+import OrderItemCancelButton from "./OrderItemCancelButton";
 
 export default function OrderItemButton({ item }) {
   const renderButton = () => {
@@ -8,19 +9,19 @@ export default function OrderItemButton({ item }) {
       case ORDER_DELIVERY_STATUSES.PAYMENT_PENDING:
         return (
           <>
-            <Button>Hủy đơn</Button>
+            <OrderItemCancelButton item={item} />
           </>
         );
       case ORDER_DELIVERY_STATUSES.PENDING:
         return (
           <>
-            <Button>Hủy đơn</Button>
+            <OrderItemCancelButton item={item} />
           </>
         );
       case ORDER_DELIVERY_STATUSES.DELIVERING:
         return (
           <>
-            <Button>Hủy đơn</Button>
+            <OrderItemCancelButton item={item} />
           </>
         );
       case ORDER_DELIVERY_STATUSES.DELIVERED:

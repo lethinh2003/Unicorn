@@ -6,7 +6,8 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
@@ -72,12 +73,25 @@ const ORDER_STATUS = [
 ];
 
 export default function Home() {
-  const [value, setValue] = useState(ORDER_QUERY_TYPE.ALL);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const typeOrder = searchParams.get("type") || ORDER_QUERY_TYPE.ALL;
+  console.log({ typeOrder });
+  const [value, setValue] = useState(typeOrder);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    router.replace("?type=" + value, {
+      scroll: false,
+    });
+  }, [value]);
+
+  useEffect(() => {
+    setValue(typeOrder);
+  }, [typeOrder]);
   return (
     <>
       <div className="redirect-title-container">

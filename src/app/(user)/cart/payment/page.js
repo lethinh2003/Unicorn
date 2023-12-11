@@ -26,7 +26,7 @@ function Payment() {
         <h1>Thanh Toán</h1>
       </div>
 
-      <div className="flex flex-col-reverse gap-8 md:flex-row">
+      <div className="flex flex-col gap-8 md:flex-row">
         <Stack sx={{ width: { xs: "100%", md: "50%" } }} spacing={3}>
           <PaymentAddress />
           <PaymentNote />

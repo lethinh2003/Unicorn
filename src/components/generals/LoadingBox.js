@@ -4,6 +4,11 @@ import { Box, CircularProgress } from "@mui/material";
 import { Fragment } from "react";
 import { SpinningCircles } from "react-loading-icons";
 import { useSelector } from "react-redux";
+
+import { Backdrop, Typography } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Bars } from "react-loading-icons";
 export const ModalTitle = ({ children }) => {
   return (
     <Dialog.Title
@@ -18,8 +23,7 @@ export const ModalBody = ({ children }) => {
   return <Dialog.Description as="div">{children}</Dialog.Description>;
 };
 
-const LoadingBox = () => {
-  const { isLoading } = useSelector((state) => state.loadingBox);
+const LoadingBoxDesktop = ({ isLoading }) => {
   function closeModal() {
     return;
   }
@@ -80,6 +84,51 @@ const LoadingBox = () => {
   );
 };
 
+const LoadingBoxMobile = ({ isLoading }) => {
+  const BoxLoading = styled(Box)({
+    borderRadius: "20px",
+    backgroundColor: "#fff",
+    color: "black",
+    width: "200px",
+    height: "200px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  });
+  const LoadingContent = styled(Typography)({
+    fontWeight: "500",
+    opacity: "0.7",
+  });
+
+  return (
+    <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <BoxLoading>
+          <Bars fill="#38ac8f" width={50} height={50} speed={0.75} />
+          <LoadingContent>Đang tải...</LoadingContent>
+        </BoxLoading>
+      </Backdrop>
+    </>
+  );
+};
+
+const LoadingBox = () => {
+  const { isLoading } = useSelector((state) => state.loadingBox);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+  switch (matches) {
+    case true:
+      return <LoadingBoxDesktop isLoading={isLoading} />;
+    case false:
+      return <LoadingBoxMobile isLoading={isLoading} />;
+    default:
+      return;
+  }
+};
 export default LoadingBox;
 
 export const LoadingContent = () => {

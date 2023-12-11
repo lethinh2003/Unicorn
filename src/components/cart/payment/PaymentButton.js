@@ -49,6 +49,8 @@ function PaymentButton() {
       if (paymentMethod === ORDER_PAYMENT_METHODS.BANKING) {
         dispatch(setCurrentOrderPaymentPending({ order: result.data.data }));
         router.push(`${ROUTERS_PATH.PAYMENT}/online/${result.data.data._id}`);
+      } else {
+        router.push(`${ROUTERS_PATH.HOME_PAGE}`);
       }
     } catch (err) {
       toast.error(err.response?.data.message);

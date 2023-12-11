@@ -1,6 +1,6 @@
 "use client";
 
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import ROUTERS_PATH from "@/configs/config.routers.path";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -14,38 +14,52 @@ import {
   Modal,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
-
-const clothesNames = [
-  "Áo Polo",
-  "Quần Jeans",
-  "Áo Sơ Mi",
-  "Váy Đầm",
-  "Áo Hoodie",
-  "Áo Len",
-  "Quần Short",
-  "Áo Thun",
-  "Áo Khoác",
-  "Quần Dài",
-  "Áo Đen",
-  "Áo Caro",
-  "Quần Áo Thể Thao",
-  "Áo Dài",
-  "Quần Jogger",
-  "Áo Cộc Tay",
-  "Váy Ngủ",
-  "Quần Legging",
-  "Áo Crop Top",
-];
-
-let sortClothesNames = clothesNames.sort();
+import axios from "axios";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 function SearchBarHeader(props) {
   const { showSearchBar, setShowSearchBar } = props;
+  const timeRef = useRef();
   const [inputValue, setInputValue] = useState("");
+  const [dataSearch, setDataSearch] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearchProducts = async () => {
+    try {
+      const request = await axios.get(
+        `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/search?query=${inputValue}`
+      );
+      const data = request.data?.data || [];
+      setDataSearch(data);
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Có lỗi xảy ra");
+    }
+  };
+
+  useEffect(() => {
+    if (inputValue) {
+      setIsLoading(true);
+      // Prevent continuous call api
+      timeRef.current = setTimeout(() => {
+        handleSearchProducts().finally(() => {
+          setIsLoading(false);
+        });
+      }, 500);
+      return () => {
+        clearTimeout(timeRef.current);
+      };
+    } else {
+      clearTimeout(timeRef.current);
+      setIsLoading(false);
+      setDataSearch([]);
+    }
+  }, [inputValue]);
 
   const handleCloseSearchBar = () => {
     setShowSearchBar(false);
+    setInputValue("");
   };
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -55,21 +69,22 @@ function SearchBarHeader(props) {
     let filter = event;
     filter = filter.toLowerCase();
 
-    return sortClothesNames.map((item, i) => {
-      const text = item;
+    return dataSearch.map((item, i) => {
+      const text = item.product_name;
       const index = text.toLowerCase().indexOf(filter);
       if (index >= 0) {
         return (
-          <ListItem disablePadding key={i}>
-            <ListItemButton onClick={() => setInputValue(text)}>
-              <ListItemText>
-                {text.substring(0, index)}
-                <span style={{ color: "blue" }}>
-                  {text.substring(index, index + filter.length)}
-                </span>
-                {text.substring(index + filter.length)}
-              </ListItemText>
-              <ArrowRightAltIcon />
+          <ListItem disablePadding key={item._id}>
+            <ListItemButton>
+              <Link href={ROUTERS_PATH.HOME_PRODUCT + "/" + item._id}>
+                <ListItemText>
+                  {text.substring(0, index)}
+                  <span style={{ color: "blue" }}>
+                    {text.substring(index, index + filter.length)}
+                  </span>
+                  {text.substring(index + filter.length)}
+                </ListItemText>
+              </Link>
             </ListItemButton>
           </ListItem>
         );
@@ -106,6 +121,7 @@ function SearchBarHeader(props) {
         >
           <Container>
             <TextField
+              autoFocus
               sx={{ width: "100%" }}
               value={inputValue}
               placeholder="Tìm kiếm..."
@@ -162,8 +178,27 @@ function SearchBarHeader(props) {
               zIndex: (theme) => theme.zIndex.appBar,
             }}
           >
-            <List sx={{ width: "100%", padding: 0 }}>
-              {listAutoComplete(inputValue)}
+            <List sx={{ width: "100%", padding: 0, maxHeight: "40rem" }}>
+              {isLoading && (
+                <>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText>Đang tải...</ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                </>
+              )}
+              {!isLoading && dataSearch.length === 0 && (
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemText>Không tìm thấy sản phẩm nào..</ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              )}
+
+              {!isLoading &&
+                dataSearch.length !== 0 &&
+                listAutoComplete(inputValue)}
             </List>
           </Container>
         ) : null}

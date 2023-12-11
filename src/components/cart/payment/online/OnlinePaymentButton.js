@@ -90,12 +90,8 @@ function OnlinePaymentButton({
 
         vnp_Params["vnp_SecureHash"] = signed;
         vnpUrl += "?" + QueryString.stringify(vnp_Params, { encode: false });
-        let newWindow = window.open(vnpUrl, "_blank");
-
-        // Optionally, focus on the new window
-        if (newWindow) {
-          newWindow.focus();
-        }
+        // Redirect to payment window
+        router.push(vnpUrl);
       }
     } catch (err) {
       console.log(err);
