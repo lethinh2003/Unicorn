@@ -15,13 +15,14 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 function SearchBarHeader(props) {
   const { showSearchBar, setShowSearchBar } = props;
   const timeRef = useRef();
+  const router = useRouter();
   const [inputValue, setInputValue] = useState("");
   const [dataSearch, setDataSearch] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,16 +76,19 @@ function SearchBarHeader(props) {
       if (index >= 0) {
         return (
           <ListItem disablePadding key={item._id}>
-            <ListItemButton>
-              <Link href={ROUTERS_PATH.HOME_PRODUCT + "/" + item._id}>
-                <ListItemText>
-                  {text.substring(0, index)}
-                  <span style={{ color: "blue" }}>
-                    {text.substring(index, index + filter.length)}
-                  </span>
-                  {text.substring(index + filter.length)}
-                </ListItemText>
-              </Link>
+            <ListItemButton
+              onClick={() => {
+                router.push(ROUTERS_PATH.HOME_PRODUCT + "/" + item._id);
+                handleCloseSearchBar();
+              }}
+            >
+              <ListItemText>
+                {text.substring(0, index)}
+                <span style={{ color: "blue" }}>
+                  {text.substring(index, index + filter.length)}
+                </span>
+                {text.substring(index + filter.length)}
+              </ListItemText>
             </ListItemButton>
           </ListItem>
         );

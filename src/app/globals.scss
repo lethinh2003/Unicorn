@@ -94,7 +94,8 @@ input[type="number"] {
 }
 
 .forgot-password-container {
-  width: 80rem;
+  width: 100%;
+  max-width: 80rem;
   justify-content: center;
   position: relative;
   left: 50%;
@@ -109,7 +110,16 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 6rem 12rem;
+  @include md {
+    padding: 6rem 4rem;
+  }
+  @include lg {
+    padding: 6rem 6rem;
+  }
+  @include xl {
+    padding: 6rem 12rem;
+  }
+  padding: 6rem 2rem;
 }
 
 .register-right-panel {
@@ -144,6 +154,7 @@ input[type="number"] {
   width: 50%;
   background-image: url();
   background: url("../figmaa/loginBackground.jpg") top center/cover no-repeat;
+
   padding: 29rem 6.5rem 23rem 6.5rem;
   color: #fff;
   text-align: center;

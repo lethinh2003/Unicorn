@@ -32,7 +32,7 @@ function Cart() {
         <BreadcrumbBar data={DATA_BREADCRUMB} />
       </div>
       <Box
-        className="cart-container drop-shadow-xl"
+        className="cart-container shadow-xl"
         sx={{
           marginTop: "2rem",
           flexDirection: { xs: "column", md: "row" },

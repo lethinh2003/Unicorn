@@ -103,8 +103,8 @@ function Login() {
 
   return (
     <>
-      <div className="login-container">
-        <div className="login-left-panel">
+      <div className="login-container shadow-md">
+        <div className="login-left-panel w-full">
           <div className="login-left-panel-header">
             <span className="login-title">Sign in to Shop</span>
             <Link href="/">
@@ -214,6 +214,22 @@ function Login() {
             >
               Forgot your password?
             </Link>
+            <Link
+              className="block md:hidden"
+              href={ROUTERS_PATH.SIGN_UP}
+              style={{
+                borderBottom: "0.1rem solid #000",
+                marginBottom: "3rem",
+
+                padding: "0 0.4rem",
+                width: "50%",
+                position: "relative",
+                transform: "translateX(-50%)",
+                left: "50%",
+              }}
+            >
+              Register new account?
+            </Link>
             <Button
               type="submit"
               onClick={handleSubmit(onSubmitLogin)}
@@ -231,7 +247,8 @@ function Login() {
             </Button>
           </form>
         </div>
-        <div className="login-right-panel">
+
+        <div className="login-right-panel hidden md:block">
           <span>Hello, Friend!</span>
           <p>Enter your personal details and start journey with us</p>
           <Button

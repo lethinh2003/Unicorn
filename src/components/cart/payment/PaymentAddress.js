@@ -52,7 +52,7 @@ function PaymentAddress() {
 
   return (
     <Stack
-      className="divide-y divide-gray-200 drop-shadow-xl"
+      className="divide-y divide-gray-200 shadow-xl"
       sx={{
         backgroundColor: "#EEEEEE",
         borderRadius: "1rem",

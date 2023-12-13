@@ -1,5 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import Rating from "@mui/material/Rating";
+import Link from "next/link";
 import Review from "./Review";
 
 export const getOverviewRatingProduct = async ({ productId }) => {
@@ -28,6 +29,7 @@ export default async function ReviewPage({ productId }) {
     count_5,
     count_reviews,
   } = dataRatingOverview;
+
   const DATA_RATING = [
     {
       star: "5",
@@ -106,17 +108,19 @@ export default async function ReviewPage({ productId }) {
                   size="large"
                 />
               </Box>
-              <Button
-                sx={{
-                  backgroundColor: "white",
-                  color: "black",
-                  "&:hover": {
+              <Link href={`${productId}/reviews`}>
+                <Button
+                  sx={{
                     backgroundColor: "white",
-                  },
-                }}
-              >
-                Viết đánh giá
-              </Button>
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "white",
+                    },
+                  }}
+                >
+                  Viết đánh giá
+                </Button>
+              </Link>
             </Box>
 
             <div

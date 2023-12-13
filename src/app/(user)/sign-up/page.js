@@ -1,7 +1,6 @@
 import SignUp from "@/components/auth/sign-up/SignUp";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import isAuthenticated from "@/utils/checkAuthenticated";
-import { Container } from "@mui/material/";
 import { redirect } from "next/navigation";
 
 async function RegisterPage() {
@@ -10,11 +9,7 @@ async function RegisterPage() {
   if (isLogged) {
     redirect(ROUTERS_PATH.HOME_PAGE, "replace");
   }
-  return (
-    <Container>
-      <SignUp />
-    </Container>
-  );
+  return <SignUp />;
 }
 
 export default RegisterPage;

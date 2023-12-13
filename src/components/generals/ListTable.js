@@ -4,11 +4,12 @@ import {
   ChevronUpIcon,
 } from "@heroicons/react/24/solid";
 import { flexRender } from "@tanstack/react-table";
+import SimpleBar from "simplebar-react";
 
 const ListTable = ({ table }) => {
   return (
     <>
-      <div className="overflow-x-auto ">
+      <SimpleBar>
         <div className=" rounded-lg border  border-gray-200 drop-shadow-lg">
           <table className=" min-w-full divide-y divide-gray-200 overflow-hidden rounded-lg dark:divide-gray-700">
             <thead className="bg-[#38AC8F1A]">
@@ -74,7 +75,7 @@ const ListTable = ({ table }) => {
             </tbody>
           </table>
         </div>
-      </div>
+      </SimpleBar>
     </>
   );
 };

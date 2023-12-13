@@ -66,7 +66,7 @@ export default function ProfileNavigation() {
       }}
     >
       <Box
-        className="user-nav divide-y divide-gray-200 rounded-lg drop-shadow-xl"
+        className="user-nav divide-y divide-gray-200 rounded-lg shadow-xl"
         sx={{
           width: "100%",
         }}

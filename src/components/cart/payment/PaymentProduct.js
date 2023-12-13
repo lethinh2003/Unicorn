@@ -23,7 +23,7 @@ function PaymentProduct() {
 
   return (
     <Stack
-      className=" drop-shadow-xl "
+      className=" shadow-xl "
       sx={{
         backgroundColor: "#F7F7F7",
         // border: "0.1rem solid rgba(0, 0, 0, .125)",

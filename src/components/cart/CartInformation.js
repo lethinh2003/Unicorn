@@ -126,7 +126,7 @@ function CartInformation({ dataListCartItems }) {
             value={voucherApply?.code || "Mã giảm giá"}
             disabled
             disableUnderline={true}
-            className="cart-right-panel-voucher divide-y divide-gray-200 drop-shadow-xl"
+            className="cart-right-panel-voucher divide-y divide-gray-200 shadow-xl"
             placeholder="Mã giảm giá"
           />
           <Button

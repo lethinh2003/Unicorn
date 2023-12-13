@@ -98,7 +98,7 @@ function ForgotPassword() {
 
   return (
     <>
-      <div className="forgot-password-container">
+      <div className="forgot-password-container shadow-md">
         <div className="forgot-password-panel">
           <div className="forgot-password-panel-header">
             <span className="forgot-password-title">Forgot Password</span>

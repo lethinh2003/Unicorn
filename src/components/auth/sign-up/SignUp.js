@@ -104,8 +104,8 @@ function SignUp() {
 
   return (
     <Container>
-      <div className="register-container">
-        <div className="register-left-panel">
+      <div className="register-container shadow-md">
+        <div className="register-left-panel hidden md:block">
           <span>Hello, Friend!</span>
           <p>Enter your personal details and start journey with us</p>
           <Button
@@ -126,7 +126,7 @@ function SignUp() {
             Login
           </Button>
         </div>
-        <div className="register-right-panel">
+        <div className="register-right-panel w-full">
           <div className="register-right-panel-header">
             <span className="register-title">Create Account</span>
             <Link href="/">
@@ -292,6 +292,23 @@ function SignUp() {
               <ErrorMessage>
                 {errors.confirmPassword ? errors.confirmPassword.message : ""}
               </ErrorMessage>
+
+              <Link
+                className="block md:hidden"
+                href={ROUTERS_PATH.SIGN_IN}
+                style={{
+                  borderBottom: "0.1rem solid #000",
+                  margin: "3rem 0",
+
+                  padding: "0 0.4rem",
+                  width: "50%",
+                  position: "relative",
+                  transform: "translateX(-50%)",
+                  left: "50%",
+                }}
+              >
+                Login account?
+              </Link>
               <Button
                 type="submit"
                 onClick={handleSubmit(onSubmit)}

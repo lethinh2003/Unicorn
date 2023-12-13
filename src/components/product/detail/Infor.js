@@ -8,12 +8,12 @@ import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import FavoriteProduct from "./FavoriteProduct";
 
-import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { addViewedProduct } from "@/redux/actions/viewedProducts";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import BreadcrumbProduct from "./BreadcrumbProduct";
 import InforColor from "./InforColor";
 import InforImage from "./InforImage";
 import InforQuantity from "./InforQuantity";
@@ -153,37 +153,11 @@ export default function Infor({ dataProduct }) {
     return url.href;
   };
 
-  const DATA_BREADCRUMB = [
-    {
-      title: "Sản phẩm",
-      link: ROUTERS_PATH.HOME_PRODUCT,
-    },
-    {
-      title:
-        dataProduct.product_gender === "men"
-          ? "Nam"
-          : dataProduct.product_gender === "women"
-          ? "Nữ"
-          : "",
-      link: `${ROUTERS_PATH.HOME_PRODUCT}?gender=${dataProduct.product_gender}`,
-    },
-  ];
-
-  const NEW_DATA_BREADCRUMB = DATA_BREADCRUMB.concat(
-    dataProduct.product_categories.map((item) => ({
-      title: item.product_category_name,
-      link: `${ROUTERS_PATH.HOME_PRODUCT}?gender=${dataProduct.product_gender}&category=${item._id}`,
-    })),
-    {
-      title: dataProduct.product_name,
-    }
-  );
-
   return (
     <>
       {dataProduct && (
         <>
-          <BreadcrumbBar data={NEW_DATA_BREADCRUMB} />
+          <BreadcrumbProduct dataProduct={dataProduct} />
           <Box sx={{ width: "100%", margin: "0 auto", paddingTop: "4rem" }}>
             <Box
               sx={{
@@ -305,6 +279,9 @@ export default function Infor({ dataProduct }) {
                     Thêm vào giỏ hàng
                   </Button>
                   <Button
+                    onClick={() => {
+                      router.push(ROUTERS_PATH.CART);
+                    }}
                     className={!isAvailableProduct ? "disabled-button" : null}
                   >
                     Mua ngay
