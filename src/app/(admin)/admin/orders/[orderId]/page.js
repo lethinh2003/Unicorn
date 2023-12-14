@@ -1,93 +1,65 @@
 "use client";
-import * as React from "react";
-import UserForm from "@/components/admin/user/UserForm";
-import { TYPE_ADMIN_USERS_FORM } from "@/configs/config.admin.users";
-import axios from "axios";
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import useAuth from "@/customHooks/useAuth";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { LoadingContent } from "@/components/generals/LoadingBox";
+import PaymentAddress from "@/components/profile/order/information/PaymentAddress";
+import PaymentMethod from "@/components/profile/order/information/PaymentMethod";
+import PaymentNote from "@/components/profile/order/information/PaymentNote";
+import PaymentPriceInformation from "@/components/profile/order/information/PaymentPriceInformation";
+import PaymentProduct from "@/components/profile/order/information/PaymentProduct";
+import PaymentStatusEdit from "@/components/profile/order/information/PaymentStatusEdit";
+import PaymentStep from "@/components/profile/order/information/PaymentStep";
+import useGetInformationOrder from "@/customHooks/admin/useGetInformationOrder";
+import { Stack } from "@mui/material";
+function Home({ params }) {
+  const { orderId } = params;
 
-export default function EditUsers() {
-  const { session } = useAuth();
-  const { userId } = useParams();
-  const [userDetails, setUserDetails] = useState({
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    status: false,
-    gender: "",
-    role: "",
-    birthday: "",
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (session) {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${session?.user?.accessToken}`;
-      axios.defaults.headers.common["X-client-id"] = `${session?.user?._id}`;
-    } else {
-      axios.defaults.headers.common["Authorization"] = null;
-    }
-  }, [session]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (userId && session) {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/admins/users/${userId}`
-          );
-          const data = response?.data?.data;
-          console.log(data);
-
-          setUserDetails({
-            fullName: data?.name,
-            email: data?.email,
-            phoneNumber: data?.phone_number,
-            status: data?.status,
-            gender: data?.gender,
-            role: data?.role,
-            birthday: data?.birthday,
-          });
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log("Error fetching user details:", error.message);
-      }
-    };
-
-    fetchData();
-  }, [userId, session]);
-
-  // Nếu đang tải dữ liệu, có thể hiển thị một spinner hoặc thông báo tải
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          height: "100vh",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
+  const { data, isLoading, isError } = useGetInformationOrder({ orderId });
 
   return (
     <>
-      <UserForm
-        type={TYPE_ADMIN_USERS_FORM.EDIT}
-        userFormInformation={userDetails}
-      />
+      <div className="admin-header-title">
+        <h1 className="admin-header-title-text">Chi tiết đơn hàng</h1>
+      </div>
+      {isLoading && <LoadingContent />}
+      {!isLoading && data && (
+        <>
+          <PaymentStep
+            orderStatus={data.order_status}
+            paymentMethod={data.order_method}
+          />
+          <PaymentStatusEdit
+            orderStatus={data.order_status}
+            orderId={data._id}
+          />
+
+          <div className="flex flex-col gap-8 md:flex-row">
+            <Stack sx={{ width: { xs: "100%", md: "50%" } }} spacing={3}>
+              <PaymentAddress address={data.address} />
+              <PaymentNote note={data.note} />
+              <PaymentMethod paymentMethod={data.order_method} />
+            </Stack>
+            <Stack sx={{ width: { xs: "100%", md: "50%" } }} spacing={2}>
+              <Stack
+                className=" drop-shadow-xl "
+                sx={{
+                  backgroundColor: "#F7F7F7",
+                  borderRadius: "1rem",
+                  overflow: "hidden",
+                }}
+              >
+                <PaymentProduct listOrderItems={data.listOrderItems} />
+                <PaymentPriceInformation
+                  subTotal={data.subTotal}
+                  shippingCost={data.shippingCost}
+                  discountAmount={data.discountAmount}
+                  total={data.total}
+                />
+              </Stack>
+            </Stack>
+          </div>
+        </>
+      )}
     </>
   );
 }
+
+export default Home;

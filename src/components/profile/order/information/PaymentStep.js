@@ -165,7 +165,7 @@ function PaymentStep({ orderStatus, paymentMethod }) {
       default:
         break;
     }
-  }, []);
+  }, [orderStatus]);
   const [completed, setCompleted] = useState({});
 
   return (

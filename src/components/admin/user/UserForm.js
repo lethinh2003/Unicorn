@@ -27,6 +27,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
@@ -57,6 +58,8 @@ export default function UserForm({ type, userFormInformation }) {
   const { userId } = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (userFormInformation) {
@@ -179,11 +182,13 @@ export default function UserForm({ type, userFormInformation }) {
           }
         );
       }
-      toast.success(result?.data?.message);
 
-      console.log(data);
+      queryClient.invalidateQueries({
+        queryKey: ["get-list-users", "admin"],
+        refetchInactive: true,
+      });
+      toast.success(result?.data?.message);
     } catch (err) {
-      console.log(data);
       toast.error(`${err.response?.data?.message}`);
     } finally {
       dispatch(setIsLoading(false));

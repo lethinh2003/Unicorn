@@ -94,6 +94,9 @@ export default function FormReview({ dataProduct }) {
       accept: {
         "image/png": [".png"],
         "image/jpeg": [".jpg", ".jpeg"],
+        "image/webp": [".webp"],
+        "image/heic": [],
+        "image/jfif": [],
       },
       maxSize: MAX_SIZE_FILE,
       onDropAccepted,
@@ -471,7 +474,7 @@ export default function FormReview({ dataProduct }) {
           sx={{ width: "100%", margin: "2rem 0", padding: "1rem 0" }}
           className="drop-shadow-lg"
         >
-          XÁC NHẬN THÔNG TIN
+          ĐÁNH GIÁ
         </Button>
       </div>
     </>
