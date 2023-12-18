@@ -4,15 +4,12 @@ import { getServerSession } from "next-auth/next";
 const isAuthenticated = async () => {
   try {
     const session = await getServerSession(authOptions);
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        resolve(!!session);
-      }, 0)
-    );
+
+    return !!session;
   } catch (err) {
     console.log(err);
+    return false;
   }
-  return false;
 };
 
 export default isAuthenticated;

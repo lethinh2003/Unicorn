@@ -1,6 +1,7 @@
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import AllProducts from "@/components/product/AllProducts";
 import Filter from "@/components/product/Flter";
+import { PRODUCT_GENDERS } from "@/configs/config.products";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import { convertProductGender } from "@/utils/convertGender";
 import { Box } from "@mui/material";
@@ -40,9 +41,17 @@ export async function generateMetadata({ params, searchParams }, parent) {
   const { gender, category, color, size } = searchParams;
 
   const convertGender = convertProductGender(gender).toLowerCase();
+  let listImages = ["https://i.imgur.com/mUFkUpf.png"];
+  if (gender === PRODUCT_GENDERS.WOMEN) {
+    listImages = ["https://i.imgur.com/hkDs6DF.png"];
+  }
+  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title: "Danh sách sản phẩm cho " + convertGender,
+    openGraph: {
+      images: [...listImages, ...previousImages],
+    },
   };
 }
 

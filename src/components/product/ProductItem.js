@@ -72,10 +72,9 @@ export const ProductItem = ({
 
           <Image
             src={mainImage}
-            loader={(props) => imageLoader({ ...props })}
             alt={product.product_name}
-            width={320}
-            height={320}
+            width={384}
+            height={384}
             className="product-item-image rounded-lg"
             loading="lazy"
           />
@@ -188,6 +187,7 @@ export const ProductItem = ({
 const imageLoader = ({ src, width, quality }) => {
   const url = new URL(src);
   url.searchParams.set("width", width.toString());
+  console.log(url);
   return url.href;
 };
 

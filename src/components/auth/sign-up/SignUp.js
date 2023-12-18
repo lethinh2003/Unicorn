@@ -3,7 +3,6 @@ import ErrorMessage from "@/components/generals/ErrorMessage";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import USER_MESSAGES from "@/configs/config.users.messages";
-import useAuth from "@/customHooks/useAuth";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -23,24 +22,17 @@ import {
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
 function SignUp() {
-  const { isAuthenticated } = useAuth();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    // If user is authenticated then redirect to home page
-    if (isAuthenticated) {
-      router.push(ROUTERS_PATH.HOME_PAGE);
-    }
-  }, [isAuthenticated]);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()

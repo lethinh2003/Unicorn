@@ -3,7 +3,6 @@ import ErrorMessage from "@/components/generals/ErrorMessage";
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import USER_ATTRIBUTES from "@/configs/config.users.attributes";
 import USER_MESSAGES from "@/configs/config.users.messages";
-import useAuth from "@/customHooks/useAuth";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -19,29 +18,21 @@ import {
   InputLabel,
   OutlinedInput,
 } from "@mui/material/";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-function Login() {
-  const { data: session, status } = useSession();
-
-  const { isAuthenticated } = useAuth();
+function Login({ searchParams }) {
+  const { callbackUrl } = searchParams;
   const dispatch = useDispatch();
 
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
-  useEffect(() => {
-    // If user is authenticated then redirect to home page
-    if (isAuthenticated) {
-      router.push(ROUTERS_PATH.HOME_PAGE);
-    }
-  }, [isAuthenticated]);
 
   // form validation rules
   const validationSchema = Yup.object().shape({
@@ -73,9 +64,6 @@ function Login() {
 
   const onSubmitLogin = async (data) => {
     try {
-      if (status === "authenticated") {
-        throw new Error(USER_MESSAGES.USER_AUTHENTICATED);
-      }
       dispatch(setIsLoading(true));
       const { email, password } = data;
       const loginAccount = await signIn("login", {
@@ -88,7 +76,8 @@ function Login() {
       }
 
       toast.success(loginAccount?.message || "Đăng nhập thành công");
-      router.push(ROUTERS_PATH.HOME_PAGE);
+      const linkDirect = callbackUrl ? callbackUrl : "/";
+      window.location.replace(linkDirect);
     } catch (err) {
       toast.error(err?.message);
     } finally {

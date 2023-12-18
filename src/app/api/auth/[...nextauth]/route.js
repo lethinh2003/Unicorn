@@ -1,7 +1,6 @@
 import axios from "axios";
+import ms from "ms";
 
-import clientPromise from "@/lib/Mongodb";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -35,7 +34,6 @@ async function refreshAccessToken(tokenObject) {
 }
 
 export const authOptions = {
-  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       id: "login",
@@ -85,16 +83,23 @@ export const authOptions = {
           token.expireAccessToken = expireAccessToken;
           token.refreshToken = refreshToken;
         }
+
         const shouldRefreshTime = Math.floor(
           (token.expireAccessToken - Date.now()) / 1000
         );
-        console.log(shouldRefreshTime);
+
+        // should refresh token if time remain < 10% access token expired time
+        const BASE_TIME = Math.floor(
+          (ms(process.env.NEXT_PUBLIC_JWT_ACCESSTOKEN_EXPIRED || "10 days") /
+            1000) *
+            (10 / 100)
+        );
+        console.log({ shouldRefreshTime, BASE_TIME });
         // If the token is still valid, just return it.
-        if (shouldRefreshTime > 60) {
+        if (shouldRefreshTime > BASE_TIME) {
           return Promise.resolve(token);
         }
         token = await refreshAccessToken(token);
-
         return Promise.resolve(token);
       } catch (err) {
         return {
