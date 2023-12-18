@@ -1,5 +1,6 @@
 "use client";
 import useAuth from "@/customHooks/useAuth";
+import { fetchNotifications } from "@/redux/actions/notifications";
 import { BellAlertIcon } from "@heroicons/react/20/solid";
 import {
   MapPinIcon,
@@ -7,14 +8,15 @@ import {
   TicketIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
-import { Box, Button } from "@mui/material";
+import { Badge, Box, Button } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const IconArray = [
   {
@@ -50,12 +52,37 @@ const IconArray = [
 ];
 
 export default function ProfileNavigation() {
+  const [listItem, setListItem] = useState(IconArray);
   const [view, setView] = useState("list");
+  const dispatch = useDispatch();
+  const { numberNotificationsUnRead } = useSelector(
+    (state) => state.notifications
+  );
   const { session } = useAuth();
   const pathName = usePathname();
   const handleClickSignOut = async () => {
     signOut();
   };
+
+  useEffect(() => {
+    if (session) {
+      dispatch(fetchNotifications());
+    }
+  }, [session]);
+
+  useEffect(() => {
+    const coppyListItem = [...listItem];
+    const findItemNotification = coppyListItem.find(
+      (item) => item.path === "/profile/notifies"
+    );
+    findItemNotification.label = (
+      <Badge color="primary" badgeContent={numberNotificationsUnRead} max={999}>
+        Thông báo
+      </Badge>
+    );
+
+    setListItem(coppyListItem);
+  }, [numberNotificationsUnRead]);
 
   return (
     <Box
@@ -77,7 +104,7 @@ export default function ProfileNavigation() {
             alt="me"
             width="100"
             height="100"
-            className="user-avt divide-y divide-gray-200 rounded-lg drop-shadow-xl"
+            className="user-avt divide-y divide-gray-200 rounded-lg shadow-xl"
           ></Image>
           <span className="user-name font-medium">{session?.user?.email}</span>
           <Button
@@ -99,7 +126,7 @@ export default function ProfileNavigation() {
             exclusive
             sx={{ width: "100%" }}
           >
-            {IconArray.map((toggle, index) => (
+            {listItem.map((toggle, index) => (
               <Link href={toggle.path} key={index}>
                 <ToggleButton
                   value={toggle.value}

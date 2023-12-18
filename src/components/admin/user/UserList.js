@@ -1,3 +1,4 @@
+"use client";
 import ListTablePagination from "@/components/generals/ListTablePagination";
 import { LoadingContent } from "@/components/generals/LoadingBox";
 import useGetListUsers from "@/customHooks/admin/useGetListUsers";
@@ -16,8 +17,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ListTable from "../../generals/ListTable";
 import SearchListBar from "../generals/SearchListBar";
 import RemoveUserButton from "./RemoveUserButton";
@@ -34,10 +37,16 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Return if the item should be filtered in/out
   return itemRank.passed;
 };
-
+const PAGE = {
+  PAGE_SIZE: 10,
+  PAGE_INDEX: 0,
+};
 const UserList = () => {
   const [globalFilter, setGlobalFilter] = useState("");
-
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pageSizeParam = searchParams.get("pageSize") * 1 || PAGE.PAGE_SIZE;
+  const pageIndexParam = searchParams.get("pageIndex") * 1 || PAGE.PAGE_INDEX;
   const columns = useMemo(
     () => [
       {
@@ -101,8 +110,8 @@ const UserList = () => {
   );
 
   const [{ pageIndex, pageSize }, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: pageIndexParam,
+    pageSize: pageSizeParam,
   });
   const defaultData = useMemo(() => [], []);
 
@@ -113,6 +122,13 @@ const UserList = () => {
     }),
     [pageIndex, pageSize]
   );
+
+  useEffect(() => {
+    router.replace(`?pageIndex=${pageIndex}&pageSize=${pageSize}`, {
+      scroll: false,
+    });
+  }, [pageSize, pageIndex]);
+
   const { data, isLoading, isError, error, isFetching, refetch } =
     useGetListUsers({
       pageIndex,
@@ -139,7 +155,15 @@ const UserList = () => {
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
   });
+  const tableContainerRef = useRef(null);
+  const { rows } = table.getRowModel();
+  const rowVirtualizer = useVirtualizer({
+    getScrollElement: () => tableContainerRef.current,
+    count: rows.length,
 
+    estimateSize: () => 10,
+  });
+  const virtualRows = rowVirtualizer.getVirtualItems();
   return (
     <>
       {isLoading && <LoadingContent />}
@@ -150,7 +174,12 @@ const UserList = () => {
             onChange={(e) => setGlobalFilter(String(e.target.value))}
           />
 
-          <ListTable table={table} />
+          <ListTable
+            table={table}
+            isVirtual={true}
+            virtualRows={virtualRows}
+            tableContainerRef={tableContainerRef}
+          />
           <ListTablePagination
             table={table}
             allResults={data?.metadata?.allResults || 0}

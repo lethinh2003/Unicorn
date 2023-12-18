@@ -47,23 +47,15 @@ const navigationContents = [
         path: "/admin/categories/list",
       },
       {
-        titile: "Thêm",
+        titile: "Thêm mới",
         path: "/admin/categories/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/categories/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/categories/edit",
       },
     ],
   },
   {
     titile: "Đơn hàng",
     icon: <EventNoteOutlinedIcon />,
-    path: "/admin/orders/list",
+    path: "/admin/orders",
     listItem: [
       {
         titile: "Danh sách",
@@ -74,109 +66,43 @@ const navigationContents = [
   {
     titile: "Sản phẩm",
     icon: <Inventory2OutlinedIcon />,
-    path: "/admin/products/list",
+    path: "/admin/products",
     listItem: [
       {
         titile: "Danh sách",
         path: "/admin/products/list",
       },
       {
-        titile: "Thêm",
+        titile: "Thêm mới",
         path: "/admin/products/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/products/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/products/edit",
       },
     ],
   },
   {
     titile: "Mã giảm giá",
     icon: <ConfirmationNumberOutlinedIcon />,
-    path: "/admin/vouchers/list",
+    path: "/admin/vouchers",
     listItem: [
       {
-        titile: "Danh sách",
-        path: "/admin/vouchers/list",
-      },
-      {
-        titile: "Thêm",
+        titile: "Thêm mới",
         path: "/admin/vouchers/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/vouchers/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/vouchers/edit",
       },
     ],
   },
   {
     titile: "Thông báo",
     icon: <NotificationsActiveOutlinedIcon />,
-    path: "/admin/notifications/list",
-    listItem: [
-      {
-        titile: "Danh sách",
-        path: "/admin/notifications/list",
-      },
-      {
-        titile: "Thêm",
-        path: "/admin/notifications/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/notifications/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/notifications/edit",
-      },
-    ],
+    path: "#",
   },
   {
     titile: "Đánh giá",
     icon: <StarOutlineOutlinedIcon />,
-    path: "/admin/review/list",
-    listItem: [
-      {
-        titile: "Danh sách",
-        path: "/admin/review/list",
-      },
-      {
-        titile: "Thêm",
-        path: "/admin/review/add",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/review/view",
-      },
-      {
-        titile: "Sửa",
-        path: "/admin/review/edit",
-      },
-    ],
+    path: "#",
   },
   {
     titile: "Hỗ trợ",
     icon: <SupportAgentOutlinedIcon />,
-    path: "/admin/support/list",
-    listItem: [
-      {
-        titile: "Danh sách",
-        path: "/admin/support/list",
-      },
-      {
-        titile: "Xem",
-        path: "/admin/support/view",
-      },
-    ],
+    path: "#",
   },
 ];
 

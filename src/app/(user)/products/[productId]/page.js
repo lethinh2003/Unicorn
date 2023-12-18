@@ -46,9 +46,8 @@ export default function Home({ params, searchParams }) {
 
 export async function generateMetadata({ params, searchParams }, parent) {
   const { productId } = params;
-  // fetch data
+
   const dataProduct = await getDetailInformationProduct({ productId });
-  // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || [];
 
   return {

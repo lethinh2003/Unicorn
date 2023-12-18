@@ -1,5 +1,6 @@
 "use client";
 import { ConvertMoney } from "@/utils/convertMoney";
+import { convertOrderDeliveryStatus } from "@/utils/convertOrders";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -104,27 +105,32 @@ export default function OrderItem({ item }) {
                 flexDirection: { xs: "column", md: "row" },
               }}
             >
-              <Typography
-                sx={{
-                  color: (theme) => theme.palette.text.secondary,
-                  fontWeight: 500,
-                  fontSize: "1.7rem",
-                  alignSelf: "flex-start",
-                }}
-              >
-                Số lượng {item.order_items?.[0]?.data?.quantities || 0}
-              </Typography>
+              <div className="flex w-full flex-1 flex-col gap-4">
+                <Typography
+                  sx={{
+                    color: (theme) => theme.palette.text.secondary,
+                    fontWeight: 500,
+                    fontSize: "1.7rem",
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  Số lượng {item.order_items?.[0]?.data?.quantities || 0}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: (theme) => theme.palette.text.secondary,
+                    fontWeight: 500,
+                    fontSize: "1.7rem",
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  {convertOrderDeliveryStatus(item.order_status)}
+                </Typography>
+              </div>
               <OrderItemButton item={item} />
             </Box>
           </Box>
         </div>
-        {item.order_items.length > 1 && (
-          <div className="text-center">
-            <Link href={`/orders/${item._id}`} className="hover:underline">
-              Xem thêm sản phẩm
-            </Link>
-          </div>
-        )}
       </Box>
     </>
   );

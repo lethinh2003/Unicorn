@@ -1,8 +1,12 @@
-"use client";
+
 import UserList from "@/components/admin/user/UserList";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Button } from "@mui/material";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Danh sách tài khoản",
+};
 
 export default function AddUsers() {
   return (

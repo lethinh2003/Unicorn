@@ -1,8 +1,6 @@
+import { redirect } from "next/navigation";
+
 const AdminPage = () => {
-  return (
-    <>
-      <h1>Hello Admin Page</h1>
-    </>
-  );
+  redirect("/admin/overviews");
 };
 export default AdminPage;

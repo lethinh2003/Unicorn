@@ -1,6 +1,7 @@
-"use client";
 import OrderList from "@/components/admin/order/OrderList";
-
+export const metadata = {
+  title: "Danh sách đơn hàng",
+};
 export default function ListOrders() {
   return (
     <>

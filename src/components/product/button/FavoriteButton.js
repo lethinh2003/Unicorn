@@ -47,6 +47,7 @@ const FavoriteButton = ({ productId, isFavorited, ...props }) => {
       }
       await queryClient.invalidateQueries({
         queryKey: ["get-list-favorite-products"],
+        refetchInactive: true,
       });
       if (type === TYPE_FAVORITE.LIKE) {
         dispatch(

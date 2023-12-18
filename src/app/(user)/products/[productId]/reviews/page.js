@@ -2,6 +2,17 @@ import { getDetailInformationProduct } from "@/components/product/detail/InforPa
 import BreadcrumbProductReview from "@/components/product/detail/review/BreadcrumbProductReview";
 import FormReview from "@/components/product/detail/review/FormReview";
 import Image from "next/image";
+
+export async function generateMetadata({ params, searchParams }, parent) {
+  const { productId } = params;
+
+  const dataProduct = await getDetailInformationProduct({ productId });
+
+  return {
+    title: `Đánh giá ${dataProduct.product_name}`,
+  };
+}
+
 const Review = async ({ params }) => {
   const { productId } = params;
   const dataProduct = await getDetailInformationProduct({ productId });

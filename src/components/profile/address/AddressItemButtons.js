@@ -46,6 +46,10 @@ const AddressItemButtons = ({ address }) => {
   };
   const handleDeleteAddress = async ({}) => {
     try {
+      if (address.default) {
+        toast.error("Không thể xóa địa chỉ mặc định");
+        return;
+      }
       dispatch(setIsLoading(true));
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users/addresses/delete`,

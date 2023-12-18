@@ -1,26 +1,12 @@
-"use client";
-import LoadMoreButton from "@/components/button/LoadMoreButton";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
-import FavoriteItem, {
-  FavoriteItemLoading,
-} from "@/components/product/favorite/FavoriteItem";
+import ListFavorite from "@/components/product/favorite/ListFavorite";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useGetListFavoriteProducts from "@/customHooks/useGetListFavoriteProducts";
-import { Box, Stack } from "@mui/material";
-import { Fragment } from "react";
-export default function FavoriteProducts() {
-  const {
-    countAllProducts,
-    data: dataProducts,
-    isLoading: isLoadingQuery,
-    isFetching,
-    isError: isErrorQuery,
-    error,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useGetListFavoriteProducts();
+import { Box } from "@mui/material";
+export const metadata = {
+  title: "Danh sách sản phẩm yêu thích",
+};
 
+export default function FavoriteProducts() {
   const DATA_BREADCRUMB = [
     {
       title: "Sản phẩm",
@@ -41,37 +27,7 @@ export default function FavoriteProducts() {
           </div>
         </div>
 
-        <div className="favorite-content">
-          <div className="favorite-content-header">
-            <span className="favorite-products-quantity">
-              {countAllProducts !== 0
-                ? countAllProducts + " sản phẩm"
-                : "Không có sản phẩm nào"}
-            </span>
-          </div>
-          <Stack className="favorite-producs">
-            {isLoadingQuery && !isFetchingNextPage && (
-              <>
-                {Array.from({ length: 5 }).map((_item, i) => (
-                  <FavoriteItemLoading key={i} />
-                ))}
-              </>
-            )}
-            {dataProducts?.pages.map((group, i) => (
-              <Fragment key={i}>
-                {group.data.map((item) => (
-                  <FavoriteItem key={item._id} product={item.product_id} />
-                ))}
-              </Fragment>
-            ))}
-          </Stack>
-        </div>
-        {hasNextPage && (
-          <LoadMoreButton
-            isLoading={isFetchingNextPage}
-            onClick={fetchNextPage}
-          />
-        )}
+        <ListFavorite />
       </Box>
     </div>
   );

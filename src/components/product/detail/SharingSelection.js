@@ -2,14 +2,21 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import FacebookIcon from "@mui/icons-material/Facebook";
+
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Box } from "@mui/material";
+import { usePathname } from "next/navigation";
+
+import { FacebookShareButton, TwitterShareButton } from "react-share";
 const SHARING_PLATFORM = [
   { title: "Facebook", icon: <FacebookIcon /> },
   { title: "Twitter", icon: <TwitterIcon /> },
 ];
 
 export default function SharingSelection({ item }) {
+  const pathname = usePathname();
+
+  console.log(process.env.NEXTAUTH_URL + pathname);
   return (
     <div className="w-full pt-[1.5rem]">
       <div className="w-full rounded-2xl bg-white p-2">
@@ -48,16 +55,24 @@ export default function SharingSelection({ item }) {
                         gap: "1rem",
                       }}
                     >
-                      <FacebookIcon
-                        sx={{
-                          fontSize: "3rem",
-                        }}
-                      />
-                      <TwitterIcon
-                        sx={{
-                          fontSize: "3rem",
-                        }}
-                      />
+                      <FacebookShareButton
+                        url={process.env.NEXTAUTH_URL + pathname}
+                      >
+                        <FacebookIcon
+                          sx={{
+                            fontSize: "3rem",
+                          }}
+                        />
+                      </FacebookShareButton>
+                      <TwitterShareButton
+                        url={process.env.NEXTAUTH_URL + pathname}
+                      >
+                        <TwitterIcon
+                          sx={{
+                            fontSize: "3rem",
+                          }}
+                        />
+                      </TwitterShareButton>
                     </Box>
                   </Box>
                 </Disclosure.Panel>

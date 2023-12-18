@@ -2,14 +2,11 @@ import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import AllProducts from "@/components/product/AllProducts";
 import Filter from "@/components/product/Flter";
 import ROUTERS_PATH from "@/configs/config.routers.path";
+import { convertProductGender } from "@/utils/convertGender";
 import { Box } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-export const metadata = {
-  title: "Danh sách sản phẩm",
-  description: "Danh sách sản phẩm",
-};
 
 const getDataFilter = async ({ gender }) => {
   try {
@@ -37,6 +34,17 @@ const getDataFilter = async ({ gender }) => {
     throw err;
   }
 };
+
+export async function generateMetadata({ params, searchParams }, parent) {
+  // read route params
+  const { gender, category, color, size } = searchParams;
+
+  const convertGender = convertProductGender(gender).toLowerCase();
+
+  return {
+    title: "Danh sách sản phẩm cho " + convertGender,
+  };
+}
 
 export default async function ProductsPage({ searchParams }) {
   const { gender, category, color, size } = searchParams;

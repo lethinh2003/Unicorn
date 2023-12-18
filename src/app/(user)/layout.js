@@ -39,6 +39,51 @@ export const metadata = {
   icons: {
     icon: "/logo.png",
   },
+  openGraph: {
+    title: "Quần áo thời trang online | Unicorn",
+    description: "Quần áo thời trang online",
+    siteName: "Quần áo thời trang online | Unicorn",
+    images: [
+      {
+        url: "https://i.imgur.com/NGfdvx3.jpg",
+        width: 500,
+        height: 800,
+        alt: "Trang chủ Unicorn",
+      },
+      {
+        url: "https://i.imgur.com/hkDs6DF.png",
+        width: 500,
+        height: 800,
+        alt: "Danh sách sản phẩm | Unicorn",
+      },
+      {
+        url: "https://i.imgur.com/IDELyHr.png",
+        width: 500,
+        height: 800,
+        alt: "Chi tiết sản phẩm | Unicorn",
+      },
+      {
+        url: "https://i.imgur.com/H4bai3H.png",
+        width: 500,
+        height: 800,
+        alt: "Đăng nhập tài khoản | Unicorn",
+      },
+      {
+        url: "https://i.imgur.com/Is9cu6a.png",
+        width: 500,
+        height: 800,
+        alt: "Đăng ký tài khoản | Unicorn",
+      },
+      {
+        url: "https://i.imgur.com/eQROz30.png",
+        width: 500,
+        height: 800,
+        alt: "Quên mật khẩu | Unicorn",
+      },
+    ],
+    locale: "vi_VN",
+    type: "website",
+  },
 };
 
 export default async function UserLayout({ children }) {

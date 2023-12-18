@@ -23,7 +23,11 @@ import { useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
-export default function AddressForm({ addressInformation, type }) {
+export default function AddressForm({
+  addressInformation,
+  type,
+  setOpenListAvailableAddress,
+}) {
   const {
     fullName,
     phoneNumber,
@@ -115,8 +119,11 @@ export default function AddressForm({ addressInformation, type }) {
           }
         );
         reset();
+        if (setOpenListAvailableAddress) {
+          setOpenListAvailableAddress();
+        }
       }
-      queryClient.refetchQueries({
+      await queryClient.refetchQueries({
         queryKey: ["get-list-addresses-user"],
       });
       toast.success(result?.data?.message);

@@ -50,6 +50,10 @@ function PaymentAddress() {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const setOpenListAvailableAddress = () => {
+    setExpanded("available_address");
+  };
+
   return (
     <Stack
       className="divide-y divide-gray-200 shadow-xl"
@@ -107,7 +111,9 @@ function PaymentAddress() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <PaymentAddAddress />
+          <PaymentAddAddress
+            setOpenListAvailableAddress={setOpenListAvailableAddress}
+          />
         </AccordionDetails>
       </Accordion>
     </Stack>

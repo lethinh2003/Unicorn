@@ -7,10 +7,15 @@ import "react-toastify/dist/ReactToastify.css";
 import "simplebar-react/dist/simplebar.min.css";
 import "./global_taiwind.css";
 import "./globals.scss";
-
+const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 export const metadata = {
   title: "Unicorn",
   description: "Unicorn",
+  viewport,
 };
 
 export default async function RootLayout({ children }) {

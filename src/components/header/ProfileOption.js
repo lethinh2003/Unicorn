@@ -1,40 +1,68 @@
 import ROUTERS_PATH from "@/configs/config.routers.path";
 import useAuth from "@/customHooks/useAuth";
+import { fetchNotifications } from "@/redux/actions/notifications";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { Box, Menu, MenuItem } from "@mui/material";
+import { Badge, Box, Menu, MenuItem } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const settings = [
   {
     title: "Thông báo",
+    key: "notification",
     link: ROUTERS_PATH.PROFILE_NOTIFICATION,
   },
   {
     title: "Thông tin tài khoản",
+    key: "profile",
     link: ROUTERS_PATH.PROFILE,
   },
   {
     title: "Mã giảm giá",
+    key: "voucher",
     link: ROUTERS_PATH.PROFILE_VOUCHER,
   },
   {
     title: "Lịch sử đơn hàng",
+    key: "order",
     link: ROUTERS_PATH.PROFILE_ORDER,
   },
 ];
 
 export default function BasicPopover() {
+  const [listItem, setListItem] = React.useState(settings);
   const { isAuthenticated, session } = useAuth();
-
+  const dispatch = useDispatch();
+  const { numberNotificationsUnRead } = useSelector(
+    (state) => state.notifications
+  );
   const router = useRouter();
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  React.useEffect(() => {
+    if (session) {
+      dispatch(fetchNotifications());
+    }
+  }, [session]);
+  React.useEffect(() => {
+    const coppyListItem = [...listItem];
+    const findItemNotification = coppyListItem.find(
+      (item) => item.key === "notification"
+    );
+    findItemNotification.title = (
+      <Badge color="primary" badgeContent={numberNotificationsUnRead} max={999}>
+        Thông báo
+      </Badge>
+    );
+
+    setListItem(coppyListItem);
+  }, [numberNotificationsUnRead]);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -53,18 +81,24 @@ export default function BasicPopover() {
   return (
     <Box>
       {isAuthenticated ? (
-        <Image
-          onClick={handleOpenUserMenu}
-          src="/icons8-user-48.png"
-          alt="me"
-          width="25"
-          height="25"
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: "50%",
-            cursor: "pointer",
-          }}
-        />
+        <Badge
+          color="primary"
+          variant="dot"
+          invisible={numberNotificationsUnRead === 0}
+        >
+          <Image
+            onClick={handleOpenUserMenu}
+            src="/icons8-user-48.png"
+            alt="me"
+            width="25"
+            height="25"
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "50%",
+              cursor: "pointer",
+            }}
+          />
+        </Badge>
       ) : (
         <PersonOutlineOutlinedIcon
           onClick={handleClickProfileButton}
@@ -116,7 +150,7 @@ export default function BasicPopover() {
               Chào {session?.user.email}
             </Typography>
           </MenuItem>
-          {settings.map((setting) => (
+          {listItem.map((setting) => (
             <MenuItem
               key={setting.title}
               onClick={() => {

@@ -5,10 +5,20 @@ import { Collapse, Stack } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function SidebarItem({ item, openItems, toggleItem, index }) {
   const pathName = usePathname();
+  const router = useRouter();
+
+  const handleClickSidebarItem = () => {
+    const hasChild = item.listItem;
+    if (hasChild) {
+      toggleItem(index);
+    } else {
+      router.push(item.path);
+    }
+  };
 
   return (
     <>
@@ -20,7 +30,7 @@ export default function SidebarItem({ item, openItems, toggleItem, index }) {
           className={`admin-layout-nav-button !justify-between ${
             pathName.includes(item.path) ?? "active"
           }`}
-          onClick={() => toggleItem(index)}
+          onClick={handleClickSidebarItem}
           sx={{
             width: "100%",
             border: "none",

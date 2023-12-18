@@ -1,18 +1,11 @@
-"use client";
-import CartInformation from "@/components/cart/CartInformation";
-import ListCartItems from "@/components/cart/ListCartItems";
+import CartPage from "@/components/cart/CartPage";
 import BreadcrumbBar from "@/components/generals/BreadcrumbBar";
 import ROUTERS_PATH from "@/configs/config.routers.path";
-import useGetListCart from "@/customHooks/useGetListCart";
-import { Box, Container } from "@mui/material";
-
+import { Container } from "@mui/material";
+export const metadata = {
+  title: "Giỏ hàng",
+};
 function Cart() {
-  const {
-    session,
-    data: dataListCartItems,
-    isLoading: isLoadingGetListCartItems,
-  } = useGetListCart();
-
   const DATA_BREADCRUMB = [
     {
       title: "Giỏ hàng",
@@ -31,21 +24,7 @@ function Cart() {
       >
         <BreadcrumbBar data={DATA_BREADCRUMB} />
       </div>
-      <Box
-        className="cart-container shadow-xl"
-        sx={{
-          marginTop: "2rem",
-          flexDirection: { xs: "column", md: "row" },
-          height: "auto",
-        }}
-      >
-        <ListCartItems
-          dataListCartItems={dataListCartItems}
-          session={session}
-          isLoadingGetListCartItems={isLoadingGetListCartItems}
-        />
-        <CartInformation dataListCartItems={dataListCartItems} />
-      </Box>
+      <CartPage />
     </Container>
   );
 }

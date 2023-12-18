@@ -602,7 +602,7 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2.7rem;
+  gap: 1rem;
 }
 
 .notifies-title {
@@ -1488,7 +1488,6 @@ text {
 }
 //////////////////////////////add products///////////////////
 .add-product-container {
-  margin-left: -1rem;
   background-color: #fff;
 }
 .add-product-image {
@@ -1496,7 +1495,6 @@ text {
   text-align: center;
 }
 .add-product-infomation {
-  padding: 0 5rem;
 }
 .button-upload-image {
   align-items: center !important;
@@ -1608,4 +1606,89 @@ text {
 
 .nike.active {
   z-index: 1;
+}
+////////////////////////Admin incom pages////////////////
+.icome-container {
+  margin-top: 1rem;
+}
+.general-infomation {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 2rem 0;
+}
+.income-chart {
+  background-color: #fff;
+  padding: 2rem 0;
+}
+.income-text {
+  color: #000;
+  text-align: right;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 4rem;
+}
+.income-total-text {
+  color: #38ac8f;
+  font-size: 2.2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 4rem;
+}
+.total-oders {
+  background-image: url("/total-order.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  height: 20rem;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+.visited-customers {
+  background-image: url("/visited-customer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 26rem;
+  height: 20rem;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+.week-income {
+  background-image: url("/week-sale.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 26rem;
+  height: 20rem;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+.general-value {
+  color: #fff;
+  font-size: 3rem;
+  margin-right: 10rem;
+  padding: 2rem;
+}
+.income-line-chart-header {
+  display: flex;
+  justify-content: space-between;
+}
+.income-filter-button {
+  font-size: 2rem !important;
+  background-color: transparent !important;
+  color: #000 !important;
+  border: 1px solid #6c6c6c !important;
+  border-radius: 1rem !important;
+}
+.icome-export-button {
+  width: 3rem;
+  height: auto;
+  border: 1px solid #6c6c6c;
+  border-radius: 2px;
 }

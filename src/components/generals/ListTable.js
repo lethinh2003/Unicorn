@@ -6,11 +6,19 @@ import {
 import { flexRender } from "@tanstack/react-table";
 import SimpleBar from "simplebar-react";
 
-const ListTable = ({ table }) => {
+const ListTable = ({
+  table,
+  isVirtual = false,
+  virtualRows,
+  tableContainerRef,
+}) => {
   return (
     <>
       <SimpleBar>
-        <div className=" rounded-lg border  border-gray-200 drop-shadow-lg">
+        <div
+          className=" rounded-lg border  border-gray-200 drop-shadow-lg"
+          ref={tableContainerRef}
+        >
           <table className=" min-w-full divide-y divide-gray-200 overflow-hidden rounded-lg dark:divide-gray-700">
             <thead className="bg-[#38AC8F1A]">
               {table.getHeaderGroups().map((headerGroup) => (
@@ -53,25 +61,48 @@ const ListTable = ({ table }) => {
               ))}
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white ">
-              {table.getRowModel().rows.map((row) => {
-                return (
-                  <tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <td
-                          key={cell.id}
-                          className="whitespace-nowrap px-4 py-[1.6rem] text-[1.5rem] font-medium text-[#2B3445] drop-shadow-sm"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+              {isVirtual &&
+                virtualRows.map((virtualRow) => {
+                  const row = table.getRowModel().rows[virtualRow.index];
+                  return (
+                    <tr key={row.id}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <td
+                            key={cell.id}
+                            className="whitespace-nowrap px-4 py-[1.6rem] text-[1.5rem] font-medium text-[#2B3445] drop-shadow-sm"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+
+              {!isVirtual &&
+                table.getRowModel().rows.map((row) => {
+                  return (
+                    <tr key={row.id}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <td
+                            key={cell.id}
+                            className="whitespace-nowrap px-4 py-[1.6rem] text-[1.5rem] font-medium text-[#2B3445] drop-shadow-sm"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
