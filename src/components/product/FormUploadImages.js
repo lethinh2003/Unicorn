@@ -71,6 +71,7 @@ export default function FormUploadImages({ files, setFiles }) {
         "image/webp": [".webp"],
         "image/heic": [],
         "image/jfif": [],
+        "image/avif": [],
       },
       maxSize: MAX_SIZE_FILE,
       onDropAccepted,
@@ -93,8 +94,7 @@ export default function FormUploadImages({ files, setFiles }) {
             file
           </Typography>
           <Typography>
-            Chỉ chấp nhận các file có dạng .png, .jpg, .jpeg. Kích thước mỗi
-            file không quá 10MB
+            Chỉ chấp nhận các file ảnh. Kích thước mỗi file không quá 10MB
           </Typography>
         </ContainerDropZone>
         <Box
