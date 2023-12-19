@@ -5,8 +5,9 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 export const metadata = {
   title: "Chỉnh sửa địa chỉ",
 };
-export default function UpdateAddress({ params }) {
+export default function Home({ params }) {
   const { addressId } = params;
+
   const DATA_BREADCRUMB = [
     {
       title: "Hồ sơ",
@@ -28,7 +29,7 @@ export default function UpdateAddress({ params }) {
         <BreadcrumbBar data={DATA_BREADCRUMB} />
       </div>
 
-      <DetailedAddressPage params={params} />
+      <DetailedAddressPage addressId={addressId} />
     </>
   );
 }

@@ -4,6 +4,8 @@ const PRODUCT_MESSAGES = {
   DESC_INVALID: "Vui lòng nhập mô tả sản phẩm hợp lệ",
   PRICE_INVALID: "Vui lòng nhập giá tiền sản phẩm hợp lệ",
   IMAGE_INVALID: "Vui lòng thêm hình ảnh sản phẩm hợp lệ",
+  CATEGORY_IMAGE_INVALID:
+    "Vui lòng thêm hình ảnh danh mục hợp lệ (tối đa 1 ảnh)",
 
   GENDER_INVALID: "Vui lòng nhập giới tính sản phẩm hợp lệ",
   SIZE_MISSING: "Vui lòng nhập size sản phẩm",

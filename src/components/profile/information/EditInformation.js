@@ -47,7 +47,9 @@ export default function EditInformation({ isLoading, dataInformation }) {
       .strict(true),
   });
 
-  const formOptions = { resolver: yupResolver(validationSchema) };
+  const formOptions = {
+    resolver: yupResolver(validationSchema),
+  };
   const {
     control,
     handleSubmit,
@@ -63,7 +65,7 @@ export default function EditInformation({ isLoading, dataInformation }) {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_ENDPOINT_SERVER}/api/v1/users/update`,
         {
-          birthday: changeDate,
+          birthday: data.birthday,
           gender: data.gender,
           name: data.name,
           phone_number: data.phone_number,
@@ -180,25 +182,28 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 <Controller
                   name="birthday"
                   control={control}
-                  defaultValue={changeDate}
                   render={({ field: { ref, ...field } }) => (
                     <FormControl sx={{ width: "100%" }}>
                       <LocalizationProvider
                         dateAdapter={AdapterDayjs}
-                        control={control}
-                        key={"birthday"}
                         inputRef={ref}
                         error={!!errors.birthday}
-                        {...field}
                       >
                         <DatePicker
-                          value={dayjs(changeDate)}
-                          onChange={(e) => setChangeDate(convertDate(e))}
+                          {...field}
+                          value={dayjs(field.value)}
+                          defaultValue={dayjs(dataInformation.birthday)}
+                          onChange={(date) => {
+                            const selectedDate =
+                              dayjs(date).format("YYYY-MM-DD");
+                            field.onChange(selectedDate);
+                          }}
                         />
                       </LocalizationProvider>
                     </FormControl>
                   )}
                 />
+
                 <ErrorMessage>
                   {errors.birthday ? errors.birthday.message : ""}
                 </ErrorMessage>

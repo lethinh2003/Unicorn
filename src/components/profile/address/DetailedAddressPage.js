@@ -17,9 +17,9 @@ const fetchAddressById = async (addressId) => {
   }
 };
 
-export default function DetailedAddressPage({ params }) {
+export default function DetailedAddressPage({ addressId }) {
   const dispatch = useDispatch();
-  const { addressId } = params;
+  console.log({ addressId });
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get-detail-address", addressId],
     queryFn: () => fetchAddressById(addressId),

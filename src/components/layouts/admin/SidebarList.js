@@ -40,15 +40,11 @@ const navigationContents = [
   {
     titile: "Danh mục",
     icon: <CategoryOutlinedIcon />,
-    path: "/admin/categories/list",
+    path: "/admin/categories",
     listItem: [
       {
         titile: "Danh sách",
         path: "/admin/categories/list",
-      },
-      {
-        titile: "Thêm mới",
-        path: "/admin/categories/add",
       },
     ],
   },
