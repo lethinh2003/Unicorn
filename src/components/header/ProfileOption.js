@@ -1,4 +1,5 @@
 import ROUTERS_PATH from "@/configs/config.routers.path";
+import USER_ROLES from "@/configs/config.users.roles";
 import useAuth from "@/customHooks/useAuth";
 import { fetchNotifications } from "@/redux/actions/notifications";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
@@ -26,6 +27,11 @@ const settings = [
     title: "Mã giảm giá",
     key: "voucher",
     link: ROUTERS_PATH.PROFILE_VOUCHER,
+  },
+  {
+    title: "Sổ địa chỉ",
+    key: "address",
+    link: ROUTERS_PATH.PROFILE_ADDRESS,
   },
   {
     title: "Lịch sử đơn hàng",
@@ -170,6 +176,28 @@ export default function BasicPopover() {
               </Typography>
             </MenuItem>
           ))}
+
+          {session &&
+            session.user &&
+            session.user.role === USER_ROLES.ADMIN && (
+              <MenuItem
+                onClick={() => {
+                  router.push("/admin");
+                  handleCloseUserMenu();
+                }}
+                sx={{}}
+              >
+                <Typography
+                  textAlign="center"
+                  sx={{
+                    fontSize: "1.5rem",
+                    fontWeight: "400",
+                  }}
+                >
+                  Admin Panel
+                </Typography>
+              </MenuItem>
+            )}
           <MenuItem
             sx={{
               borderTop: "0.1rem solid var(--Border-Taupe-Color)",

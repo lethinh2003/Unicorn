@@ -19,7 +19,6 @@ export default function Home({ params }) {
     },
     {
       title: "Chi tiết",
-      link: `${ROUTERS_PATH.PROFILE}/address/${addressId}`,
     },
   ];
 
