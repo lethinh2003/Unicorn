@@ -6,7 +6,7 @@ export const metadata = {
   title: "Chỉnh sửa địa chỉ",
 };
 export default function Home({ params }) {
-  const { addressId } = params;
+  const { id: addressId } = params;
 
   const DATA_BREADCRUMB = [
     {

@@ -7,8 +7,6 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 
-import { useParams } from "next/navigation";
-
 const fetchAddressById = async (addressId) => {
   try {
     const results = await axios.get(
@@ -20,10 +18,8 @@ const fetchAddressById = async (addressId) => {
   }
 };
 
-export default function DetailedAddressPage() {
-  const params = useParams();
+export default function DetailedAddressPage({ addressId }) {
   const dispatch = useDispatch();
-  const { addressId } = params;
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["get-detail-address", addressId],

@@ -66,7 +66,7 @@ export default function Home() {
               >
                 <Link
                   href="/products?gender=men"
-                  className="male-products gender-products-item"
+                  className="male-products gender-products-item w-full"
                 >
                   <Image
                     alt="Thời trang nam"
