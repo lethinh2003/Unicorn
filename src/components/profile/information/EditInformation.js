@@ -182,6 +182,9 @@ export default function EditInformation({ isLoading, dataInformation }) {
                 <Controller
                   name="birthday"
                   control={control}
+                  defaultValue={dayjs(dataInformation.birthday).format(
+                    "YYYY-MM-DD"
+                  )}
                   render={({ field: { ref, ...field } }) => (
                     <FormControl sx={{ width: "100%" }}>
                       <LocalizationProvider

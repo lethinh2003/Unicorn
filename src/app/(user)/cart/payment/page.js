@@ -1,4 +1,3 @@
-
 import PaymentAddress from "@/components/cart/payment/PaymentAddress";
 import PaymentButton from "@/components/cart/payment/PaymentButton";
 import PaymentMethod from "@/components/cart/payment/PaymentMethod";
@@ -9,8 +8,8 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import { Container, Stack } from "@mui/material";
 
 export const metadata = {
-  title: "Checkout đơn hàng"
-}
+  title: "Checkout đơn hàng",
+};
 function Payment() {
   const DATA_BREADCRUMB = [
     {

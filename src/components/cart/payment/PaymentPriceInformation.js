@@ -73,4 +73,4 @@ function PaymentPriceInformation() {
   );
 }
 
-export default (PaymentPriceInformation);
+export default PaymentPriceInformation;

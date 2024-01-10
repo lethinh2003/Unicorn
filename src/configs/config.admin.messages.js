@@ -21,7 +21,7 @@ const ADMIN_MESSAGES = {
   ADDRESS_MISSING: "Vui lòng nhập địa chỉ",
   ROLE_MISSING: "Vui lòng chọn vai trò",
   STATUS_MISSING: "Vui lòng chọn trạng thái tài khoản",
-  GENDER_MISSING: "Vui lòng chọn giới tính",    
+  GENDER_MISSING: "Vui lòng chọn giới tính",
   BIRTHDAY_MISSING: "Vui lòng chọn ngày sinh",
 };
-export default ADMIN_MESSAGES; 
+export default ADMIN_MESSAGES;

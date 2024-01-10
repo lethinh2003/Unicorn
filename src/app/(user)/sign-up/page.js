@@ -3,7 +3,6 @@ import ROUTERS_PATH from "@/configs/config.routers.path";
 import isAuthenticated from "@/utils/checkAuthenticated";
 import { redirect } from "next/navigation";
 
-
 export async function generateMetadata({ params, searchParams }, parent) {
   const listImages = ["https://i.imgur.com/Is9cu6a.png"];
   const previousImages = (await parent).openGraph?.images || [];

@@ -1,4 +1,3 @@
-
 import UserList from "@/components/admin/user/UserList";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Button } from "@mui/material";

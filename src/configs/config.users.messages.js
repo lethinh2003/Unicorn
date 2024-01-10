@@ -19,6 +19,5 @@ const USER_MESSAGES = {
   DISTRICT_MISSING: "Vui lòng chọn quận/huyện",
   WARD_MISSING: "Vui lòng chọn phường xã",
   ADDRESS_MISSING: "Vui lòng nhập địa chỉ",
-  
 };
 export default USER_MESSAGES;
