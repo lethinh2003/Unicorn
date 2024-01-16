@@ -6,7 +6,22 @@ import { TYPE_ADDRESS_FORM } from "@/configs/config.users.address";
 export const metadata = {
   title: "Thêm địa chỉ mới",
 };
+const DATA_BREADCRUMB = [
+  {
+    title: "Hồ sơ",
+    link: ROUTERS_PATH.PROFILE,
+  },
+  {
+    title: "Địa chỉ",
+    link: `${ROUTERS_PATH.PROFILE}/address`,
+  },
+  {
+    title: "Thêm mới",
+    link: `${ROUTERS_PATH.PROFILE}/address/new`,
+  },
+];
 export default function AddNewAddress() {
+  // Init value add form
   const addressInformation = {
     fullName: "",
     phoneNumber: "",
@@ -17,20 +32,6 @@ export default function AddNewAddress() {
     default: false,
     addressId: "",
   };
-  const DATA_BREADCRUMB = [
-    {
-      title: "Hồ sơ",
-      link: ROUTERS_PATH.PROFILE,
-    },
-    {
-      title: "Địa chỉ",
-      link: `${ROUTERS_PATH.PROFILE}/address`,
-    },
-    {
-      title: "Thêm mới",
-      link: `${ROUTERS_PATH.PROFILE}/address/new`,
-    },
-  ];
 
   return (
     <>
@@ -44,7 +45,7 @@ export default function AddNewAddress() {
         </div>
         <div className="user-desc-body ">
           <AddressForm
-            type={TYPE_ADDRESS_FORM.ADD}
+            type={TYPE_ADDRESS_FORM.ADD} // Add address type
             addressInformation={addressInformation}
           />
         </div>

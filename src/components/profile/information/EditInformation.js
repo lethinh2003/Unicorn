@@ -2,7 +2,6 @@
 import ErrorMessage from "@/components/generals/ErrorMessage";
 import USER_MESSAGES from "@/configs/config.users.messages";
 import { setIsLoading } from "@/redux/actions/loadingBox";
-import { convertDate } from "@/utils/convertDate";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
@@ -18,7 +17,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useQueryClient } from "react-query";
@@ -55,9 +53,6 @@ export default function EditInformation({ isLoading, dataInformation }) {
     handleSubmit,
     formState: { errors },
   } = useForm(formOptions);
-  const [changeDate, setChangeDate] = useState(
-    convertDate(dataInformation?.birthday) || "Chưa cài đặt"
-  );
 
   const onSubmit = async (data) => {
     try {

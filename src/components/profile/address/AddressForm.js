@@ -1,8 +1,10 @@
 "use client";
 import ErrorMessage from "@/components/generals/ErrorMessage";
-import LIST_ADDRESSES_VN from "@/configs/config.address.vn";
 import { TYPE_ADDRESS_FORM } from "@/configs/config.users.address";
 import USER_MESSAGES from "@/configs/config.users.messages";
+import useGetListDistricts from "@/customHooks/useGetListDistricts";
+import useGetListProvinces from "@/customHooks/useGetListProvinces";
+import useGetListWards from "@/customHooks/useGetListWards";
 import { setIsLoading } from "@/redux/actions/loadingBox";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -38,19 +40,12 @@ export default function AddressForm({
     default: isDefault,
     addressId,
   } = addressInformation;
-  const [addressDefault, setAddressDefault] = useState(isDefault);
-  const [provine, setProvine] = useState(provineData);
-  const [district, setDistrict] = useState(districtData);
-  const [ward, setWard] = useState(wardData);
+
+  const [provine, setProvine] = useState(null);
+  const [district, setDistrict] = useState(null);
+  const [ward, setWard] = useState(null);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setAddressDefault(addressInformation.default);
-    setProvine(addressInformation.provine);
-    setDistrict(addressInformation.district);
-    setWard(addressInformation.ward);
-  }, [addressInformation]);
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
@@ -70,6 +65,7 @@ export default function AddressForm({
       .required(USER_MESSAGES.DISTRICT_MISSING)
       .strict(true),
     ward: Yup.string().required(USER_MESSAGES.WARD_MISSING).strict(true),
+    isDefault: Yup.boolean(),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   const {
@@ -77,13 +73,74 @@ export default function AddressForm({
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
+    setValue,
   } = useForm(formOptions);
+
+  const { data: listProvinces } = useGetListProvinces();
+
+  const { data: listDistricts } = useGetListDistricts({
+    provinceCode: provine?.code,
+  });
+
+  const { data: listWards } = useGetListWards({
+    districtCode: district?.code,
+  });
+
+  const watchProvince = watch("provine", provineData);
+  const watchDistrict = watch("district", districtData);
+  const watchWard = watch("ward", wardData);
+
+  useEffect(() => {
+    if (watchProvince !== provineData) {
+      setValue("district", "");
+      setDistrict(null);
+      setValue("ward", "");
+      setWard(null);
+    }
+  }, [watchProvince]);
+  useEffect(() => {
+    if (watchDistrict !== districtData) {
+      setValue("ward", "");
+      setWard(null);
+    }
+  }, [watchDistrict]);
+
+  useEffect(() => {
+    if (listProvinces && watchProvince) {
+      const findProvince = listProvinces.find(
+        (item) => item.name === watchProvince
+      );
+      setProvine(findProvince);
+    }
+  }, [listProvinces, watchProvince]);
+  useEffect(() => {
+    if (listDistricts && watchDistrict) {
+      const findDistrict = listDistricts.find(
+        (item) => item.name === watchDistrict
+      );
+      setDistrict(findDistrict);
+    }
+  }, [listDistricts, watchDistrict]);
+  useEffect(() => {
+    if (listWards && watchWard) {
+      const findWard = listWards.find((item) => item.name === watchWard);
+      setWard(findWard);
+    }
+  }, [listWards, watchWard]);
 
   const onSubmit = async (data) => {
     try {
       dispatch(setIsLoading(true));
-      const { fullName, detailAddress, phoneNumber, provine, district, ward } =
-        data;
+      const {
+        fullName,
+        detailAddress,
+        phoneNumber,
+        provine,
+        district,
+        ward,
+        isDefault,
+      } = data;
       let result;
 
       if (type === TYPE_ADDRESS_FORM.EDIT) {
@@ -96,7 +153,7 @@ export default function AddressForm({
             provine,
             district,
             ward,
-            isDefault: addressDefault,
+            isDefault,
             addressId,
           }
         );
@@ -115,7 +172,7 @@ export default function AddressForm({
             provine,
             district,
             ward,
-            isDefault: addressDefault,
+            isDefault,
           }
         );
         reset();
@@ -287,7 +344,7 @@ export default function AddressForm({
               </span>
               <Stack sx={{ width: "100%" }}>
                 <Controller
-                  defaultValue={provine}
+                  defaultValue={provineData}
                   name="provine"
                   control={control}
                   render={({ field: { ref, ...field } }) => (
@@ -296,12 +353,9 @@ export default function AddressForm({
                         key={"provine"}
                         inputRef={ref}
                         {...field}
-                        onChange={(e) => {
-                          setProvine(e.target.value);
-                          field.onChange(e.target.value);
-                        }}
+                        error={!!errors.provine}
                       >
-                        {LIST_ADDRESSES_VN.map((item) => (
+                        {listProvinces?.map((item) => (
                           <MenuItem key={item.name} value={item.name}>
                             {item.name}
                           </MenuItem>
@@ -338,32 +392,20 @@ export default function AddressForm({
                 <Controller
                   name="district"
                   control={control}
-                  defaultValue={district}
+                  defaultValue={districtData}
                   render={({ field: { ref, ...field } }) => (
                     <FormControl sx={{ width: "100%" }}>
                       <Select
                         key={"district"}
                         inputRef={ref}
                         {...field}
-                        onChange={(e) => {
-                          setDistrict(e.target.value);
-                          field.onChange(e.target.value);
-                        }}
+                        error={!!errors.district}
                       >
-                        {provine !== ""
-                          ? (() => {
-                              const index = LIST_ADDRESSES_VN.map(
-                                (item) => item.name
-                              ).indexOf(provine);
-                              return LIST_ADDRESSES_VN[index]?.districts.map(
-                                (item) => (
-                                  <MenuItem key={item.name} value={item.name}>
-                                    {item.name}
-                                  </MenuItem>
-                                )
-                              );
-                            })()
-                          : null}
+                        {listDistricts?.map((item) => (
+                          <MenuItem key={item.name} value={item.name}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   )}
@@ -395,37 +437,20 @@ export default function AddressForm({
                 <Controller
                   name="ward"
                   control={control}
-                  defaultValue={ward}
+                  defaultValue={wardData}
                   render={({ field: { ref, ...field } }) => (
                     <FormControl sx={{ width: "100%" }}>
                       <Select
                         key={"ward"}
                         inputRef={ref}
                         {...field}
-                        onChange={(e) => {
-                          setWard(e.target.value);
-                          field.onChange(e.target.value);
-                        }}
+                        error={!!errors.ward}
                       >
-                        {provine !== "" && district !== ""
-                          ? (() => {
-                              const indexProvine = LIST_ADDRESSES_VN.map(
-                                (item) => item.name
-                              ).indexOf(provine);
-                              const indexDistrict = LIST_ADDRESSES_VN[
-                                indexProvine
-                              ]?.districts
-                                .map((item) => item.name)
-                                .indexOf(district);
-                              return LIST_ADDRESSES_VN[indexProvine]?.districts[
-                                indexDistrict
-                              ]?.wards.map((item) => (
-                                <MenuItem key={item.name} value={item.name}>
-                                  {item.name}
-                                </MenuItem>
-                              ));
-                            })()
-                          : null}
+                        {listWards?.map((item) => (
+                          <MenuItem key={item.name} value={item.name}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   )}
@@ -436,16 +461,21 @@ export default function AddressForm({
               </Stack>
             </Stack>
           </Stack>
-          <FormControlLabel
-            control={
-              <Checkbox
-                color="success"
-                checked={addressDefault}
-                onClick={() => setAddressDefault(!addressDefault)}
+
+          <Controller
+            defaultValue={isDefault}
+            name="isDefault"
+            control={control}
+            render={({ field: { ref, ...field } }) => (
+              <FormControlLabel
+                {...field}
+                checked={field.value}
+                control={<Checkbox color="success" />}
+                label="Địa chỉ mặc định"
               />
-            }
-            label="Địa chỉ mặc định"
+            )}
           />
+
           <Button
             type="submit"
             onClick={() => handleSubmit(onSubmit)}
