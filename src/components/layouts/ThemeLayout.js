@@ -5,17 +5,23 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useServerInsertedHTML } from "next/navigation";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import { createGlobalStyle } from "styled-components";
+import BackToTop from "./BackToTop";
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.palette.background.default};
   }
 
+  ::-webkit-scrollbar {
+  width: 5px;
+}
   ::-webkit-scrollbar-thumb {
-  background-color:  ${({ theme }) => theme.palette.background.default};
+    border-radius: 10px;
+  background-color:  ${({ theme }) => "#ccc"};
   &:hover {
-    background-color:  ${({ theme }) => theme.palette.background.default};
+    background-color:  ${({ theme }) => "#848484"};
   }
 } 
 `;
@@ -23,6 +29,9 @@ const GlobalStyle = createGlobalStyle`
 const getDesignTokens = (mode) => ({
   components: {
     MuiButton: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.main,
@@ -39,6 +48,28 @@ const getDesignTokens = (mode) => ({
             opacity: 0.8,
           },
         }),
+      },
+    },
+    MuiListItemButton: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
+    },
+    MuiToggleButton: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "&:hover": {
+            backgroundColor: "unset",
+          },
+        }),
+      },
+    },
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {},
       },
     },
   },
@@ -136,6 +167,8 @@ const ThemeLayout = (props) => {
           <GlobalStyle theme={theme} />
 
           {children}
+          <BackToTop />
+          <Toaster position="top-center" reverseOrder={false} />
 
           <ToastContainer
             position="top-center"

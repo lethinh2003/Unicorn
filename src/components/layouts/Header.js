@@ -1,12 +1,14 @@
 "use client";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import SearchIcon from "@mui/icons-material/Search";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import { Box, TextField, Typography } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
+import ROUTERS_PATH from "@/configs/config.routers.path";
+import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import Cart from "../header/Cart";
+import FavoriteProducts from "../header/FavoriteProducts";
+import HeaderMobileNavigation from "../header/HeaderMobileNavigation";
+import HeaderNavigation from "../header/HeaderNavigation";
+import ProfileOption from "../header/ProfileOption";
+import SearchProducts from "../header/SearchProducts";
 
 const Header = () => {
   return (
@@ -16,11 +18,11 @@ const Header = () => {
           backgroundColor: "white",
           height: "7rem",
           boxShadow: "2px 2px 2px #dcdbdb",
-          display: "flex",
           alignItems: "center",
           gap: "2rem",
           justifyContent: "space-between",
           padding: "1rem",
+          width: "100%",
           position: "fixed",
           top: "0",
           left: 0,
@@ -28,120 +30,67 @@ const Header = () => {
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            flex: 1,
-          }}
-        >
-          <Link href="/">
+        <Stack>
+          <div
+            style={{
+              backgroundColor: "white",
+              display: "flex",
+              alignItems: "center",
+              gap: "2rem",
+              justifyContent: "space-between",
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
+                flex: 1,
               }}
             >
-              <Image src="/logo.png" alt="me" width="40" height="40" />
-              <Typography
+              <Link href={ROUTERS_PATH.HOME_PAGE}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image src="/logo.png" alt="me" width="40" height="40" />
+                  <Typography
+                    sx={{
+                      fontSize: "3rem",
+                      color: "#FF9EAA",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Unicorn
+                  </Typography>
+                </Box>
+              </Link>
+              <HeaderNavigation />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "2rem",
+                alignItems: "center",
+              }}
+            >
+              <Box
                 sx={{
-                  fontSize: "3rem",
-                  color: "#FF9EAA",
-                  fontWeight: "600",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
                 }}
               >
-                Unicorn
-              </Typography>
+                <HeaderMobileNavigation />
+                <SearchProducts />
+                <FavoriteProducts />
+                <Cart />
+                <ProfileOption />
+              </Box>
             </Box>
-          </Link>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              textTransform: "uppercase",
-              fontSize: "1.8rem",
-              marginTop: "0.5rem",
-              gap: "2rem",
-              flex: 1,
-            }}
-          >
-            <Box
-              sx={{
-                paddingLeft: "2rem",
-              }}
-            >
-              Nam
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: "3rem",
-              }}
-            >
-              Nữ
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: "3rem",
-                color: "primary.main",
-              }}
-            >
-              Best Saller
-            </Box>
-            <Box
-              sx={{
-                paddingLeft: "3rem",
-                color: "primary.main",
-              }}
-            >
-              Sale
-            </Box>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "2rem",
-            alignItems: "center",
-          }}
-        >
-          <Box>
-            <TextField
-              id="seach-input"
-              label=""
-              placeholder="Tìm kiếm"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "1rem",
-            }}
-          >
-            <FavoriteBorderIcon
-              sx={{
-                fontSize: "2.5rem",
-              }}
-            ></FavoriteBorderIcon>
-            <ShoppingBagOutlinedIcon
-              sx={{
-                fontSize: "2.5rem",
-              }}
-            ></ShoppingBagOutlinedIcon>
-            <PersonOutlineOutlinedIcon
-              sx={{
-                fontSize: "2.5rem",
-              }}
-            ></PersonOutlineOutlinedIcon>
-          </Box>
-        </Box>
+          </div>
+        </Stack>
       </Box>
     </>
   );

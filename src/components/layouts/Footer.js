@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 const Footer = () => {
   const data = [
     {
@@ -58,7 +58,7 @@ const Footer = () => {
           sx={{
             position: "relative",
             width: "100%",
-            marginBottom: "4rem",
+            marginBottom: "8rem",
             padding: "0 1rem",
           }}
         >
@@ -86,13 +86,15 @@ const Footer = () => {
             Contact us
           </Typography>
         </Box>
-        <Box
+        <Container
           sx={{
             display: "flex",
             width: "100%",
             justifyContent: "space-around",
             maxWidth: "1100px",
-            padding: "0 1rem",
+
+            flexDirection: { xs: "column", md: "row" },
+            gap: "1rem",
           }}
         >
           {data.map((item, i) => (
@@ -102,6 +104,7 @@ const Footer = () => {
                 display: "flex",
                 flexDirection: "column",
                 paddingBottom: "1rem",
+                gap: "1rem",
               }}
             >
               <Typography
@@ -114,27 +117,31 @@ const Footer = () => {
                 {item.title}
               </Typography>
               {item?.contents?.map((childItem) => (
-                <Typography key={childItem.title}>{childItem.title}</Typography>
+                <Typography
+                  key={childItem.title}
+                  sx={{
+                    cursor: "pointer",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {childItem.title}
+                </Typography>
               ))}
             </Box>
           ))}
-        </Box>
+        </Container>
+
         <Box
           sx={{
+            marginTop: "2rem",
             width: "100%",
             height: "300px",
+            background: "url(/footer.jpg) no-repeat center center fixed",
+            backgroundSize: "cover",
           }}
-        >
-          <img
-            src="/footer_background.webp"
-            alt="Footer image"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </Box>
+        ></Box>
       </Box>
     </>
   );
