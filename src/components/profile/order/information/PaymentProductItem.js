@@ -36,6 +36,10 @@ function PaymentProductItem({ item }) {
             alt={item.data.product.product_name}
             width={100}
             height={100}
+            onError={(event) => {
+              event.target.id = "/404image.png";
+              event.target.srcset = "/404image.png";
+            }}
             style={{
               width: "100%",
               objectFit: "contain",

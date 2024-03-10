@@ -111,6 +111,10 @@ export default function InforImageSlider({
             loader={(props) => imageLoader({ ...props, width: 750 })}
             alt={dataProduct.product_name}
             fill
+            onError={(event) => {
+              event.target.id = "/404image.png";
+              event.target.srcset = "/404image.png";
+            }}
             sizes="1000"
             style={{
               position: "absolute",

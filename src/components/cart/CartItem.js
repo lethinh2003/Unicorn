@@ -245,6 +245,10 @@ const CartItem = ({ item }) => {
               <Image
                 src={item.data.product.product_images[0]}
                 alt={item.data.product.product_name}
+                onError={(event) => {
+                  event.target.id = "/404image.png";
+                  event.target.srcset = "/404image.png";
+                }}
                 width={100}
                 height={100}
                 style={{

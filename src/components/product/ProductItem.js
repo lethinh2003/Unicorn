@@ -75,6 +75,10 @@ export const ProductItem = ({
             alt={product.product_name}
             width={384}
             height={384}
+            onError={(event) => {
+              event.target.id = "/404image.png";
+              event.target.srcset = "/404image.png";
+            }}
             className="product-item-image rounded-lg"
             loading="lazy"
           />
@@ -170,6 +174,10 @@ export const ProductItem = ({
                   <Image
                     src={childProduct.product_images[0]}
                     alt={product.product_name}
+                    onError={(event) => {
+                      event.target.id = "/404image.png";
+                      event.target.srcset = "/404image.png";
+                    }}
                     width={0}
                     height={0}
                     loading="lazy"

@@ -50,6 +50,10 @@ const FavoriteItem = ({ product }) => {
               alt={product.product_name}
               width={1000}
               height={200}
+              onError={(event) => {
+                event.target.id = "/404image.png";
+                event.target.srcset = "/404image.png";
+              }}
               style={{
                 width: "100%",
                 objectFit: "contain",

@@ -131,6 +131,10 @@ export default function InforImageScroll({
                     alt={dataProduct.product_name}
                     src={item}
                     fill
+                    onError={(event) => {
+                      event.target.id = "/404image.png";
+                      event.target.srcset = "/404image.png";
+                    }}
                     sizes="500"
                     style={{
                       position: "absolute",

@@ -40,6 +40,10 @@ export default function OrderItem({ item }) {
               }
               alt={item.order_items?.[0]?.data?.product?.product_name || ""}
               fill={true}
+              onError={(event) => {
+                event.target.id = "/404image.png";
+                event.target.srcset = "/404image.png";
+              }}
               style={{
                 objectFit: "contain",
               }}
